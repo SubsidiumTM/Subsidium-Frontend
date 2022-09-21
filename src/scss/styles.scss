@@ -1,6 +1,14 @@
-@import './abstracts/remFactor',
-'./abstracts/variables';
+// Abstracts
+@import './abstracts/colors',
+        './abstracts/remFactor', 
+        './abstracts/variables';
 
-@import './base/body';
+// Base
+@import './base/normalize';
 
+// Components
 @import './components/buttom.scss';
+
+// Layout
+
+// Pages
