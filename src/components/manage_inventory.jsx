@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "../App.css"; 
+import "../App.css";
+// @ts-ignore
 import "@aws-amplify/ui-react/styles.css";
-import { API, Storage, Auth } from 'aws-amplify'; 
-import { Button,
+import { API, Storage, Auth } from 'aws-amplify';
+// @ts-ignore
+import {
+  Button,
   Flex,
   Heading,
   Image,
@@ -101,7 +104,7 @@ const Manager = ({ signOut }) => {
     });
     // fetchNotes();
     event.target.reset();
-  };
+  }
 
   async function createRoom(event) {
     event.preventDefault();
@@ -187,7 +190,7 @@ const Manager = ({ signOut }) => {
 
   // Formatos de creacion de Recursos
   function getFieldsByType (type) {
-    if (type === "licence") {
+    if (type == "licence") {
         // Formato de llenado de licencia
         return (
             <>
@@ -239,7 +242,7 @@ const Manager = ({ signOut }) => {
             </>
         )
     }
-    else if (type === "room") {
+    else if (type == "room") {
         // Formato de llenado de salones
         return (
             <>
@@ -348,7 +351,7 @@ const Manager = ({ signOut }) => {
             </>
         )
     }
-    else if (type === "device") {
+    else if (type == "device") {
         // Formato de llenado de equipos
         return (
             <>
@@ -416,13 +419,13 @@ const Manager = ({ signOut }) => {
   }
 
   async function create(event) {
-    if (resourceType === "device") {
+    if (resourceType == "device") {
 
     }
-    else if (resourceType === "room") {
+    else if (resourceType == "room") {
       createRoom(event)
     }
-    else if (resourceType === "licence") {
+    else if (resourceType == "licence") {
       createLicence(event)
     }
   }
