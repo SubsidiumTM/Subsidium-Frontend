@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "../App.css";
+import "../App.css"; 
 import "@aws-amplify/ui-react/styles.css";
-import { API, Storage, Auth } from 'aws-amplify';
+import { API, Storage, Auth } from 'aws-amplify'; 
 import {
   Button,
   Flex,
@@ -102,7 +102,7 @@ const Manager = ({ signOut }) => {
     });
     // fetchNotes();
     event.target.reset();
-  }
+  };
 
   async function createRoom(event) {
     event.preventDefault();
