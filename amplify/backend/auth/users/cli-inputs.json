@@ -1,7 +1,7 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "resourceNameTruncated": "subsidbb426624",
+    "resourceNameTruncated": "subsidd3789242",
     "userPoolName": "users",
     "autoVerifiedAttributes": [
       "email"
@@ -13,7 +13,7 @@
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
     "emailVerificationSubject": "Codigo de Verificacion",
-    "emailVerificationMessage": "Este es su codigo de verificacion '{####}'. Copielo y peguelo en el registro.",
+    "emailVerificationMessage": "Su codigo de verificacion es {####}.",
     "defaultPasswordPolicy": true,
     "passwordPolicyMinLength": "12",
     "passwordPolicyCharacters": [
@@ -31,26 +31,17 @@
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
-      "updated_at",
-      "email",
-      "family_name",
-      "name"
+      "email"
     ],
     "userpoolClientReadAttributes": [
-      "email",
-      "family_name",
-      "name",
-      "updated_at"
+      "email"
     ],
-    "userpoolClientLambdaRole": "usersbb426624_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": true,
-    "sharedId": "bb426624",
+    "userpoolClientLambdaRole": "usersd3789242_userpoolclient_lambda_role",
+    "userpoolClientSetAttributes": false,
+    "sharedId": "d3789242",
     "resourceName": "users",
     "authSelections": "userPoolOnly",
     "useDefault": "manual",
-    "usernameAttributes": [
-      "email"
-    ],
     "userPoolGroups": false,
     "adminQueries": false,
     "triggers": {},
