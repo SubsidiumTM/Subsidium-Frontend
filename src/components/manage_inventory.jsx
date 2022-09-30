@@ -108,7 +108,7 @@ const Manager = ({ signOut }) => {
     event.target.reset();
   }
 
-  
+
 
   async function createDevice(event) {
     event.preventDefault();
@@ -396,14 +396,17 @@ const Manager = ({ signOut }) => {
   }
 
   async function create(event) {
-    if (resourceType == "device") {
+    
+    if (resourceType === "device") {
 
     }
-    else if (resourceType == "room") {
-      createRoom(event)
+    else if (resourceType === "room") {
+      console.log("huevos de carla");
+      createRoom(event);
+      
     }
-    else if (resourceType == "licence") {
-      createLicence(event)
+    else if (resourceType === "licence") {
+      createLicence(event);
     }
   }
 
@@ -417,6 +420,7 @@ const Manager = ({ signOut }) => {
   return (
     <View className="App">
       <Heading level={1}>Administrar Inventario</Heading>
+
       <View as="form" margin="3rem 0" onSubmit={create}>
         <Flex direction="column" justifyContent="center">
 
@@ -431,6 +435,7 @@ const Manager = ({ signOut }) => {
             
         </Flex>
       </View>
+
       <Button onClick={signOut}>Sign Out</Button>
     </View>
   );

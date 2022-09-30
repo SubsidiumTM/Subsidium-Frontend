@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "@aws-amplify/analytics": "^5.2.21",
     "@aws-amplify/interactions": "^4.1.2",
     "@aws-amplify/storage": "^4.5.7",
@@ -17,6 +18,7 @@
     "antd": "^4.23.2",
     "aws-amplify": "^4.3.36",
     "axios": "^0.27.2",
+    "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.1",
