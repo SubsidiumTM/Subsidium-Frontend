@@ -1,11 +1,11 @@
 import React from 'react'
 
-function News() {
+function Profile() {
   return (
     <div>
-      Noticias
+      Perfil
     </div>
   )
 }
 
-export default News;
+export default Profile

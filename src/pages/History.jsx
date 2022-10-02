@@ -1,11 +1,11 @@
 import React from 'react'
 
-function News() {
+function History() {
   return (
     <div>
-      Noticias
+      History
     </div>
   )
 }
 
-export default News;
+export default History

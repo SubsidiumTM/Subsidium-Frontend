@@ -39,6 +39,7 @@ export default function SignInSide() {
   };
 
   return (
+    <div className="login-wrapper">
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
@@ -123,5 +124,6 @@ export default function SignInSide() {
         </Grid>
       </Grid>
     </ThemeProvider>
+    </div>
   );
 }
