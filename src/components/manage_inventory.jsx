@@ -12,6 +12,8 @@ import {
   Text,
   TextField,
   View,
+  Tabs,
+  TabItem,
   withAuthenticator,
 } from '@aws-amplify/ui-react';
 import { listNotes } from "../graphql/queries";
@@ -448,26 +450,53 @@ const Manager = ({ signOut }) => {
     const option = e.target.value;
     setResourceType(option);
   }
+  
+  const [index, setIndex] = useState(0);
+
+  const handlerIndex = function (e) {
+    const option = e.target.value;
+    setIndex(option);
+  }
 
   return (
     <View className="App">
       <Heading level={1}>Administrar Inventario</Heading>
 
-      <View as="form" margin="3rem 0" onSubmit={create}>
-        <select name="resource" id="resource" onClick={handlerResourceType}>
-            <option value="none">-</option>
-            <option value="licence">Licencia</option>
-            <option value="room">Salon</option>
-            <option value="device">Equipo</option>
-        </select>
+      <Tabs
+        defaultIndex={index}
+        spacing="equal"
+        justifyContent="flex-start">
+        <TabItem title="Licence" value={0} onSelect={handlerIndex}>
+        <br></br>
         <Flex direction="row" justifyContent="center">
 
-            {getInventoryList(resourceType)}
+        {getInventoryList("licence")}
 
-            {getFieldsByType(resourceType)}
-            
+        {getFieldsByType("licence")}
+
         </Flex>
-      </View>
+        </TabItem>
+        <TabItem title="Room" value={1} onSelect={handlerIndex}>
+        <br></br>
+        <Flex direction="row" justifyContent="center">
+
+        {getInventoryList("room")}
+
+        {getFieldsByType("room")}
+
+        </Flex>
+        </TabItem>
+        <TabItem title="Device" value={2} onSelect={handlerIndex}>
+        <br></br>
+        <Flex direction="row" justifyContent="center">
+
+        {getInventoryList("device")}
+
+        {getFieldsByType("device")}
+
+        </Flex>
+        </TabItem>
+      </Tabs>
 
       <Button onClick={signOut}>Sign Out</Button>
     </View>
