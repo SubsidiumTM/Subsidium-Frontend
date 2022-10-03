@@ -427,3 +427,129 @@ export const onDeleteRoom = /* GraphQL */ `
     }
   }
 `;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser {
+    onCreateUser {
+      id
+      username
+      name
+      surname
+      email
+      type
+      verified
+      active
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser {
+    onUpdateUser {
+      id
+      username
+      name
+      surname
+      email
+      type
+      verified
+      active
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser {
+    onDeleteUser {
+      id
+      username
+      name
+      surname
+      email
+      type
+      verified
+      active
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateReservation = /* GraphQL */ `
+  subscription OnCreateReservation {
+    onCreateReservation {
+      id
+      userID
+      deviceID
+      licenceID
+      roomID
+      reservationDate
+      state
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateReservation = /* GraphQL */ `
+  subscription OnUpdateReservation {
+    onUpdateReservation {
+      id
+      userID
+      deviceID
+      licenceID
+      roomID
+      reservationDate
+      state
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteReservation = /* GraphQL */ `
+  subscription OnDeleteReservation {
+    onDeleteReservation {
+      id
+      userID
+      deviceID
+      licenceID
+      roomID
+      reservationDate
+      state
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateModifications = /* GraphQL */ `
+  subscription OnCreateModifications {
+    onCreateModifications {
+      id
+      userID
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateModifications = /* GraphQL */ `
+  subscription OnUpdateModifications {
+    onUpdateModifications {
+      id
+      userID
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteModifications = /* GraphQL */ `
+  subscription OnDeleteModifications {
+    onDeleteModifications {
+      id
+      userID
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;

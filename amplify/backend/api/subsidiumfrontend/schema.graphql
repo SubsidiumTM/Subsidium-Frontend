@@ -71,3 +71,43 @@ type Room @model {
 	description : String!
 	images : [String]!
 }
+
+enum UserType {
+	GENERAL_ADMIN
+	ADMIN
+	USER
+}
+
+type User @model {
+	id: ID!
+	username: String!
+	name: String!
+	surname: String!
+	email: String!
+	type: UserType
+	verified: Boolean!
+	active: Boolean!
+}
+
+type Reservation @model {
+	id: ID!
+	userID: ID!
+	deviceID: ID
+	licenceID: ID
+	roomID: ID
+	reservationDate: String!
+	state: String!
+}
+
+type Modifications @model {
+	id: ID!
+	userID: ID!
+	type: String!
+}
+
+type UnavailableDates {
+	deviceID: ID
+	licenceID: ID
+	roomID: ID
+	dates: [String]
+}

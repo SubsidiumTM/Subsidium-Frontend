@@ -308,3 +308,108 @@ export const listRooms = /* GraphQL */ `
     }
   }
 `;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      username
+      name
+      surname
+      email
+      type
+      verified
+      active
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        username
+        name
+        surname
+        email
+        type
+        verified
+        active
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getReservation = /* GraphQL */ `
+  query GetReservation($id: ID!) {
+    getReservation(id: $id) {
+      id
+      userID
+      deviceID
+      licenceID
+      roomID
+      reservationDate
+      state
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listReservations = /* GraphQL */ `
+  query ListReservations(
+    $filter: ModelReservationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listReservations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        deviceID
+        licenceID
+        roomID
+        reservationDate
+        state
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getModifications = /* GraphQL */ `
+  query GetModifications($id: ID!) {
+    getModifications(id: $id) {
+      id
+      userID
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listModifications = /* GraphQL */ `
+  query ListModifications(
+    $filter: ModelModificationsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listModifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        type
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

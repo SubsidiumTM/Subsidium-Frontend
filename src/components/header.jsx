@@ -1,13 +1,20 @@
-import React from 'react'
+import React from 'react';
+
+import { BrowserRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+
   return (
-    <header>
+    <BrowserRouter>
+    <nav>
         <button>Inicio</button>
         <button>Noticias</button>
         <button>Inventario</button>
-    </header>
+        <button>Profile</button>
+    </nav>
+    </BrowserRouter>
   )
 }
 
-export default Header
+export default Header;

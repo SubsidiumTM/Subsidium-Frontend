@@ -13,10 +13,7 @@ import Inventory from './pages/Inventory';
 import Profile from './pages/Profile';
 import History from './pages/History';
 import Manage_inventory from './pages/Manage_inventory';
-import SignInSide from './pages/login';
-import SignUpSide from './pages/signup';
 import Identify from './pages/CustomAuthenticator';
-
 import Manager from './components/manage_inventory';
 import Manage_users from './pages/Manage_users';
 

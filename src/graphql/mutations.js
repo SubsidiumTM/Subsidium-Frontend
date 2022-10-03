@@ -490,3 +490,156 @@ export const deleteRoom = /* GraphQL */ `
     }
   }
 `;
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      id
+      username
+      name
+      surname
+      email
+      type
+      verified
+      active
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    updateUser(input: $input, condition: $condition) {
+      id
+      username
+      name
+      surname
+      email
+      type
+      verified
+      active
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    deleteUser(input: $input, condition: $condition) {
+      id
+      username
+      name
+      surname
+      email
+      type
+      verified
+      active
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createReservation = /* GraphQL */ `
+  mutation CreateReservation(
+    $input: CreateReservationInput!
+    $condition: ModelReservationConditionInput
+  ) {
+    createReservation(input: $input, condition: $condition) {
+      id
+      userID
+      deviceID
+      licenceID
+      roomID
+      reservationDate
+      state
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateReservation = /* GraphQL */ `
+  mutation UpdateReservation(
+    $input: UpdateReservationInput!
+    $condition: ModelReservationConditionInput
+  ) {
+    updateReservation(input: $input, condition: $condition) {
+      id
+      userID
+      deviceID
+      licenceID
+      roomID
+      reservationDate
+      state
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteReservation = /* GraphQL */ `
+  mutation DeleteReservation(
+    $input: DeleteReservationInput!
+    $condition: ModelReservationConditionInput
+  ) {
+    deleteReservation(input: $input, condition: $condition) {
+      id
+      userID
+      deviceID
+      licenceID
+      roomID
+      reservationDate
+      state
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createModifications = /* GraphQL */ `
+  mutation CreateModifications(
+    $input: CreateModificationsInput!
+    $condition: ModelModificationsConditionInput
+  ) {
+    createModifications(input: $input, condition: $condition) {
+      id
+      userID
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateModifications = /* GraphQL */ `
+  mutation UpdateModifications(
+    $input: UpdateModificationsInput!
+    $condition: ModelModificationsConditionInput
+  ) {
+    updateModifications(input: $input, condition: $condition) {
+      id
+      userID
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteModifications = /* GraphQL */ `
+  mutation DeleteModifications(
+    $input: DeleteModificationsInput!
+    $condition: ModelModificationsConditionInput
+  ) {
+    deleteModifications(input: $input, condition: $condition) {
+      id
+      userID
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
