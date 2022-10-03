@@ -6,7 +6,6 @@ function Manage_inventory() {
 
   return (
     <div>
-      Administrar Recursos
       <Manager/>
     </div>
   )

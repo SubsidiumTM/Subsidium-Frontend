@@ -33,9 +33,14 @@ import {
   updateLicence as updateLicenceMutation
 } from "../graphql/mutations";
 
+import * as queries from '../graphql/queries';
+import * as mutations from '../graphql/mutations';
 
 
 import createRoom from "./createRoom";
+import DataTable from "./inventory_table";
+
+import { APImethods } from "../api/APImethods";
 
 const Manager = ({ signOut }) => {
   const [notes, setNotes] = useState([]);
@@ -170,7 +175,7 @@ const Manager = ({ signOut }) => {
   // Formatos de creacion de Recursos
   function getFieldsByType (type) {
     if (type == "licence") {
-        // Formato de llenado de licencia
+        // Licence fill-in format
         return (
             <>
             <TextField
@@ -222,98 +227,88 @@ const Manager = ({ signOut }) => {
         )
     }
     else if (type == "room") {
-        // Formato de llenado de salones
+        // Rooms fill-in format
         return (
-            <>
-            <TextField
-                name="room_name"
-                placeholder="Salon"
-                label="Salon"
-                labelHidden
-                variation="quiet"
-                required
-            />
+            <Flex direction="column">
 
-            <TextField
-                name="room_building"
-                placeholder="Edificio"
-                label="Edificio"
-                labelHidden
-                variation="quiet"
-                required
-            />
+            <Flex direction="row" gap="2rem">
+            
+            <Flex direction="column" gap="1rem">
+            <Flex direction="row" justifyContent="left">
+              <TextField
+                  name="room_name"
+                  placeholder="Salon"
+                  label="Salon"
+                  labelHidden
+                  variation="quiet"
+                  required
+              />
 
-            <label>Proyector
-            <input 
-                name = "proyector"
-                // variation = "quiet"
-                type="checkbox" 
-                />
-            </label>
+              <TextField
+                  name="room_building"
+                  placeholder="Edificio"
+                  label="Edificio"
+                  labelHidden
+                  variation="quiet"
+                  required
+              />
+            </Flex>
+            
+            <Flex direction="row" justifyContent="left" gap="1rem">
+              <Flex direction="column" justifyContent="center">
+              <label>Proyector</label>
+              <input name = "proyector" type="checkbox"/>
+              </Flex>
 
-            <label>WIFI
-            <input 
-                name = "wifi"
-                // variation = "quiet"
-                type="checkbox" 
-                />
-            </label>
+              <Flex direction="column" justifyContent="center">
+              <label>WIFI</label>
+              <input name = "wifi" type="checkbox"/>
+              </Flex>
+              
+              <Flex direction="column" justifyContent="center">
+              <label>Pizarron</label>
+              <input name = "board" type="checkbox"/>
+              </Flex>
 
-            <label>Pizarron
-            <input 
-                name = "board"
-                // variation = "quiet"
-                type="checkbox" 
-                />
-            </label>
+              <Flex direction="column" justifyContent="center">
+              <label>Aire Acondicionado</label>
+              <input name = "air_conditioner" type="checkbox"/>
+              </Flex>
+              
+              <Flex direction="column" justifyContent="center">
+              <label>Ethernet</label>
+              <input name = "ethernet" type="checkbox"/>
+              </Flex>
+              
+              <Flex direction="column" justifyContent="center">
+              <label>Computadoras</label>
+              <input name = "computers" type="checkbox"/>
+              </Flex>
+              
+              <Flex direction="column" justifyContent="center">
+              <label>Monitor Doble</label>
+              <input name = "double_monitor" type="checkbox"/>
+              </Flex>
+            </Flex>
 
-            <label>Aire Acondicionado
-            <input 
-                name = "air_conditioner"
-                // variation = "quiet"
-                type="checkbox" 
-                />
-            </label>
+            <Flex direction="row" justifyContent="left">
+              <input 
+                  name = "seats"
+                  placeholder="Asientos"
+                  label = "Asientos"
+                  variation = "quiet"
+                  type="number" 
+                  />
 
-            <label>Ethernet
-            <input 
-                name = "ethernet"
-                // variation = "quiet"
-                type="checkbox" 
-                />
-            </label>
-
-            <label>Computadoras
-            <input 
-                name = "computers"
-                // variation = "quiet"
-                type="checkbox" 
-                />
-            </label>
-
-            <label>Monitor Doble
-            <input 
-                name = "double_monitor"
-                // variation = "quiet"
-                type="checkbox" 
-                />
-            </label>
-
-            <input 
-                name = "seats"
-                placeholder="Asientos"
-                label = "Asientos"
-                variation = "quiet"
-                type="number" 
-                />
-
-            <input 
-                name = "energy_outlets"
-                placeholder="Tomas de Corriente"
-                label = "Tomas de Corriente"
-                variation = "quiet"
-                type="number" 
-                />
+              <input 
+                  name = "energy_outlets"
+                  placeholder="Tomas de Corriente"
+                  label = "Tomas de Corriente"
+                  variation = "quiet"
+                  type="number" 
+                  />
+            </Flex>
+            </Flex>
             
             <TextField
                 name="room_description"
@@ -322,16 +317,19 @@ const Manager = ({ signOut }) => {
                 labelHidden
                 variation="quiet"
                 required
+                isMultiline
+                width="20rem"
             />
+            </Flex>
 
             <Button type="submit">
                 Agregar Recurso
             </Button>
-            </>
+            </Flex>
         )
     }
     else if (type == "device") {
-        // Formato de llenado de equipos
+        // Devices fill-in format
         return (
             <>
             <TextField
@@ -386,7 +384,7 @@ const Manager = ({ signOut }) => {
         )
     }
     else {
-        // Formato
+        // Empty format
         return (
             <>
             <Button type="submit" disabled>
@@ -394,6 +392,38 @@ const Manager = ({ signOut }) => {
             </Button>
             </>
         )
+    }
+  }
+
+  // Inventory List
+  function getInventoryList (type) {
+    const columns = [
+      { field: 'id', headerName: 'ID', width: 70 },
+      { field: 'name', headerName: 'Nombre', width: 130 },
+    ];
+
+    if (type === "licence") {
+      const rows = APImethods.allLicences();
+      return (
+        <DataTable columns={columns} rows={rows} />
+      );
+    }
+    else if (type === "room") {
+      const rows = APImethods.allRooms();
+      return (
+        <DataTable columns={columns} rows={rows} />
+      );
+    }
+    else if (type === "device") {
+      const rows = APImethods.allDevices();
+      return (
+        <DataTable columns={columns} rows={rows} />
+      );
+    }
+    else {
+      return (
+        <></>
+      );
     }
   }
 
@@ -424,14 +454,15 @@ const Manager = ({ signOut }) => {
       <Heading level={1}>Administrar Inventario</Heading>
 
       <View as="form" margin="3rem 0" onSubmit={create}>
-        <Flex direction="column" justifyContent="center">
+        <select name="resource" id="resource" onClick={handlerResourceType}>
+            <option value="none">-</option>
+            <option value="licence">Licencia</option>
+            <option value="room">Salon</option>
+            <option value="device">Equipo</option>
+        </select>
+        <Flex direction="row" justifyContent="center">
 
-            <select name="resource" id="resource" onClick={handlerResourceType}>
-                <option value="none">-</option>
-                <option value="licence">Licencia</option>
-                <option value="room">Salon</option>
-                <option value="device">Equipo</option>
-            </select>
+            {getInventoryList(resourceType)}
 
             {getFieldsByType(resourceType)}
             
@@ -444,10 +475,3 @@ const Manager = ({ signOut }) => {
 };
 
 export default withAuthenticator(Manager);
-
-// try {
-//     const { user } = await Auth.signUp({ username, password });
-//     console.log(user);
-// } catch (error) {
-//     console.log('error signing up:', error);
-// }
