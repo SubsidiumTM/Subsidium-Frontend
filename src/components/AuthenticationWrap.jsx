@@ -3,6 +3,8 @@ import { Amplify, Auth } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { useTheme, View, Image, Text, Heading, Button, useAuthenticator, CheckboxField } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import { APImethods } from '../api/APImethods';
+import { GraphQLEnumType } from 'graphql/type';
 
 function SubsidiumAuth(props) {
 
@@ -264,6 +266,7 @@ function SubsidiumAuth(props) {
       // custom username
       console.log(username)
       console.log(attributes)
+      APImethods.createUser(username, attributes.name, attributes.familyName, attributes.email, GraphQLEnumType("USER"), false, true);
       username = username.toLowerCase();
       attributes.email = attributes.email.toLowerCase();
       return Auth.signUp({
@@ -271,6 +274,13 @@ function SubsidiumAuth(props) {
         password,
         attributes,
       });
+    },
+    async validateCustomSignUp(formData) {
+      if (!formData.acknowledgement) {
+        return {
+          acknowledgement: 'You must agree to the Terms & Conditions',
+        };
+      }
     },
   };
 

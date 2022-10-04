@@ -46,14 +46,14 @@ export class APImethods {
 
     static async allDevices() {
         const response = await API.graphql({ query: queries.listDevices });
-        console.log(response.data.listDevices.items);
+        //cosole.log(response.data.listDevices.items);
         return response.data.listDevices.items;
         // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
     }
 
     static async getDevice(deviceID) {
         const response = await API.graphql(graphqlOperation(queries.getDevice, {id: deviceID}));
-        console.log(response.data.getDevice);
+        //cosole.log(response.data.getDevice);
         return response.data.getDevice;
         // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
     }
@@ -119,13 +119,13 @@ export class APImethods {
 
     static async allLicences() {
         const response = await API.graphql({ query: queries.listLicences });
-        console.log(response.data.listLicences.items);
+        //cosole.log(response.data.listLicences.items);
         return response.data.listLicences.items;
     }
 
     static async getLicence(licenceID) {
         const response = await API.graphql(graphqlOperation(queries.getLicence, {id: licenceID}));
-        console.log(response.data.getLicence);
+        //cosole.log(response.data.getLicence);
         return response.data.getLicence;
     }
 
@@ -212,13 +212,13 @@ export class APImethods {
 
     static async allRooms() {
         const response = await API.graphql({ query: queries.listRooms });
-        console.log(response.data.listRooms.items);
+        //cosole.log(response.data.listRooms.items);
         return response.data.listRooms.items;
     }
 
     static async getRoom(roomID) {
         const response = await API.graphql(graphqlOperation(queries.getRoom, {id: roomID}));
-        console.log(response.data.getRoom);
+        //cosole.log(response.data.getRoom);
         return response.data.getRoom;
     }
 
@@ -299,14 +299,14 @@ export class APImethods {
 
     static async allUsers() {
         const response = await API.graphql({ query: queries.listUsers });
-        console.log(response.data.listUsers.items);
+        //cosole.log(response.data.listUsers.items);
         return response.data.listUsers.items;
         // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
     }
 
     static async getUser(username) {
         const response = await API.graphql(graphqlOperation(queries.getUser, {username: username}));
-        console.log(response.data.getUser);
+        //cosole.log(response.data.getUser);
         return response.data.getUser;
         // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
     }
@@ -370,14 +370,14 @@ export class APImethods {
 
     static async allReservations() {
         const response = await API.graphql({ query: queries.listReservations });
-        console.log(response.data.listReservations.items);
+        //cosole.log(response.data.listReservations.items);
         return response.data.listReservations.items;
         // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
     }
 
     static async getReservation(reservationID) {
         const response = await API.graphql(graphqlOperation(queries.getReservation, {id: reservationID}));
-        console.log(response.data.getReservation);
+        //cosole.log(response.data.getReservation);
         return response.data.getReservation;
         // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
     }

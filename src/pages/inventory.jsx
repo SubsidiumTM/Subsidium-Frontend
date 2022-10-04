@@ -3,6 +3,8 @@ import React from 'react'
 import DataTable from '../components/inventory_table';
 import { APImethods } from '../api/APImethods';
 
+import SubsidiumAuth from '../components/AuthenticationWrap';
+
 function Inventory() {
 
   function a () {
@@ -64,12 +66,17 @@ function Inventory() {
   ];
 
   return (
+    
+    <SubsidiumAuth jsx={
+
     <div>
       Inventario
       <DataTable columns={columns} rows={rows} />
       {a()}
       {/* {APImethods.allDevices()} */}
     </div>
+
+    }/>
   )
 }
 

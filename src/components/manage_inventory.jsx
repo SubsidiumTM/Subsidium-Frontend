@@ -16,163 +16,32 @@ import {
   TabItem,
   withAuthenticator,
 } from '@aws-amplify/ui-react';
-import { listNotes } from "../graphql/queries";
-import {
-  createNote as createNoteMutation,
-  deleteNote as deleteNoteMutation,
-
-  // Queries de creacion
-  createDevice as createDeviceMutation,
-  createRoom as createRoomMutation,
-  createLicence as createLicenceMutation,
-  // Queries de borrado
-  deleteDevice as deleteDeviceMutation,
-  deleteRoom as deleteRoomMutation,
-  deleteLicence as deleteLicenceMutation,
-  // Queries de modificacion
-  updateDevice as updateDeviceMutation,
-  updateRoom as updateRoomMutation,
-  updateLicence as updateLicenceMutation
-} from "../graphql/mutations";
 
 import * as queries from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
 
-
-import createRoom from "./createRoom";
 import DataTable from "./inventory_table";
 
 import { APImethods } from "../api/APImethods";
 
 const Manager = ({ signOut }) => {
   const [notes, setNotes] = useState([]);
+  const [devices, setDevices] = useState([]);
+  const [rooms, setRooms] = useState([]);
+  const [licences, setLicences] = useState([]);
 
-  // Auth.currentUserInfo()
-
+  // First Caller
   useEffect(() => {
-    fetchNotes();
+    getInventoryList();
     Auth.currentAuthenticatedUser({
       bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
     }).then(user => console.log(user))
     .catch(err => console.log(err));
-  }, []);
+  }, [],);
 
-  // async function fetchNotes() {
-  //   const apiData = await API.graphql({ query: listNotes });
-  //   const notesFromAPI = apiData.data.listNotes.items;
-  //   setNotes(notesFromAPI);
-  // }
-
-  async function fetchNotes() {
-    const apiData = await API.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
-    await Promise.all(
-      notesFromAPI.map(async (note) => {
-        if (note.image) {
-          const url = await Storage.get(note.name);
-          note.image = url;
-        }
-        return note;
-      })
-    );
-    setNotes(notesFromAPI);
-  }
-
-  // async function createNote(event) {
-  //   event.preventDefault();
-  //   const form = new FormData(event.target);
-  //   const data = {
-  //     name: form.get("name"),
-  //     description: form.get("description"),
-  //   };
-  //   await API.graphql({
-  //     query: createNoteMutation,
-  //     variables: { input: data },
-  //   });
-  //   fetchNotes();
-  //   event.target.reset();
-  // }
-
-  // Funciones de la API
-
-  // Escritura de servicios
-
-  async function createLicence(event) {
-    event.preventDefault();
-    const form = new FormData(event.target);
-    const data = {
-      name: form.get("licence_name"),
-      year : form.get("licence_year"),
-      compatibility : [form.get("licence_compatibility")],
-      category : [form.get("licence_category")],
-      description : form.get("licence_category"),
-      images: [""],
-    };
-    // if (!!data.image) await Storage.put(data.name, image);
-    await API.graphql({
-      query: createLicenceMutation,
-      variables: { input: data },
-    });
-    // fetchNotes();
-    event.target.reset();
-  }
+  // LLamados de la API
 
 
-
-  async function createDevice(event) {
-    event.preventDefault();
-    const form = new FormData(event.target);
-    const image = form.get("image");
-    const data = {
-      name: form.get("name"),
-      description: form.get("description"),
-      image: image.name,
-    };
-    if (!!data.image) await Storage.put(data.name, image);
-    await API.graphql({
-      query: createNoteMutation,
-      variables: { input: data },
-    });
-    fetchNotes();
-    event.target.reset();
-  }
-
-  async function createNote(event) {
-    event.preventDefault();
-    const form = new FormData(event.target);
-    const image = form.get("image");
-    const data = {
-      name: form.get("name"),
-      description: form.get("description"),
-      image: image.name,
-    };
-    if (!!data.image) await Storage.put(data.name, image);
-    await API.graphql({
-      query: createNoteMutation,
-      variables: { input: data },
-    });
-    fetchNotes();
-    event.target.reset();
-  }
-
-  // async function deleteNote({ id }) {
-  //   const newNotes = notes.filter((note) => note.id !== id);
-  //   setNotes(newNotes);
-  //   await API.graphql({
-  //     query: deleteNoteMutation,
-  //     variables: { input: { id } },
-  //   });
-  // }
-
-  async function deleteNote({ id, name }) {
-    const newNotes = notes.filter((note) => note.id !== id);
-    setNotes(newNotes);
-    await Storage.remove(name);
-    await API.graphql({
-      query: deleteNoteMutation,
-      variables: { input: { id } },
-    });
-  }
 
   // Formatos de creacion de Recursos
   function getFieldsByType (type) {
@@ -180,6 +49,10 @@ const Manager = ({ signOut }) => {
         // Licence fill-in format
         return (
             <>
+            <Flex direction="column">
+
+            <Flex direction="row">
+
             <TextField
                 name="licence_name"
                 placeholder="Licencia"
@@ -196,6 +69,10 @@ const Manager = ({ signOut }) => {
                 variation = "quiet"
                 type="number" 
                 />
+
+            </Flex>
+
+            <Flex direction="row">
 
             <TextField
                 name="licence_compatibility"
@@ -214,6 +91,8 @@ const Manager = ({ signOut }) => {
                 required
             />
 
+            </Flex>
+
             <TextField
                 name="licence_description"
                 placeholder="Descripcion"
@@ -221,10 +100,13 @@ const Manager = ({ signOut }) => {
                 labelHidden
                 variation="quiet"
                 required
+                isMultiline
             />
             <Button type="submit">
                 Agregar Recurso
             </Button>
+
+            </Flex>
             </>
         )
     }
@@ -311,7 +193,8 @@ const Manager = ({ signOut }) => {
                   />
             </Flex>
             </Flex>
-            
+            </Flex>
+
             <TextField
                 name="room_description"
                 placeholder="Descripcion"
@@ -322,7 +205,6 @@ const Manager = ({ signOut }) => {
                 isMultiline
                 width="20rem"
             />
-            </Flex>
 
             <Button type="submit">
                 Agregar Recurso
@@ -334,6 +216,8 @@ const Manager = ({ signOut }) => {
         // Devices fill-in format
         return (
             <>
+            <Flex direction="column">
+            <Flex direction="row">
             <TextField
                 name="name_device"
                 placeholder="Nombre"
@@ -351,7 +235,8 @@ const Manager = ({ signOut }) => {
                 required
                 type="number" 
                 />
-
+            </Flex>
+            <Flex direction="row">
             <input 
                 name = "ram"
                 placeholder="Memoria RAM"
@@ -369,6 +254,7 @@ const Manager = ({ signOut }) => {
                 variation="quiet"
                 required
             />
+            </Flex>
             
             <TextField
                 name="description_device"
@@ -377,11 +263,13 @@ const Manager = ({ signOut }) => {
                 labelHidden
                 variation="quiet"
                 required
+                isMultiline
             />
 
             <Button type="submit">
                 Agregar Recurso
             </Button>
+            </Flex>
             </>
         )
     }
@@ -397,51 +285,21 @@ const Manager = ({ signOut }) => {
     }
   }
 
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'name', headerName: 'Nombre', width: 130 },
+  ];
+
   // Inventory List
-  function getInventoryList (type) {
-    const columns = [
-      { field: 'id', headerName: 'ID', width: 70 },
-      { field: 'name', headerName: 'Nombre', width: 130 },
-    ];
+  async function getInventoryList() {
 
-    if (type === "licence") {
-      const rows = APImethods.allLicences();
-      return (
-        <DataTable columns={columns} rows={rows} />
-      );
-    }
-    else if (type === "room") {
-      const rows = APImethods.allRooms();
-      return (
-        <DataTable columns={columns} rows={rows} />
-      );
-    }
-    else if (type === "device") {
-      const rows = APImethods.allDevices();
-      return (
-        <DataTable columns={columns} rows={rows} />
-      );
-    }
-    else {
-      return (
-        <></>
-      );
-    }
-  }
+    const listLicences = await APImethods.allLicences();
+    setLicences(listLicences);
+    const listRooms = await APImethods.allRooms();
+    setRooms(listRooms);
+    const listDevices = await APImethods.allDevices();
+    setDevices(listDevices);
 
-  async function create(event) {
-    
-    if (resourceType === "device") {
-
-    }
-    else if (resourceType === "room") {
-      console.log("huevos de carla");
-      createRoom(event);
-      
-    }
-    else if (resourceType === "licence") {
-      createLicence(event);
-    }
   }
 
   const [resourceType, setResourceType] = useState("-");
@@ -455,6 +313,7 @@ const Manager = ({ signOut }) => {
 
   const handlerIndex = function (e) {
     const option = e.target.value;
+    console.log(option)
     setIndex(option);
   }
 
@@ -466,38 +325,35 @@ const Manager = ({ signOut }) => {
         defaultIndex={index}
         spacing="equal"
         justifyContent="flex-start">
+
+        {/* ///////// Table and Form of Licence ///////// */}
         <TabItem title="Licence" value={0} onSelect={handlerIndex}>
         <br></br>
         <Flex direction="row" justifyContent="center">
-
-        {getInventoryList("licence")}
-
+        <DataTable columns={columns} rows={licences} />
         {getFieldsByType("licence")}
-
         </Flex>
         </TabItem>
+
+        {/* ///////// Table and Form of Room ///////// */}
         <TabItem title="Room" value={1} onSelect={handlerIndex}>
         <br></br>
         <Flex direction="row" justifyContent="center">
-
-        {getInventoryList("room")}
-
+        <DataTable columns={columns} rows={rooms} />
         {getFieldsByType("room")}
-
         </Flex>
         </TabItem>
+
+        {/* ///////// Table and Form of Device ///////// */}
         <TabItem title="Device" value={2} onSelect={handlerIndex}>
         <br></br>
         <Flex direction="row" justifyContent="center">
-
-        {getInventoryList("device")}
-
+        <DataTable columns={columns} rows={devices} />
         {getFieldsByType("device")}
-
         </Flex>
         </TabItem>
-      </Tabs>
 
+      </Tabs>
       <Button onClick={signOut}>Sign Out</Button>
     </View>
   );
