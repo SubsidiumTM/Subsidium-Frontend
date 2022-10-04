@@ -345,10 +345,6 @@ export class APImethods {
         const response = await API.graphql({ query: mutations.updateUser, variables: {input: newUser}});
     }
 
-    static async updateUser(newUser) {     
-        const response = await API.graphql({ query: mutations.updateUser, variables: {input: newUser}});
-    }
-
     static async deleteUser(username) {       
         const response = await API.graphql({ query: mutations.deleteUser, variables: {input: {username: username}}});
     }
@@ -451,4 +447,70 @@ export class APImethods {
         active: active_u
     };
     */
+
+    // CRUD News
+
+    /*
+    const newNew = {
+        id: id,
+        title: title_u,
+        description: description_u,
+        date_published: date_pusblished_u,
+        image: image_u,
+        content: content_u
+    };
+    */
+
+    static async createNew( 
+        title_u,
+        description_u,
+        date_pusblished_u,
+        image_u,
+        content_u) { 
+        const newNew = {
+            title: title_u,
+            description: description_u,
+            date_published: date_pusblished_u,
+            image: image_u,
+            content: content_u
+        };       
+        const response = await API.graphql({ query: mutations.createNew, variables: {input: newNew}});
+    }
+
+    static async allNews() {
+        const response = await API.graphql({ query: queries.listNews });
+        //cosole.log(response.data.listNews.items);
+        return response.data.listNews.items;
+        // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+    }
+
+    static async getReservation(reservationID) {
+        const response = await API.graphql(graphqlOperation(queries.getReservation, {id: reservationID}));
+        //cosole.log(response.data.getReservation);
+        return response.data.getReservation;
+        // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+    }
+
+    static async updateReservation(reservationID, 
+        userID_u, 
+        deviceID_u, 
+        licenceID_u, 
+        roomID_u, 
+        reservationDate_u, 
+        state_u) { 
+        const newReservation = {
+            id: reservationID,
+            userID: userID_u,
+            deviceID: deviceID_u,
+            licenceID: licenceID_u,
+            roomID: roomID_u,
+            reservationDate: reservationDate_u,
+            state: state_u
+        };       
+        const response = await API.graphql({ query: mutations.updateReservation, variables: {input: newReservation}});
+    }
+
+    static async deleteUser(reservationID) {       
+        const response = await API.graphql({ query: mutations.deleteReservation, variables: {input: {id: reservationID}}});
+    }
 }

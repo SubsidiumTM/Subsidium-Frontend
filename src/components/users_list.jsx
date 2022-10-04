@@ -7,6 +7,7 @@ const Users_list = () => {
 
     // List of users
     const [userList, setUserList] = useState([]);
+    const [userDetails, setUserDetails] = useState([]);
 
     useEffect(() => {
         retrieveUsers();
@@ -28,12 +29,31 @@ const Users_list = () => {
         }
     }
 
+    // Mutations of users
+    async function makeUserActive (e) {
+        e.active = true;
+        await APImethods.updateUser(e.id, e.username, e.name, e.surname, e.email, e.type, e.verified, e.active);
+        retrieveUsers();
+    }
+
+    async function makeUserInactive (e) {
+        e.active = false;
+        await APImethods.updateUser(e.id, e.username, e.name, e.surname, e.email, e.type, e.verified, e.active);
+        retrieveUsers();
+    }
+
+    async function deleteUser (e) {
+        await APImethods.deleteUser(e.id);
+        // TODO: Delete from cognito
+    }
+
+    // Status of user
     const status_button = (user) => {
         if (user.active) {
-            return <Button value={user} onClick={() => {}}>Desactivar</Button>
+            return <Button value={user} onClick={() => {makeUserInactive(user)}}>Desactivar</Button>
         }
         else {
-            return <Button value={user} onClick={() => {}}>Activar</Button>
+            return <Button value={user} onClick={() => {makeUserActive(user)}}>Activar</Button>
         }
     }
 
@@ -46,7 +66,7 @@ const Users_list = () => {
         Estado: {status_label(user.active)} / 
         Tipo de usuario: {user.type} / 
         {status_button(user)}
-        <Button value={user} onClick={() => {}}>Ver</Button>
+        <Button onClick={() => {setUserDetails(user)}}>Ver</Button>
         </li>
     );
 
@@ -58,7 +78,19 @@ const Users_list = () => {
             {listUsers}
         </ul>
 
+        <div className="user_preview">
+            <Flex direction="column">
+            <h2>{userDetails.name} {userDetails.surname}</h2>
+            
+            <h2>{userDetails.email}</h2>
+            
+            <h2>{userDetails.username}</h2>
 
+            {/* TODO: Agregar mas datos de los usuarios */}
+
+            <Button onClick={() => {}}>Delete</Button>
+            </Flex>
+        </div>
         
         </Flex>
     </div>

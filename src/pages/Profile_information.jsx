@@ -5,6 +5,7 @@ import { Auth } from 'aws-amplify';
 import { APImethods } from '../api/APImethods';
 import { API } from "aws-amplify";
 import { listNotes } from "../graphql/queries";
+import SubsidiumAuth from '../components/AuthenticationWrap';
 
 const Profile_information = () => {
 
@@ -44,6 +45,9 @@ const Profile_information = () => {
   }
   
   return (
+
+    <SubsidiumAuth jsx={
+
     <>
     <Flex direction="row">
 
@@ -62,6 +66,8 @@ const Profile_information = () => {
         <p>Cambiar contraseña:</p>
     </Flex>
     </>
+
+    }/>
   )
 }
 

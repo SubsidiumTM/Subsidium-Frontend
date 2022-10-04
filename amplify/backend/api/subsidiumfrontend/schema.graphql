@@ -2,27 +2,6 @@
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
-# Modelo por defecto
-
-type Blog @model {
-  id: ID!
-  name: String!
-  posts: [Post] @hasMany
-}
-
-type Post @model {
-  id: ID!
-  title: String!
-  blog: Blog @belongsTo
-  comments: [Comment] @hasMany
-}
-
-type Comment @model {
-  id: ID!
-  post: Post @belongsTo
-  content: String!
-}
-
 # Modelo del turorial
 
 type Note @model {
@@ -105,9 +84,18 @@ type Modifications @model {
 	type: String!
 }
 
-type UnavailableDates {
+type UnavailableDates @model {
 	deviceID: ID
 	licenceID: ID
 	roomID: ID
 	dates: [String]
+}
+
+type New @model {
+	id: ID!
+	title: String!
+	description: String!
+	date_published: String!
+	image: String!
+	content: String!
 }

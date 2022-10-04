@@ -1,264 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createBlog = /* GraphQL */ `
-  mutation CreateBlog(
-    $input: CreateBlogInput!
-    $condition: ModelBlogConditionInput
-  ) {
-    createBlog(input: $input, condition: $condition) {
-      id
-      name
-      posts {
-        items {
-          id
-          title
-          createdAt
-          updatedAt
-          blogPostsId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateBlog = /* GraphQL */ `
-  mutation UpdateBlog(
-    $input: UpdateBlogInput!
-    $condition: ModelBlogConditionInput
-  ) {
-    updateBlog(input: $input, condition: $condition) {
-      id
-      name
-      posts {
-        items {
-          id
-          title
-          createdAt
-          updatedAt
-          blogPostsId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteBlog = /* GraphQL */ `
-  mutation DeleteBlog(
-    $input: DeleteBlogInput!
-    $condition: ModelBlogConditionInput
-  ) {
-    deleteBlog(input: $input, condition: $condition) {
-      id
-      name
-      posts {
-        items {
-          id
-          title
-          createdAt
-          updatedAt
-          blogPostsId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createPost = /* GraphQL */ `
-  mutation CreatePost(
-    $input: CreatePostInput!
-    $condition: ModelPostConditionInput
-  ) {
-    createPost(input: $input, condition: $condition) {
-      id
-      title
-      blog {
-        id
-        name
-        posts {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      comments {
-        items {
-          id
-          content
-          createdAt
-          updatedAt
-          postCommentsId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-      blogPostsId
-    }
-  }
-`;
-export const updatePost = /* GraphQL */ `
-  mutation UpdatePost(
-    $input: UpdatePostInput!
-    $condition: ModelPostConditionInput
-  ) {
-    updatePost(input: $input, condition: $condition) {
-      id
-      title
-      blog {
-        id
-        name
-        posts {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      comments {
-        items {
-          id
-          content
-          createdAt
-          updatedAt
-          postCommentsId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-      blogPostsId
-    }
-  }
-`;
-export const deletePost = /* GraphQL */ `
-  mutation DeletePost(
-    $input: DeletePostInput!
-    $condition: ModelPostConditionInput
-  ) {
-    deletePost(input: $input, condition: $condition) {
-      id
-      title
-      blog {
-        id
-        name
-        posts {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      comments {
-        items {
-          id
-          content
-          createdAt
-          updatedAt
-          postCommentsId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-      blogPostsId
-    }
-  }
-`;
-export const createComment = /* GraphQL */ `
-  mutation CreateComment(
-    $input: CreateCommentInput!
-    $condition: ModelCommentConditionInput
-  ) {
-    createComment(input: $input, condition: $condition) {
-      id
-      post {
-        id
-        title
-        blog {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        comments {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        blogPostsId
-      }
-      content
-      createdAt
-      updatedAt
-      postCommentsId
-    }
-  }
-`;
-export const updateComment = /* GraphQL */ `
-  mutation UpdateComment(
-    $input: UpdateCommentInput!
-    $condition: ModelCommentConditionInput
-  ) {
-    updateComment(input: $input, condition: $condition) {
-      id
-      post {
-        id
-        title
-        blog {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        comments {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        blogPostsId
-      }
-      content
-      createdAt
-      updatedAt
-      postCommentsId
-    }
-  }
-`;
-export const deleteComment = /* GraphQL */ `
-  mutation DeleteComment(
-    $input: DeleteCommentInput!
-    $condition: ModelCommentConditionInput
-  ) {
-    deleteComment(input: $input, condition: $condition) {
-      id
-      post {
-        id
-        title
-        blog {
-          id
-          name
-          createdAt
-          updatedAt
-        }
-        comments {
-          nextToken
-        }
-        createdAt
-        updatedAt
-        blogPostsId
-      }
-      content
-      createdAt
-      updatedAt
-      postCommentsId
-    }
-  }
-`;
 export const createNote = /* GraphQL */ `
   mutation CreateNote(
     $input: CreateNoteInput!
@@ -638,6 +380,105 @@ export const deleteModifications = /* GraphQL */ `
       id
       userID
       type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createUnavailableDates = /* GraphQL */ `
+  mutation CreateUnavailableDates(
+    $input: CreateUnavailableDatesInput!
+    $condition: ModelUnavailableDatesConditionInput
+  ) {
+    createUnavailableDates(input: $input, condition: $condition) {
+      deviceID
+      licenceID
+      roomID
+      dates
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateUnavailableDates = /* GraphQL */ `
+  mutation UpdateUnavailableDates(
+    $input: UpdateUnavailableDatesInput!
+    $condition: ModelUnavailableDatesConditionInput
+  ) {
+    updateUnavailableDates(input: $input, condition: $condition) {
+      deviceID
+      licenceID
+      roomID
+      dates
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteUnavailableDates = /* GraphQL */ `
+  mutation DeleteUnavailableDates(
+    $input: DeleteUnavailableDatesInput!
+    $condition: ModelUnavailableDatesConditionInput
+  ) {
+    deleteUnavailableDates(input: $input, condition: $condition) {
+      deviceID
+      licenceID
+      roomID
+      dates
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createNew = /* GraphQL */ `
+  mutation CreateNew(
+    $input: CreateNewInput!
+    $condition: ModelNewConditionInput
+  ) {
+    createNew(input: $input, condition: $condition) {
+      id
+      title
+      description
+      date_published
+      image
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateNew = /* GraphQL */ `
+  mutation UpdateNew(
+    $input: UpdateNewInput!
+    $condition: ModelNewConditionInput
+  ) {
+    updateNew(input: $input, condition: $condition) {
+      id
+      title
+      description
+      date_published
+      image
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteNew = /* GraphQL */ `
+  mutation DeleteNew(
+    $input: DeleteNewInput!
+    $condition: ModelNewConditionInput
+  ) {
+    deleteNew(input: $input, condition: $condition) {
+      id
+      title
+      description
+      date_published
+      image
+      content
       createdAt
       updatedAt
     }
