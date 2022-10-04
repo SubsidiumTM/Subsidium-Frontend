@@ -2,6 +2,7 @@ import React from 'react'
 import { Flex } from '@aws-amplify/ui-react'
 import { useState, useEffect } from 'react'
 import { Auth } from 'aws-amplify';
+import { APImethods } from '../api/APImethods';
 import { API } from "aws-amplify";
 import { listNotes } from "../graphql/queries";
 
@@ -11,17 +12,42 @@ const Profile_information = () => {
 
   useEffect(() => {
     getInfo();
+    confirmUserRegistration();
   }, [])
+
+  async function confirmUserRegistration() {
+    const response = await Auth.currentUserInfo();
+    const username = response.username;
+    const response2 = await APImethods.getUser(username);
+    if (response2.listUsers.items.length == 0) {
+      console.log("Registrando")
+      console.log(response)
+      await (APImethods.createUser(
+        response.username,
+        response.attributes.name,
+        response.attributes.family_name,
+        response.attributes.email,
+        "USER",
+        true,
+        true
+      ))
+    }
+    else {
+      console.log("Ya esta registrado")
+    }
+  }
 
   async function getInfo() {
     const response = await Auth.currentUserInfo();
     const userInfo = response.attributes;
-    console.log(userInfo)
-    setUserInfo(userInfo)
+    setUserInfo(userInfo);
   }
   
   return (
     <>
+    <Flex direction="row">
+
+    </Flex>
     <h1>Hola, {userInfo.name}</h1>
     <p>Aqui se muestran tus datos de usuario.</p>
     <Flex direction="row" gap="3rem">

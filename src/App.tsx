@@ -38,7 +38,7 @@ function App() {
         <Route path='/recursos' element={<Inventory />} />
         <Route path='/perfil' element={<Profile />} />
         <Route path='/historial' element={<History />} />
-        <Route path='/info' element={<Profile_information />} />
+        <Route path='/profile/info' element={<Profile_information />} />
         <Route path='/admin/recursos' element={<Manage_inventory />} />
         <Route path='/admin/usuarios' element={<Manage_users />} />
         <Route path='/notes' element={<Notes signOut={undefined} />} />

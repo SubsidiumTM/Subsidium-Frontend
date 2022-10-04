@@ -5,6 +5,7 @@ import { useTheme, View, Image, Text, Heading, Button, useAuthenticator, Checkbo
 import '@aws-amplify/ui-react/styles.css';
 import { APImethods } from '../api/APImethods';
 import { GraphQLEnumType } from 'graphql/type';
+import { useState } from 'react';
 
 function SubsidiumAuth(props) {
 

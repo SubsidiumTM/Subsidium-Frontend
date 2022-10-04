@@ -20,7 +20,7 @@ function Header() {
           <a href='/recursos'>Inventario</a>
           </Flex>
 
-          <Flex direction="row" justifyContent="right" width="50rem"><a href='/perfil'>Profile</a></Flex>
+          <Flex direction="row" justifyContent="right" width="50rem"><a href='/profile/info'>Profile</a></Flex>
 
         </Flex>        
     </nav>

@@ -17,9 +17,6 @@ import {
   withAuthenticator,
 } from '@aws-amplify/ui-react';
 
-import * as queries from '../graphql/queries';
-import * as mutations from '../graphql/mutations';
-
 import DataTable from "./inventory_table";
 
 import { APImethods } from "../api/APImethods";
@@ -40,8 +37,7 @@ const Manager = ({ signOut }) => {
   }, [],);
 
   // LLamados de la API
-
-
+  
 
   // Formatos de creacion de Recursos
   function getFieldsByType (type) {
@@ -330,7 +326,7 @@ const Manager = ({ signOut }) => {
         <TabItem title="Licence" value={0} onSelect={handlerIndex}>
         <br></br>
         <Flex direction="row" justifyContent="center">
-        <DataTable columns={columns} rows={licences} />
+        <DataTable columns={columns} rows={licences} onClick={console.log("Hola")} />
         {getFieldsByType("licence")}
         </Flex>
         </TabItem>

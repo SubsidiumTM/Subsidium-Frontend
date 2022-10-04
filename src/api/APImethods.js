@@ -295,6 +295,7 @@ export class APImethods {
             active: active_u
         };         
         const response = await API.graphql({ query: mutations.createUser, variables: {input: newUser}});
+        console.log(response)
     }
 
     static async allUsers() {
@@ -304,10 +305,22 @@ export class APImethods {
         // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
     }
 
-    static async getUser(username) {
-        const response = await API.graphql(graphqlOperation(queries.getUser, {username: username}));
+    static async getUserByID(userID) {
+        const response = await API.graphql(graphqlOperation(queries.getUser, {id: userID}));
         //cosole.log(response.data.getUser);
         return response.data.getUser;
+        // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+    }
+
+    static async getUser(username) {
+        let filter = {
+            username: {
+                eq: username // filter priority = 1
+            }
+        };
+        const response = await API.graphql(graphqlOperation(queries.listUsers, {filter: filter}));
+        //cosole.log(response.data.getUser);
+        return response.data;
         // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
     }
 
@@ -329,6 +342,10 @@ export class APImethods {
             verified: verified_u,
             active: active_u
         };        
+        const response = await API.graphql({ query: mutations.updateUser, variables: {input: newUser}});
+    }
+
+    static async updateUser(newUser) {     
         const response = await API.graphql({ query: mutations.updateUser, variables: {input: newUser}});
     }
 
