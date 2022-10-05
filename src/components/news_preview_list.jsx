@@ -35,9 +35,9 @@ const News_preview_list = () => {
 
     // Buttons by permissinon
     const editButton = (news) => {
-        if (user == "ADMIN" || user == "GENERAL_ADMIN") {
+        if (user == "USER" || user == "GENERAL_ADMIN") {
             return <>
-                <button>Editar</button>
+                <button><a href={`/noticias/edicion/${news.id}`}>Editar</a></button>
                 <button>Borrar</button>
             </>
         }
@@ -45,14 +45,11 @@ const News_preview_list = () => {
             return <></>
         }
     }
-
     const addButton = () => {
         if (user == "USER" || user == "GENERAL_ADMIN") {
             return <>
                 <Flex direction="row" justifyContent="center">
-                <a>
-                <button className='Nuevo'>Escribir Noticia</button>
-                </a>
+                <button className='Nuevo'><a href={`/noticias/edicion/nuevo`}>Escribir Noticia</a></button>
                 </Flex>
             </>
         }
@@ -61,16 +58,14 @@ const News_preview_list = () => {
         }
     }
 
-    function test () {
-        console.log("Hola");
-    }
-
     // List of item variables
     const listNewsPreview = listNews.map((news) =>
         <Flex direction="row" justifyContent="center">
         <div className="news_panel">
         <a href={`/noticias/${news.id}`}>
         <h2>{news.title}</h2>
+        <h4>{news.description}</h4>
+        <h4>{news.date_published}</h4>
         </a>
         </div>
         {editButton(news)}
@@ -80,7 +75,7 @@ const News_preview_list = () => {
     return (
         <>
         {addButton()}
-        <Flex direction="column" gap="2rem">
+        <Flex direction="column">
         {listNewsPreview}
         </Flex>
         </>
