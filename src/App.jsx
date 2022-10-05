@@ -8,6 +8,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // Importing Pages
 import Home from './pages/home';
 import News from './pages/news';
+import NewsEditing from './pages/NewsEditing';
+import News_reading from './components/news_reading';
 import About_us from './pages/About_us';
 import Inventory from './pages/Inventory';
 import Profile from './pages/Profile';
@@ -34,6 +36,8 @@ function App() {
 
         <Route path='/' element={<Home/>} />
         <Route path='/noticias' element={<News />} />
+        <Route path="/noticias/*" element={<News_reading />} />
+        <Route path='/noticias/edicion/*' element={<NewsEditing />} />
         <Route path='/sobre-nosotros' element={<About_us />} />
         <Route path='/recursos' element={<Inventory />} />
         <Route path='/perfil' element={<Profile />} />

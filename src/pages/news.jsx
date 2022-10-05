@@ -1,9 +1,11 @@
 import React from 'react'
+import News_preview_list from '../components/news_preview_list';
 
 function News() {
   return (
     <div>
-      Noticias
+    <h1>Noticias</h1>
+    <News_preview_list />
     </div>
   )
 }
