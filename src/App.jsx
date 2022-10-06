@@ -18,7 +18,6 @@ import Manage_inventory from './pages/Manage_inventory';
 import Identify from './pages/CustomAuthenticator';
 import Manager from './components/manage_inventory';
 import Manage_users from './pages/Manage_users';
-import Profile_information from './pages/Profile_information';
 import Notes from './pages/Notes';
 
 // Persistent in every PAge
@@ -34,17 +33,21 @@ function App() {
       <BrowserRouter>
       <Routes>
 
-        <Route path='/' element={<Home/>} />
+        {/* DONE */}
         <Route path='/noticias' element={<News />} />
         <Route path="/noticias/*" element={<News_reading />} />
         <Route path='/noticias/edicion/*' element={<NewsEditing />} />
+
+        {/* TODO */}
+        <Route path='/' element={<Home/>} />
         <Route path='/sobre-nosotros' element={<About_us />} />
         <Route path='/recursos' element={<Inventory />} />
         <Route path='/perfil' element={<Profile />} />
         <Route path='/historial' element={<History />} />
-        <Route path='/profile/info' element={<Profile_information />} />
         <Route path='/admin/recursos' element={<Manage_inventory />} />
         <Route path='/admin/usuarios' element={<Manage_users />} />
+        
+        {/* AUX */}
         <Route path='/notes' element={<Notes signOut={undefined} />} />
         <Route path='/profile/manage-inventory' element={<Manager signOut={undefined} />} />
         <Route path='/auth' element={<Identify />} />

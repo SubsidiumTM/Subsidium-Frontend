@@ -1,0 +1,16 @@
+{
+  "resourceName": "images",
+  "policyUUID": "483849f1",
+  "bucketName": "subsidiumfrontend0043e09c27f94c5ebd997822f58c1a",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

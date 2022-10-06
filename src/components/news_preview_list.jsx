@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Flex } from '@aws-amplify/ui-react'
+import { Flex, Heading } from '@aws-amplify/ui-react'
 import { APImethods } from '../api/APImethods'
 import './news_preview_list.css'
 import { Auth } from 'aws-amplify'
 import { Button } from 'antd'
-import { Link } from 'react-router-dom'
-import { Route } from 'react-router-dom'
-import News_reading from './news_reading'
 
 const News_preview_list = () => {
     // List of news
@@ -25,6 +22,13 @@ const News_preview_list = () => {
         setListNews(response);
     }
 
+    // Deleting the News
+    async function deleteNews (id) {
+        await APImethods.deleteNew(id);
+        console.log("Borrando noticia con id: " + id);
+        getNews();
+    }
+
     // Fetch user data
     async function getUser() {
         const response = await Auth.currentUserInfo();
@@ -37,8 +41,8 @@ const News_preview_list = () => {
     const editButton = (news) => {
         if (user == "USER" || user == "GENERAL_ADMIN") {
             return <>
-                <button><a href={`/noticias/edicion/${news.id}`}>Editar</a></button>
-                <button>Borrar</button>
+                <Button><a href={`/noticias/edicion/${news.id}`}>Editar</a></Button>
+                <Button onClick={() => {deleteNews(news.id)}}>Borrar</Button>
             </>
         }
         else {

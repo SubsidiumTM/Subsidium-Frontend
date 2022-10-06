@@ -1,0 +1,17 @@
+/* header with a height of 3 rem */
+.header {
+  height: 3rem;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* achors from header with a select button-like style */
+.header a {
+  text-decoration: none;
+  color: #000;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin: 0 0.5rem;
+}

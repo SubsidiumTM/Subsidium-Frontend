@@ -1,4 +1,4 @@
-import { Flex, TextAreaField, TextField, View } from '@aws-amplify/ui-react';
+import { Flex, TextAreaField, TextField, View, Heading } from '@aws-amplify/ui-react';
 import React, { useEffect, useState } from 'react'
 import { APImethods } from '../api/APImethods';
 
@@ -67,7 +67,7 @@ const News_editing = (props) => {
 
     return (
         <>
-        <h1>Edicion de Noticias</h1>
+        <Heading level={1}>Edicion de Noticias</Heading>
         <View as="form" onSubmit={submitAction}>
 
         <Flex direction="column">

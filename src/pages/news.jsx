@@ -1,10 +1,11 @@
 import React from 'react'
+import { Heading } from '@aws-amplify/ui-react'
 import News_preview_list from '../components/news_preview_list';
 
 function News() {
   return (
     <div>
-    <h1>Noticias</h1>
+    <Heading level={1}>Noticias</Heading>
     <News_preview_list />
     </div>
   )

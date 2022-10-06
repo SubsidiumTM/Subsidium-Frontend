@@ -1,23 +1,17 @@
-import { Button } from 'antd';
-import React, { useState, useEffect } from 'react'
-import { Flex } from '@aws-amplify/ui-react';
-import { APImethods } from '../api/APImethods'
+import { Flex, Heading } from '@aws-amplify/ui-react'
+import React from 'react'
 
-const Users_list = () => {
-
+function Manage_users() {
     // List of users
     const [userList, setUserList] = useState([]);
     const [userDetails, setUserDetails] = useState([]);
 
-    useEffect(() => {
-        retrieveUsers();
-      }, [])
+    // First caller
 
+    
     async function retrieveUsers () {
         const response = await APImethods.allUsers();
-        console.log(response);
         setUserList(response);
-        console.log(userList);
     }
 
     const status_label = (active) => {
@@ -57,44 +51,15 @@ const Users_list = () => {
         }
     }
 
-    // List item variables
-    const listUsers = userList.map((user) => 
-        <div>
-        {user.username} / 
-        {user.name} {user.surname} / 
-        {user.email} / 
-        Estado: {status_label(user.active)} / 
-        Tipo de usuario: {user.type} / 
-        {status_button(user)}
-        <Button onClick={() => {setUserDetails(user)}}>Ver</Button>
-        </div>
-    );
 
     return (
-    <div>
-        <h2>Lista de Usuarios</h2>
-        <Flex direction="row">
-        <div>
-            {listUsers}
-        </div>
+        <>
+        <Heading level={1}>Administrar Usuarios</Heading>
+        <Flex direction='row'>
 
-        <div className="user_preview">
-            <Flex direction="column">
-            <h2>{userDetails.name} {userDetails.surname}</h2>
-            
-            <h2>{userDetails.email}</h2>
-            
-            <h2>{userDetails.username}</h2>
-
-            {/* TODO: Agregar mas datos de los usuarios */}
-
-            <Button onClick={() => {}}>Delete</Button>
-            </Flex>
-        </div>
-        
         </Flex>
-    </div>
+        </>
     )
 }
 
-export default Users_list 
+export default Manage_users

@@ -1,0 +1,21 @@
+/* div side_menu as a static side menu with gray background */
+div.side_menu {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #f1f1f1;
+    overflow: auto;
+}
+
+/* div content as a dynamic content area with white background */
+div.content {
+    position: relative;
+    top: 0;
+    right: 1rem;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    overflow: auto;
+}

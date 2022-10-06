@@ -1,18 +1,13 @@
 import React from 'react'
 import SubsidiumAuth from '../components/AuthenticationWrap'
+import Profile_menu from '../components/profile_menu'
 
 function Profile() {
   return (
 
     <SubsidiumAuth jsx={
 
-    <div>
-      Perfil
-
-      <a href='/admin/recursos'>Administrar Recursos</a>
-      <a href='/admin/usuarios'>Administrar Ususarios</a>
-
-    </div>
+    <Profile_menu />
 
     }/>
 

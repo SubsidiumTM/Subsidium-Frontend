@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Flex } from '@aws-amplify/ui-react';
+import './header.css'
 
 
 function Header() {
@@ -10,7 +11,7 @@ function Header() {
   return (
     <BrowserRouter>
     <nav>
-        <Flex direction="row" justifyContent="center">
+        <Flex className='header' direction="row" justifyContent="center">
 
           <Flex direction="row" justifyContent="left" width="50rem"><a href='/'>Logo</a></Flex>
 
@@ -20,7 +21,7 @@ function Header() {
           <a href='/recursos'>Inventario</a>
           </Flex>
 
-          <Flex direction="row" justifyContent="right" width="50rem"><a href='/profile/info'>Profile</a></Flex>
+          <Flex direction="row" justifyContent="right" width="50rem"><a href='/perfil'>Profile</a></Flex>
 
         </Flex>        
     </nav>
