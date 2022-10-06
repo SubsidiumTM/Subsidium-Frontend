@@ -5,13 +5,14 @@ import './scss/styles.scss';
 // Routing
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+
 // Importing Pages
 import Home from './pages/home';
 import News from './pages/news';
 import NewsEditing from './pages/NewsEditing';
 import News_reading from './components/news_reading';
 import About_us from './pages/About_us';
-import Inventory from './pages/Inventory';
+import Inventory from './pages/inventory';
 import Profile from './pages/Profile';
 import History from './pages/History';
 import Manage_inventory from './pages/Manage_inventory';
