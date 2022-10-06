@@ -15,6 +15,9 @@
       "auth": {
         "users": {},
         "true": {}
+      },
+      "storage": {
+        "images": {}
       }
     }
   }

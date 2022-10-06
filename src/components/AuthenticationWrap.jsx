@@ -261,7 +261,7 @@ function SubsidiumAuth(props) {
     },
   };
   // Overiding Signup to create User
-  const services = {
+  /*const services = {
     async handleSignUp(formData) {
       let { username, password, attributes } = formData;
       // custom username
@@ -283,10 +283,10 @@ function SubsidiumAuth(props) {
         };
       }
     },
-  };
+  };*/
 
   return (
-    <Authenticator services={services} components={components}>
+    <Authenticator components={components}>
       {props.jsx}
     </Authenticator>
   )
