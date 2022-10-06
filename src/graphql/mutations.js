@@ -301,6 +301,8 @@ export const createReservation = /* GraphQL */ `
       licenceID
       roomID
       reservationDate
+      reservationTime
+      reservationDuration
       state
       createdAt
       updatedAt
@@ -319,6 +321,8 @@ export const updateReservation = /* GraphQL */ `
       licenceID
       roomID
       reservationDate
+      reservationTime
+      reservationDuration
       state
       createdAt
       updatedAt
@@ -337,6 +341,8 @@ export const deleteReservation = /* GraphQL */ `
       licenceID
       roomID
       reservationDate
+      reservationTime
+      reservationDuration
       state
       createdAt
       updatedAt

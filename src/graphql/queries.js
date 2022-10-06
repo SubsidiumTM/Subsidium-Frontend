@@ -207,6 +207,8 @@ export const getReservation = /* GraphQL */ `
       licenceID
       roomID
       reservationDate
+      reservationTime
+      reservationDuration
       state
       createdAt
       updatedAt
@@ -227,6 +229,8 @@ export const listReservations = /* GraphQL */ `
         licenceID
         roomID
         reservationDate
+        reservationTime
+        reservationDuration
         state
         createdAt
         updatedAt

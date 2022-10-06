@@ -10,9 +10,9 @@ function Admin_inventory() {
     const [licences, setLicences] = useState([]);
 
     // Empty forms for items
-    const deviceForm = {name:'', portable:false, os:'', storage:0, ram:0, description:'', images:''};
-    const licenceForm = {name:'', year:'', compatibility:'', category:'', description:'', images:''};
-    const roomForm = {name:'', building:'', proyector:false, wifi:false, board:false, air_conditioner:false, ethernet:false, computers:false, double_monitor:false, seats:0, energy_outlets:0, description:'', images:['']};
+    const deviceForm = {id:'nuevo', name:'', portable:false, os:'', storage:0, ram:0, description:'', images:['']};
+    const licenceForm = {id:'nuevo', name:'', year:'', compatibility:'', category:'', description:'', images:['']};
+    const roomForm = {id:'nuevo', name:'', building:'', proyector:false, wifi:false, board:false, air_conditioner:false, ethernet:false, computers:false, double_monitor:false, seats:0, energy_outlets:0, description:'', images:['']};
 
     // Forms for items
     const [device, setDevice] = useState(deviceForm);
@@ -70,7 +70,10 @@ function Admin_inventory() {
     const listDevices = devices.map((device) => 
         <div className="item">
         <Flex direction="row" gap="2rem">
+        <Flex direction="column">    
         <h3>{device.name}</h3>
+        <Text fontSize={9}>ID {device.id}</Text>  
+        </Flex>
         <Button onClick={() => {
             setDevice(device);
             setEditingDevice(true);
@@ -82,7 +85,10 @@ function Admin_inventory() {
     const listLicences = licences.map((licence) => 
         <div className="item">
         <Flex direction="row" gap="2rem" justifyContent='right'>
+        <Flex direction="column">  
         <h3>{licence.name}</h3>
+        <Text fontSize={9}>ID {licence.id}</Text>    
+        </Flex>
         <Button onClick={() => {
             setLicence(licence);
             setEditingLicence(true);
@@ -94,7 +100,10 @@ function Admin_inventory() {
     const listRooms = rooms.map((room) => 
         <div className="item">
         <Flex direction="row" gap="2rem">
+        <Flex direction="column"> 
         <h3>{room.name}</h3>
+        <Text fontSize={9}>ID {room.id}</Text>     
+        </Flex>
         <Button onClick={() => {
             setRoom(room);
             setEditingRoom(true);
@@ -107,23 +116,198 @@ function Admin_inventory() {
     // Buttons
     const submitButtonDevice = () => {
         if (editingDevice) {
-            return <Button onClick={() => {console.log(device)}}>Editar</Button>
+            return <Button type='submit' onClick={async () => {
+                console.log(device.id);
+                console.log(document.getElementsByName('deviceName')[0].value);
+                console.log(document.getElementsByName('deviceName')[0].value);
+                console.log(document.getElementsByName('devicePortable')[0].checked);
+                console.log(document.getElementsByName('deviceOS')[0].value);
+                console.log(document.getElementsByName('deviceStorage')[0].value);
+                console.log(document.getElementsByName('deviceRAM')[0].value);
+                console.log(document.getElementsByName('deviceDescription')[0].value);
+                await APImethods.updateDevice(
+                    device.id, 
+                    document.getElementsByName('deviceName')[0].value, 
+                    document.getElementsByName('devicePortable')[0].checked, 
+                    document.getElementsByName('deviceOS')[0].value, 
+                    document.getElementsByName('deviceStorage')[0].value, 
+                    document.getElementsByName('deviceRAM')[0].value, 
+                    document.getElementsByName('deviceDescription')[0].value,
+                    device.images);
+                await getDevices();
+            }}>Editar</Button>
         } else {
-            return <Button onClick={() => {console.log(device)}}>Agregar</Button>
+            return <Button type='submit' onClick={async () => {
+                console.log(document.getElementsByName('deviceName')[0].value);
+                console.log(document.getElementsByName('devicePortable')[0].checked);
+                console.log(document.getElementsByName('deviceOS')[0].value);
+                console.log(document.getElementsByName('deviceStorage')[0].value);
+                console.log(document.getElementsByName('deviceRAM')[0].value);
+                console.log(document.getElementsByName('deviceDescription')[0].value);
+                await APImethods.createDevice(
+                    document.getElementsByName('deviceName')[0].value, 
+                    document.getElementsByName('devicePortable')[0].checked, 
+                    document.getElementsByName('deviceOS')[0].value, 
+                    document.getElementsByName('deviceStorage')[0].value, 
+                    document.getElementsByName('deviceRAM')[0].value, 
+                    document.getElementsByName('deviceDescription')[0].value, 
+                    device.images);
+                await getDevices();
+            }}>Agregar</Button>
         }
     }
     const submitButtonLicence = () => {
         if (editingLicence) {
-            return <Button onClick={() => {}}>Editar</Button>
+            return <Button type='submit' onClick={async () => {
+                console.log(licence.id);
+                console.log(document.getElementsByName('licenceName')[0].value);
+                console.log(document.getElementsByName('licenceYear')[0].value);
+                var compatibility = [];
+                if (document.getElementsByName('licenceComp1')[0].checked) {
+                    compatibility.push('Windows');
+                }
+                if (document.getElementsByName('licenceComp2')[0].checked) {
+                    compatibility.push('Mac');
+                }
+                if (document.getElementsByName('licenceComp3')[0].checked) {
+                    compatibility.push('Linux');
+                }
+                console.log(compatibility);
+                var category = [];
+                if (document.getElementsByName('licenceCat1')[0].checked) {
+                    category.push('Matematicas');
+                }
+                if (document.getElementsByName('licenceCat2')[0].checked) {
+                    category.push('Arquitectura');
+                }
+                if (document.getElementsByName('licenceCat3')[0].checked) {
+                    category.push('Programacion');
+                }
+                if (document.getElementsByName('licenceCat4')[0].checked) {
+                    category.push('Arte');
+                }
+                if (document.getElementsByName('licenceCat5')[0].checked) {
+                    category.push('Economia');
+                }
+                console.log(category);
+                console.log(document.getElementsByName('licenceDescription')[0].value);
+                await APImethods.updateLicence(
+                    licence.id, 
+                    document.getElementsByName('licenceName')[0].value, 
+                    document.getElementsByName('licenceYear')[0].value, 
+                    compatibility, 
+                    category, 
+                    document.getElementsByName('licenceDescription')[0].value, 
+                    licence.images);
+                await getLicences();
+            }}>Editar</Button>
         } else {
-            return <Button onClick={() => {}}>Agregar</Button>
+            return <Button type='submit' onClick={async () => {
+                console.log(document.getElementsByName('licenceName')[0].value);
+                console.log(document.getElementsByName('licenceYear')[0].value);
+                var compatibility = [];
+                if (document.getElementsByName('licenceComp1')[0].checked) {
+                    compatibility.push('Windows');
+                }
+                if (document.getElementsByName('licenceComp2')[0].checked) {
+                    compatibility.push('Mac');
+                }
+                if (document.getElementsByName('licenceComp3')[0].checked) {
+                    compatibility.push('Linux');
+                }
+                console.log(compatibility);
+                var category = [];
+                if (document.getElementsByName('licenceCat1')[0].checked) {
+                    category.push('Matematicas');
+                }
+                if (document.getElementsByName('licenceCat2')[0].checked) {
+                    category.push('Arquitectura');
+                }
+                if (document.getElementsByName('licenceCat3')[0].checked) {
+                    category.push('Programacion');
+                }
+                if (document.getElementsByName('licenceCat4')[0].checked) {
+                    category.push('Arte');
+                }
+                if (document.getElementsByName('licenceCat5')[0].checked) {
+                    category.push('Economia');
+                }
+                console.log(category);
+                console.log(document.getElementsByName('licenceDescription')[0].value);
+                await APImethods.createLicence(
+                    document.getElementsByName('licenceName')[0].value, 
+                    document.getElementsByName('licenceYear')[0].value, 
+                    compatibility, 
+                    category, 
+                    document.getElementsByName('licenceDescription')[0].value, 
+                    licence.images);
+                await getLicences();
+            }}>Agregar</Button>
         }
     }
     const submitButtonRoom = () => {
         if (editingRoom) {
-            return <Button onClick={() => {}}>Editar</Button>
+            return <Button type='submit' onClick={async () => {
+                console.log(room.id);
+                console.log(document.getElementsByName('roomName')[0].value);
+                console.log(document.getElementsByName('roomBuilding')[0].value);
+                console.log(document.getElementsByName('roomProyector')[0].checked);
+                console.log(document.getElementsByName('roomWIFI')[0].checked);
+                console.log(document.getElementsByName('roomBoard')[0].checked);
+                console.log(document.getElementsByName('roomAirConditioner')[0].checked);
+                console.log(document.getElementsByName('roomEthernet')[0].checked);
+                console.log(document.getElementsByName('roomComputers')[0].checked);
+                console.log(document.getElementsByName('roomDoubleMonitor')[0].checked);
+                console.log(document.getElementsByName('roomSeats')[0].value);
+                console.log(document.getElementsByName('roomEnergyOutlets')[0].value);
+                console.log(document.getElementsByName('roomDescription')[0].value);
+                await APImethods.updateRoom(
+                    room.id, 
+                    document.getElementsByName('roomName')[0].value, 
+                    document.getElementsByName('roomBuilding')[0].value, 
+                    document.getElementsByName('roomProyector')[0].checked, 
+                    document.getElementsByName('roomWIFI')[0].checked, 
+                    document.getElementsByName('roomBoard')[0].checked, 
+                    document.getElementsByName('roomAirConditioner')[0].checked, 
+                    document.getElementsByName('roomEthernet')[0].checked, 
+                    document.getElementsByName('roomComputers')[0].checked, 
+                    document.getElementsByName('roomDoubleMonitor')[0].checked, 
+                    document.getElementsByName('roomSeats')[0].value, 
+                    document.getElementsByName('roomEnergyOutlets')[0].value, 
+                    document.getElementsByName('roomDescription')[0].value, 
+                    room.images);
+                await getRooms();
+            }}>Editar</Button>
         } else {
-            return <Button onClick={() => {}}>Agregar</Button>
+            return <Button type='submit' onClick={async () => {
+                console.log(document.getElementsByName('roomName')[0].value);
+                console.log(document.getElementsByName('roomBuilding')[0].value);
+                console.log(document.getElementsByName('roomProyector')[0].checked);
+                console.log(document.getElementsByName('roomWIFI')[0].checked);
+                console.log(document.getElementsByName('roomBoard')[0].checked);
+                console.log(document.getElementsByName('roomAirConditioner')[0].checked);
+                console.log(document.getElementsByName('roomEthernet')[0].checked);
+                console.log(document.getElementsByName('roomComputers')[0].checked);
+                console.log(document.getElementsByName('roomDoubleMonitor')[0].checked);
+                console.log(document.getElementsByName('roomSeats')[0].value);
+                console.log(document.getElementsByName('roomEnergyOutlets')[0].value);
+                console.log(document.getElementsByName('roomDescription')[0].value);
+                await APImethods.createRoom(
+                    document.getElementsByName('roomName')[0].value, 
+                    document.getElementsByName('roomBuilding')[0].value, 
+                    document.getElementsByName('roomProyector')[0].checked, 
+                    document.getElementsByName('roomWIFI')[0].checked, 
+                    document.getElementsByName('roomBoard')[0].checked, 
+                    document.getElementsByName('roomAirConditioner')[0].checked, 
+                    document.getElementsByName('roomEthernet')[0].checked, 
+                    document.getElementsByName('roomComputers')[0].checked, 
+                    document.getElementsByName('roomDoubleMonitor')[0].checked, 
+                    document.getElementsByName('roomSeats')[0].value, 
+                    document.getElementsByName('roomEnergyOutlets')[0].value, 
+                    document.getElementsByName('roomDescription')[0].value, 
+                    room.images);
+                await getRooms();
+            }}>Agregar</Button>
         }
     }
 
@@ -142,38 +326,15 @@ function Admin_inventory() {
             </Flex>
             {/* Form of Device */}
             <Flex className='form' direction="column">
-            <Button onClick={() => {setDevice(deviceForm); setEditingDevice(false);}}>Agregar Nuevo</Button>
-            <TextField label="Nombre" name='deviceName' defaultValue={device.name} onChange={() => {
-                const newDevice = device;
-                newDevice.name = document.getElementsByName('deviceName')[0].value;
-                setDevice(newDevice);
-            }}/>
-            <CheckboxField label="Portatil" name='devicePortable' defaultChecked={device.portable} onChange={() => {
-                const newDevice = device;
-                newDevice.portable = document.getElementsByName('devicePortable')[0].checked;
-                setDevice(newDevice);
-            }}/>
-            <TextField label="Sistema Operativo" name='deviceOS' defaultValue={device.os} onChange={() => {
-                const newDevice = device;
-                newDevice.os = document.getElementsByName('deviceOS')[0].value;
-                setDevice(newDevice);
-            }}/>
-            <StepperField label="Almacenamiento (GB)" name='deviceStorage' defaultValue={device.storage} step={128} min={128} onChange={() => {
-                const newDevice = device;
-                newDevice.storage = document.getElementsByName('deviceStorage')[0].value;
-                setDevice(newDevice);
-            }}/>
-            <StepperField label="Memoria (GB)" name='deviceRAM' defaultValue={device.ram} step={2} min={2} onChange={() => {
-                const newDevice = device;
-                newDevice.ram = document.getElementsByName('deviceRAM')[0].value;
-                setDevice(newDevice);
-            }}/>
-            <TextAreaField label="Descripcion" name='deviceDescription' defaultValue={device.description} onChange={() => {
-                const newDevice = device;
-                newDevice.description = document.getElementsByName('deviceDescription')[0].value;
-                setDevice(newDevice);
-            }}/>
-            {submitButtonDevice()}
+                <Button onClick={() => {setDevice(deviceForm); setEditingDevice(false);}}>Agregar Nuevo</Button>
+                <Text fontSize={11}>Editando Equipo con ID: {device.id}</Text>
+                <TextField label="Nombre" name='deviceName' defaultValue={device.name} required/>
+                <CheckboxField label="Portatil" name='devicePortable' defaultChecked={device.portable}/>
+                <TextField label="Sistema Operativo" name='deviceOS' defaultValue={device.os}/>
+                <StepperField label="Almacenamiento (GB)" name='deviceStorage' defaultValue={device.storage} step={128} min={128}/>
+                <StepperField label="Memoria (GB)" name='deviceRAM' defaultValue={device.ram} step={2} min={2}/>
+                <TextAreaField label="Descripcion" name='deviceDescription' defaultValue={device.description} required/>
+                {submitButtonDevice()}
             </Flex>
             </Flex>
             </TabItem>
@@ -187,27 +348,28 @@ function Admin_inventory() {
             </Flex>
             {/* Form of Device */}
             <Flex className='form' direction="column">
-            <Button onClick={() => {setLicence(licenceForm); setEditingLicence(false);}}>Agregar Nuevo</Button>
-            <TextField label="Nombre" defaultValue={licence.name}/>
-            <StepperField label="Año" defaultValue={licence.year} step={1} min={1990}/>
-            <Text fontSize={16}>Compatibilidad</Text>
-            <Flex direction="row" gap="1rem">
-            <CheckboxField label="Windows"/>
-            <CheckboxField label="macOS"/>
-            <CheckboxField label="Linux"/>
-            </Flex>
-            <Text fontSize={16}>Categoria</Text>
-            <Flex direction="row" gap="1rem">
-            <CheckboxField label="Matematicas"/>
-            <CheckboxField label="Arquitectura"/>
-            <CheckboxField label="Programacion"/>
-            </Flex>
-            <Flex direction="row" gap="1rem">
-            <CheckboxField label="Arte"/>
-            <CheckboxField label="Economia"/>
-            </Flex>
-            <TextAreaField label="Descripcion" defaultValue={licence.description} />
-            {submitButtonLicence()}
+                <Button onClick={() => {setLicence(licenceForm); setEditingLicence(false);}}>Agregar Nuevo</Button>
+                <Text fontSize={11}>Editando Licencia con ID: {licence.id}</Text>
+                <TextField label="Nombre" name='licenceName' defaultValue={licence.name}/>
+                <StepperField label="Año" name='licenceYear' defaultValue={licence.year} step={1} min={1990}/>
+                <Text fontSize={16}>Compatibilidad</Text>
+                <Flex direction="row" gap="1rem">
+                <CheckboxField label="Windows" name='licenceComp1'/>
+                <CheckboxField label="macOS" name='licenceComp2'/>
+                <CheckboxField label="Linux" name='licenceComp3'/>
+                </Flex>
+                <Text fontSize={16}>Categoria</Text>
+                <Flex direction="row" gap="1rem">
+                <CheckboxField label="Matematicas" name='licenceCat1'/>
+                <CheckboxField label="Arquitectura" name='licenceCat2'/>
+                <CheckboxField label="Programacion" name='licenceCat3'/>
+                </Flex>
+                <Flex direction="row" gap="1rem">
+                <CheckboxField label="Arte" name='licenceCat4'/>
+                <CheckboxField label="Economia" name='licenceCat5'/>
+                </Flex>
+                <TextAreaField label="Descripcion" name='licenceDescription' defaultValue={licence.description} />
+                {submitButtonLicence()}
             </Flex>
             </Flex>
             </TabItem>
@@ -221,27 +383,34 @@ function Admin_inventory() {
             </Flex>
             {/* Form of Room */}
             <Flex className='form' direction="column">
-            <Button onClick={() => {setRoom(roomForm); setEditingRoom(false);}}>Agregar Nuevo</Button>
-            <TextField label="Nombre" defaultValue={room.name}/>
-            <TextField label="Edificio" defaultValue={room.building}/>
-            <Text fontSize={16}>Amenidades</Text>
-            <Flex direction="row" gap="1rem">
-            <CheckboxField label="Proyector" defaultChecked={room.proyector}/>
-            <CheckboxField label="WIFI" defaultChecked={room.wifi}/>
-            <CheckboxField label="Pizarron" defaultChecked={room.board}/>
-            </Flex>
-            <Flex direction="row" gap="1rem">
-            <CheckboxField label="Aire Acondicionado" defaultChecked={room.air_conditioner}/>
-            <CheckboxField label="Ethernet" defaultChecked={room.ethernet}/>
-            </Flex>
-            <Flex direction="row" gap="1rem">
-            <CheckboxField label="Computadoras" defaultChecked={room.computers}/>
-            <CheckboxField label="Doble Monitor" defaultChecked={room.double_monitor}/>
-            </Flex>
-            <StepperField label="Asientos" defaultValue={room.seats} step={1} min={0}/>
-            <StepperField label="Tomas de Corriente" defaultValue={room.energy_outlets} step={1} min={0}/>
-            <TextAreaField label="Descripcion" defaultValue={room.description} />
-            {submitButtonRoom()}
+                <Button onClick={() => {setRoom(roomForm); setEditingRoom(false);}}>Agregar Nuevo</Button>
+                <Text fontSize={11}>Editando Salon con ID: {room.id}</Text>
+                <Flex direction="row" gap="1rem">
+                <div>
+                <TextField label="Nombre" name='roomName' defaultValue={room.name}/>
+                <TextField label="Edificio" name='roomBuilding' defaultValue={room.building}/>
+                </div>
+                <div>
+                <Text fontSize={16}>Amenidades</Text>
+                <Flex direction="row" gap="1rem">
+                <CheckboxField label="Proyector" name='roomProyector' defaultChecked={room.proyector}/>
+                <CheckboxField label="WIFI" name='roomWIFI' defaultChecked={room.wifi}/>
+                <CheckboxField label="Pizarron" name='roomBoard' defaultChecked={room.board}/>
+                </Flex>
+                <Flex direction="row" gap="1rem">
+                <CheckboxField label="Aire Acondicionado" name='roomAirConditioner' defaultChecked={room.air_conditioner}/>
+                <CheckboxField label="Ethernet" name='roomEthernet' defaultChecked={room.ethernet}/>
+                </Flex>
+                <Flex direction="row" gap="1rem">
+                <CheckboxField label="Computadoras" name='roomComputers' defaultChecked={room.computers}/>
+                <CheckboxField label="Doble Monitor" name='roomDoubleMonitor' defaultChecked={room.double_monitor}/>
+                </Flex>
+                </div>
+                </Flex>
+                <StepperField label="Asientos" name='roomSeats' defaultValue={room.seats} step={1} min={0}/>
+                <StepperField label="Tomas de Corriente" name='roomEnergyOutlets' defaultValue={room.energy_outlets} step={1} min={0}/>
+                <TextAreaField label="Descripcion" name='roomDescription' defaultValue={room.description} />
+                {submitButtonRoom()}
             </Flex>
             </Flex>
             </TabItem>

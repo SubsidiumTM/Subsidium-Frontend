@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Flex, Tabs, TabItem, Heading } from '@aws-amplify/ui-react';
+import { Flex, Tabs, TabItem, Heading, TextField, Text, SelectField } from '@aws-amplify/ui-react';
 import { Auth } from 'aws-amplify';
 import { APImethods } from "../api/APImethods";
-import { Button, Calendar } from 'antd';
+import { Button } from 'antd';
 
 import './inventory_view.css';
 
@@ -28,6 +28,7 @@ const InventorySelection = () => {
     useEffect(() => {
         getInventoryList();
         confirmUserRegistration();
+        confirmUserRegistration();
     }, [],);
 
     // Confirms if user is registered or registers if not
@@ -36,20 +37,21 @@ const InventorySelection = () => {
         const username = response.username;
         const response2 = await APImethods.getUser(username);
         if (response2.listUsers.items.length == 0) {
-          console.log("Registrando")
-          console.log(response)
-          await (APImethods.createUser(
-            response.username,
-            response.attributes.name,
-            response.attributes.family_name,
-            response.attributes.email,
-            "USER",
-            true,
-            true
-          ))
+            console.log("Registrando")
+            console.log(response)
+            await (APImethods.createUser(
+                response.username,
+                response.attributes.name,
+                response.attributes.family_name,
+                response.attributes.email,
+                "USER",
+                true,
+                true
+            ))
         }
         else {
-          console.log("Ya esta registrado")
+            setUserID(response2.listUsers.items[0].id);
+            console.log("Ya esta registrado")
         }
     }
 
@@ -66,30 +68,24 @@ const InventorySelection = () => {
         console.log(listLicences)
     }
 
-    // Handler for movement between tabs
-    const handlerIndex = function (e) {
-        const option = e.target.value;
-        console.log(option)
-        setIndex(option);
-    }
-
     // List item variables
     const listRooms = rooms.map((room) => 
-        <li>{room.id} {room.name} 
+        <div className="item">
+        <h2>{room.name}</h2>
         <Button value={room} onClick={() => {selectRoom(room)}}>Ver</Button>
-        </li>
+        </div>
     );
-
     const listLicences = licences.map((licence) => 
-        <li>{licence.id} {licence.name} 
+        <div className="item">
+        <h2>{licence.name}</h2>
         <Button value={licence} onClick={() => {selectLicence(licence)}}>Ver</Button>
-        </li>
+        </div>
     );
-
     const listDevices = devices.map((device) => 
-        <li>{device.id} {device.name} 
-        <Button value={devices} onClick={() => {selectDevice(device)}}>Ver</Button>
-        </li>
+        <div className="item">
+        <h2>{device.name}</h2>
+        <Button value={device} onClick={() => {selectDevice(device)}}>Ver</Button>
+        </div>
     );
 
     // Fill in formats
@@ -97,16 +93,79 @@ const InventorySelection = () => {
         setRoomInfo(e)
         setRoomID(e.id)
     }
-
     function selectLicence (e) {
         setLicenceInfo(e)
         setLicenceID(e.id)
     }
-
     function selectDevice (e) {
         setDeviceInfo(e)
         setDeviceID(e.id)
     }
+
+    // Info containers
+    const roomInfoContainer = <>
+        <Heading level={3}>{roomInfo.name}</Heading>
+        <Flex direction="row">
+            <image></image>
+            <Flex direction="column">
+            <h2>Caracteristicas</h2>
+            <li>Edificio: {roomInfo.building}</li>
+            <li hidden={!roomInfo.proyector}>Proyector</li>
+            <li hidden={!roomInfo.wifi}>WIFI</li>
+            <li hidden={!roomInfo.board}>Pizarron</li>
+            <li hidden={!roomInfo.air_conditioner}>Aire Acondicionado</li>
+            <li hidden={!roomInfo.ethernet}>Ethernet</li>
+            <li hidden={!roomInfo.computers}>Computadoras</li>
+            <li hidden={!roomInfo.double_monitor}>Monitor Doble</li>
+            <li>Asientos: {roomInfo.seats}</li>
+            <li>Tomas de corriente: {roomInfo.energy_outlets}</li>
+            </Flex>
+        </Flex>
+        <p>{roomInfo.description}</p>
+    </>;
+    const licenceInfoContainer = <>
+        <Heading level={3}>{licenceInfo.name}</Heading>
+        <Flex direction="row">
+            <img/>
+            <Flex direction="column">
+                <h2>Caracteristicas</h2>
+                <li>Año {licenceInfo.year}</li>
+                <li>
+                    Compatible con:
+                    <ul>
+                    <li>{licenceInfo.compatibility}</li>
+                    </ul>
+                </li>
+                <li>Categorias:
+                    <ul>
+                    <li>{licenceInfo.category}</li>
+                    </ul>
+                </li>
+            </Flex>
+        </Flex>
+        <p>{licenceInfo.description}</p>
+    </>;
+    const deviceInfoContainer = <>
+        <Heading level={3}>{deviceInfo.name}</Heading>
+        <Flex direction="row">
+            <img/>
+            <Flex direction="column">
+                <h2>Caracteristicas</h2>
+                {() => {
+                    if (deviceInfo.portable) {
+                    return <li>Portatil</li>;
+                    }
+                    else {
+                    return <li>Escritorio</li>
+                    }
+                }}
+                <li>Sistema Operativo: {deviceInfo.os}</li>
+                <li>Almacenamiento: {deviceInfo.storage} GB</li>
+                <li>Memoria: {deviceInfo.ram} GB</li>
+            </Flex>
+        </Flex>
+        <p>{deviceInfo.description}</p>
+    </>;
 
     return (
         <div className='inventory_component'>
@@ -117,57 +176,46 @@ const InventorySelection = () => {
         justifyContent="flex-start">
 
         {/* ///////// Table and Form of Licence ///////// */}
-        <TabItem title="Licence" value={0} onSelect={handlerIndex}>
+        <TabItem title="Licence">
         <br></br>
-        <Flex direction="row" justifyContent="center">
-        
-        <ul>
+        <Flex direction="row" justifyContent="center" gap='2rem'>
+        {/* ////////// TABLE ////////// */}
+        <div className='itemList'>
             {listLicences}
-        </ul>
-
+        </div>
+        {/* ////////// FORM ////////// */}
         <div className="format">
             <Flex direction="row">
             {/* Description */}
+            <div className="description">
             <Flex direction="column">
-                <h2>{licenceInfo.name}</h2>
-                <Flex direction="row">
-                    <img/>
-                    <Flex direction="column">
-                        <h4>Caracteristicas</h4>
-                        <li>Año {licenceInfo.year}</li>
-                        <li>
-                            Compatible con:
-                            <ul>
-                            <li>{licenceInfo.compatibility}</li>
-                            </ul>
-                        </li>
-                        <li>Categorias:
-                            <ul>
-                            <li>{licenceInfo.category}</li>
-                            </ul>
-                        </li>
-                    </Flex>
-                </Flex>
-                <p>{licenceInfo.description}</p>
+                {licenceInfoContainer}
             </Flex>
-
+            </div>
             {/* Reservation Details */}
-            <Flex direction="column">
+            <Flex direction="column" className='reservation'>
+                <Heading level={3}>Reservar</Heading>
                 <h3>Seleccion de inicio de la reserva</h3>
-                <Calendar></Calendar>
-                <h3>Duracion de la reserva</h3>
-                <select>
-                    <option>15 min</option>
-                    <option>30 min</option>
-                    <option>45 min</option>
-                    <option>60 min</option>
-                </select>
+                <TextField  label='Fecha' name='dateLicence' placeholder='DD/MM/AAAA' width='100%' required type='date'/>
+                <TextField  label='Hora (entre 10am y 10pm)' name='timeLicence' width='100%' required type='time'/>
+                <SelectField label='Duracion de Reserva' name='licenceDuration' placeholder='Seleccionar' width='100%' required>
+                    <option value={15}>15 min</option>
+                    <option value={30}>30 min</option>
+                    <option value={45}>45 min</option>
+                    <option value={60}>60 min</option>
+                </SelectField>
             </Flex>
                 
             </Flex>
             <br></br>
             <Flex justifyContent="center">
-            <Button>Reservar</Button>
+            <Button onClick={() => {
+                console.log(userID)
+                console.log(licenceID)
+                console.log(document.getElementsByName('dateLicence')[0].value)
+                console.log(document.getElementsByName('timeLicence')[0].value)
+                console.log(document.getElementsByName('licenceDuration')[0].value)
+            }}>Reservar</Button>
             </Flex>
         </div>
 
@@ -175,76 +223,47 @@ const InventorySelection = () => {
         </TabItem>
 
         {/* ///////// Table and Form of Room ///////// */}
-        <TabItem title="Room" value={1} onSelect={handlerIndex}>
+        <TabItem title="Room">
         <br></br>
-        <Flex direction="row" justifyContent="center">
-
-        <ul>
+        <Flex direction="row" justifyContent="center" gap='2rem'>
+        {/* ////////// TABLE ////////// */}
+        <div className='itemList'>
             {listRooms}
-        </ul>
-
+        </div>
+        {/* ////////// FORM ////////// */}
         <div className="format">
             <Flex direction="row">
             {/* Description */}
+            <div className="description">
             <Flex direction="column">
-                <h2>{roomInfo.name}</h2>
-                <Flex direction="row">
-                    <image></image>
-                    <Flex direction="column">
-                        <h4>Caracteristicas</h4>
-                        <li>Edificio: {roomInfo.building}</li>
-                        {() => {
-                            if (roomInfo.proyector)
-                            return <li>Proyector</li>;
-                        }}
-                        {() => {
-                            if (roomInfo.wifi)
-                            return <li>WIFI</li>;
-                        }}
-                        {() => {
-                            if (roomInfo.board)
-                            return <li>Pizarron</li>;
-                        }}
-                        {() => {
-                            if (roomInfo.air_conditioner)
-                            return <li>Aire Acondicionado</li>;
-                        }}
-                        {() => {
-                            if (roomInfo.ethernet)
-                            return <li>Ethernet</li>;
-                        }}
-                        {() => {
-                            if (roomInfo.computers)
-                            return <li>Computadoras</li>;
-                        }}
-                        {() => {
-                            if (roomInfo.double_monitor)
-                            return <li>Monitor Doble</li>;
-                        }}
-                        <li>Asientos: {roomInfo.seats}</li>
-                        <li>Tomas de corriente: {roomInfo.energy_outlets}</li>
-                    </Flex>
-                </Flex>
-                <p>{roomInfo.name}</p>
+                {roomInfoContainer}
             </Flex>
+            </div>
 
             {/* Reservation Details */}
             <Flex direction="column">
+                <Heading level={3}>Reservar</Heading>
                 <h3>Seleccion de inicio de la reserva</h3>
-                <Calendar></Calendar>
-                <h3>Duracion de la reserva</h3>
-                <select>
-                    <option>15 min</option>
-                    <option>30 min</option>
-                    <option>45 min</option>
-                    <option>60 min</option>
-                </select>
+                <TextField  label='Fecha' name='dateRoom' placeholder='DD/MM/AAAA' width='100%' required type='date'/>
+                <TextField  label='Hora (entre 10am y 10pm)' name='timeRoom' width='100%' required type='time'/>
+                <SelectField label='Duracion de Reserva' name='roomDuration' placeholder='Seleccionar' width='100%' required>
+                    <option value={15}>15 min</option>
+                    <option value={30}>30 min</option>
+                    <option value={45}>45 min</option>
+                    <option value={60}>60 min</option>
+                </SelectField>
             </Flex>
                 
             </Flex>
             <br></br>
             <Flex justifyContent="center">
-            <Button>Reservar</Button>
+            <Button onClick={() => {
+                console.log(userID)
+                console.log(roomID)
+                console.log(document.getElementsByName('dateRoom')[0].value)
+                console.log(document.getElementsByName('timeRoom')[0].value)
+                console.log(document.getElementsByName('roomDuration')[0].value)
+            }}>Reservar</Button>
             </Flex>
         </div>
         
@@ -252,56 +271,46 @@ const InventorySelection = () => {
         </TabItem>
 
         {/* ///////// Table and Form of Device ///////// */}
-        <TabItem title="Device" value={2} onSelect={handlerIndex}>
+        <TabItem title="Device">
         <br></br>
-        <Flex direction="row" justifyContent="center">
-
-        <ul>
+        <Flex direction="row" justifyContent="center" gap='2rem'>
+        {/* ////////// TABLE ////////// */}
+        <div className='itemList'>
             {listDevices}
-        </ul>
-
+        </div>
+        {/* ////////// FORM ////////// */}
         <div className="format">
             <Flex direction="row">
             {/* Description */}
+            <div className="description">
             <Flex direction="column">
-                <h2>{deviceInfo.name}</h2>
-                <Flex direction="row">
-                    <img/>
-                    <Flex direction="column">
-                        <h4>Caracteristicas</h4>
-                        {() => {
-                            if (deviceInfo.portable) {
-                            return <li>Portatil</li>;
-                            }
-                            else {
-                            return <li>Escritorio</li>
-                            }
-                        }}
-                        <li>Sistema Operativo: {deviceInfo.os}</li>
-                        <li>Almacenamiento: {deviceInfo.storage} GB</li>
-                        <li>Memoria: {deviceInfo.ram} GB</li>
-                    </Flex>
-                </Flex>
-                <p>{deviceInfo.description}</p>
+                {deviceInfoContainer}
             </Flex>
-
+            </div>
             {/* Reservation Details */}
             <Flex direction="column">
+                <Heading level={3}>Reservar</Heading>
                 <h3>Seleccion de inicio de la reserva</h3>
-                <Calendar></Calendar>
-                <h3>Duracion de la reserva</h3>
-                <select>
-                    <option>15 min</option>
-                    <option>30 min</option>
-                    <option>45 min</option>
-                    <option>60 min</option>
-                </select>
+                <TextField  label='Fecha' name='dateDevice' placeholder='DD/MM/AAAA' width='100%' required type='date'/>
+                <TextField  label='Hora (entre 10am y 10pm)' name='timeDevice' width='100%' required type='time'/>
+                <SelectField label='Duracion de Reserva' name='deviceDuration' placeholder='Seleccionar' width='100%' required>
+                    <option value={15}>15 min</option>
+                    <option value={30}>30 min</option>
+                    <option value={45}>45 min</option>
+                    <option value={60}>60 min</option>
+                </SelectField>
             </Flex>
                 
             </Flex>
             <br></br>
             <Flex justifyContent="center">
-            <Button>Reservar</Button>
+            <Button onClick={() => {
+                console.log(userID)
+                console.log(deviceID)
+                console.log(document.getElementsByName('dateDevice')[0].value)
+                console.log(document.getElementsByName('timeDevice')[0].value)
+                console.log(document.getElementsByName('deviceDuration')[0].value)
+            }}>Reservar</Button>
             </Flex>
         </div>
         

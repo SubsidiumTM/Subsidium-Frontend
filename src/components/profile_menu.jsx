@@ -14,8 +14,9 @@ import Admin_inventory from './admin_inventory';
 const Profile_menu = ({ signOut }) => {
     // Page variables
     const [userInfo, setUserInfo] = useState([]);
+    const [userID, setUserID] = useState([]);
     const [selectView, setSelectView] = useState(0);
-    const views = [<Profile_information />, <Profile_reservations />, <Admin_inventory />];
+    const views = [<Profile_information />, <Profile_reservations userID={userID} />, <Admin_inventory />];
 
     useEffect(() => {
         getInfo();
@@ -41,6 +42,7 @@ const Profile_menu = ({ signOut }) => {
         ))
         }
         else {
+        setUserID(response2.listUsers.items[0].id);
         console.log("Ya esta registrado")
         }
     }

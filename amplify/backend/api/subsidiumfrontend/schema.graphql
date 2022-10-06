@@ -75,6 +75,8 @@ type Reservation @model {
 	licenceID: ID
 	roomID: ID
 	reservationDate: String!
+	reservationTime: String
+	reservationDuration: Int # in minutes
 	state: String!
 }
 

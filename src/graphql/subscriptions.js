@@ -253,6 +253,8 @@ export const onCreateReservation = /* GraphQL */ `
       licenceID
       roomID
       reservationDate
+      reservationTime
+      reservationDuration
       state
       createdAt
       updatedAt
@@ -268,6 +270,8 @@ export const onUpdateReservation = /* GraphQL */ `
       licenceID
       roomID
       reservationDate
+      reservationTime
+      reservationDuration
       state
       createdAt
       updatedAt
@@ -283,6 +287,8 @@ export const onDeleteReservation = /* GraphQL */ `
       licenceID
       roomID
       reservationDate
+      reservationTime
+      reservationDuration
       state
       createdAt
       updatedAt

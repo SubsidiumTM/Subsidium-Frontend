@@ -448,6 +448,97 @@ export class APImethods {
     };
     */
 
+    // CRUD Reservations
+
+    /*
+    const newReservation = {
+        id: id,
+        userID: userID_u,
+        deviceID: deviceID_u,
+        licenceID: licenceID_u,
+        roomID: roomID_u,
+        reservationDate: reservationDate_u,
+        reservationTime: reservationTime_u,
+        reservationDuration: reservationDuration_u,
+        state: state_u
+    };
+    */
+
+    static async createReservation(
+        userID_u,
+        deviceID_u,
+        licenceID_u,
+        roomID_u,
+        reservationDate_u,
+        reservationTime_u,
+        reservationDuration_u,
+        state_u) {
+        const newReservation = {
+            userID: userID_u,
+            deviceID: deviceID_u,
+            licenceID: licenceID_u,
+            roomID: roomID_u,
+            reservationDate: reservationDate_u,
+            reservationTime: reservationTime_u,
+            reservationDuration: reservationDuration_u,
+            state: state_u
+        };
+        const response = await API.graphql({ query: mutations.createReservation, variables: { input: newReservation } });
+    }
+
+    static async allReservations() {
+        const response = await API.graphql({ query: queries.listReservations });
+        //cosole.log(response.data.listReservations.items);
+        return response.data.listReservations.items;
+        // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+    }
+
+    static async allReservationsByUser(userID) {
+        let filter = {
+            userID: {
+                eq: userID // filter priority = 1
+            }
+        };
+        const response = await API.graphql(graphqlOperation(queries.listReservations, { filter: filter }));
+        //cosole.log(response.data.listReservations.items);
+        return response.data.listReservations.items;
+        // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+    }
+
+    static async getReservation(reservationID) {
+        const response = await API.graphql(graphqlOperation(queries.getReservation, { id: reservationID }));
+        //cosole.log(response.data.getReservation);
+        return response.data.getReservation;
+        // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+    }
+
+    static async updateReservation(reservationID,
+        userID_u,
+        deviceID_u,
+        licenceID_u,
+        roomID_u,
+        reservationDate_u,
+        reservationTime_u,
+        reservationDuration_u,
+        state_u) {
+        const newReservation = {
+            id: reservationID,
+            userID: userID_u,
+            deviceID: deviceID_u,
+            licenceID: licenceID_u,
+            roomID: roomID_u,
+            reservationDate: reservationDate_u,
+            reservationTime: reservationTime_u,
+            reservationDuration: reservationDuration_u,
+            state: state_u
+        };
+        const response = await API.graphql({ query: mutations.updateReservation, variables: { input: newReservation } });
+    }
+
+    static async deleteReservation(reservationID) {
+        const response = await API.graphql({ query: mutations.deleteReservation, variables: { input: { id: reservationID } } });
+    }
+
     // CRUD News
 
     /*
