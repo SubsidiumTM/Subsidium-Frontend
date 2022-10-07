@@ -25,7 +25,7 @@ function About_us() {
           alignItems= "center">
 
             <view>
-             <img src= 'https://drive.google.com/file/d/1sj4Tfd39rJyBJJA2Mm6WKQ3r4IIuEyOe/view?usp=sharing'/>
+             <img src = "images/DirectorHub.png" alt="DirectorHub" />
              <p> Gonzalo García-Belenguer Cuchi </p>
              <a href="https://www.linkedin.com/in/gonzalo-garc%C3%ADa-belenguer-63968768"> ggarciab@tec.mx </a>
             </view>
@@ -47,40 +47,47 @@ function About_us() {
 
       <div>
         <h2> Nuestros socios </h2>
-        <p> IMAGEN VRGAS </p>
+        <img src= "images/Socios.png" alt="Socios" />
       </div>
 
       <div>
         <h2> Líneas de trabajo </h2>
-        <p> IMAGEN VRGAS2 </p>
+        <img src="images/LineasTrabajo.png" alt="LT" />
       </div>
 
       <div>
         <h2> En caso de registrarse el Hub ofrece la posibilidad de reservación de los siguientes recursos: </h2>
-        <Flex
-          direction= "row"
-          justifyContent= "flex-start" 
-          alignItems= "center">
+        <table>
 
-            <view>
-              <p> Imagen1 </p>
-              <p> Imagen2 </p>
-              <p> Imagen3 </p>
-            </view>
-
-            <view>
+          <tr>
+            <td>
+              <img src="images/EspaciosAU.png" alt="Espacios" />
+            </td>
+            <td>
               <p> Ofrecemos la posibilidad de reservar espacios con ciertas características para promover el trabajo y el aprendizaje. </p>
-              <p> A los miembros se les ofrece la posibilidad de poder reservar equipos de cómputo para promover el aprendizaje. </p>
-              <p> En caso de ser necesario, se ofrece la posibilidad de utilizar licencias de software establecidas por cierto tiempo. </p>
-            </view>
-        </Flex>
-      </div>
+            </td>
+          </tr>
 
-      <footer>
-        <div>
-          <p> footer mamalon</p>
-        </div>
-      </footer>
+          <tr>
+            <td>
+              <img src="images/HardwareAU.png" alt="Hardware" />
+            </td>
+            <td>
+              <p> A los miembros se les ofrece la posibilidad de poder reservar equipos de cómputo para promover el aprendizaje. </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <img src="images/SoftwareAU.png" alt="Software" />
+            </td>
+            <td>
+             <p> En caso de ser necesario, se ofrece la posibilidad de utilizar licencias de software establecidas por cierto tiempo. </p>
+            </td>
+          </tr>
+
+        </table>
+      </div>
     </div>
   )
 }

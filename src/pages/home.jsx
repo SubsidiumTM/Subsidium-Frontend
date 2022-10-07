@@ -3,6 +3,8 @@ import 'antd/dist/antd.min.css';
 import { MoreOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Menu, PageHeader, Tag } from 'antd';
 
+import ContentHome from '../components/contentHome';
+
 function Home( ) {
 
     const menu = (
@@ -82,6 +84,7 @@ function Home( ) {
             avatar={{src: 'https://avatars.githubusercontent.com/u/60832329?v=4',}}
             breadcrumb={{routes,}}>
         </PageHeader>
+        <ContentHome></ContentHome>
         </div>
     );
 }
