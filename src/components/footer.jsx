@@ -10,21 +10,21 @@ function Footer() {
         <a href="/sobre-nosotros">Sobre Nosotros</a>
     </Flex>*/
     <footer>
-      <div style={{color: "white", backgroundColor: "black"}}>
-      <img src="images/subsidium_full_logo.png" alt="subsidium" width= "250px" height= "200px"/>
-        <table style={{   tableLayout: "auto", width: "50%", textAlign: "left"  }}>
+      <div>
+        <img src="images/subsidium_full_logo.png" alt="subsidium"/>
+        <table>
 
-          <th> Direccion </th>
-          <th> Ligas de interes </th>
+          <th> Dirección </th>
+          <th> Ligas de interés </th>
 
           <tr>
             <td> Av Carlos Lazo 100, Santa Fe, La Loma, Álvaro Obregón, 01389 Ciudad de México, CDMX </td>
-            <td> miTec </td>
+            <td> <a href="https://tec.mx/es"> Tecnológico de Monterrey </a> </td>
           </tr>
 
           <tr>
             <td> Tel. +52 55 9177 8000 </td>
-            <td> canvas </td>
+            <td> <a href="https://conecta.tec.mx/es"> CONECTA </a> </td>
           </tr>
         </table>
       </div>

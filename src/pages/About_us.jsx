@@ -1,61 +1,112 @@
 import { Flex } from '@aws-amplify/ui-react';
 import React from 'react'
+import '../components/About_us.css'
 
 function About_us() {
+
   return (
-    <div>
+    <div className='General'>
       <h1> HUB DE CIBERSEGURIDAD </h1>
-      <p> El Hub de Ciberseguridad del Tecnológico de 
-      Monterrey abona a la visión estratégica rumbo al 
-      2030, que busca el florecimiento humano a 
-      través del liderazgo, el emprendimiento y la 
-      innovación.</p>
-      <h2> Objetivo </h2>
-      <p> El objetivo es brindar soporte para organizaciones 
-      que demandan salvaguarda en sus redes de 
-      información estratégica y que lo hace a través de 
-      programas de innovación tecnológica de 
-      consultoría de capacitación. </p>
-      
-      <div>
+      <img src="images/AboutUs1.JPG" alt="1" className='imgSpecial'/>
+
+      <div className='Info'>
+        <p> El Hub de Ciberseguridad del Tecnológico de 
+        Monterrey abona a la visión estratégica rumbo al 
+        2030, que busca el florecimiento humano a 
+        través del liderazgo, el emprendimiento y la 
+        innovación. Además, suma al modelo educativo Tec21 para 
+        formar a líderes con los valores y competencias 
+        necesarias para resolver los retos y capturar las 
+        oportunidades que tendremos en el siglo XXI. El Hub forma parte de la Escuela de Ingeniería y 
+        Ciencias, cuenta con una superficie de 278 
+        metros cuadrados, además de equipo de última 
+        generación para que las personas que hagan uso 
+        de estas instalaciones encuentren soluciones a 
+        los principales retos a los que se enfrentan las 
+        empresas. Con una muy prominente presencia tanto en 
+        México como en Latinoamérica con el Hub de 
+        Ciberseguridad nos hemos presentado como una 
+        plataforma de trabajo abierta interactiva 
+        colaborativa multi organizaciona. Contará con espacios especializados como el 
+        cyberlink, laboratorio de ciberseguridad en 
+        internet de las cosas, un área de 
+        emprendimiento, para incentivar la innovación y 
+        generación de conocimiento, así como una 
+        incubadora de empresas.</p>
+      </div>
+
+      <div className='Objetivo'>
+        <h2> Objetivo </h2>
+        <p> El objetivo es brindar soporte para organizaciones 
+        que demandan salvaguarda en sus redes de 
+        información estratégica y que lo hace a través de 
+        programas de innovación tecnológica de 
+        consultoría de capacitación. Así como también a través de eventos de difusión 
+        y concientización sobre la necesidad permanente 
+        de contar con las herramientas con el personal 
+        capacitado y los servicios alrededor del tema de 
+        ciberseguridad. Es por ello que en el Tec hemos apostado en 
+        desarrollar recursos y capital humano en esta 
+        disciplina qué tanta demanda tiene la actualidad 
+        y que estamos seguros se va expandir hacia el 
+        futuro </p>
+      </div>
+
+      <div className='Director'>
         <h2> Director del Hub </h2>
         <Flex
           direction= "row"
           justifyContent= "flex-start" 
           alignItems= "center">
 
-            <view>
-             <img src = "images/DirectorHub.png" alt="DirectorHub" />
-             <p> Gonzalo García-Belenguer Cuchi </p>
+            <view className='DirInfo'>
+             <img src = "images/DirHub.png" alt="DirectorHub" className='imgSpecial'/>
+             {/*<p> Gonzalo García-Belenguer Cuchi </p>*/}
              <a href="https://www.linkedin.com/in/gonzalo-garc%C3%ADa-belenguer-63968768"> ggarciab@tec.mx </a>
             </view>
 
             <view>
-            <p> El Tec de Monterrey viene haciendo un trabajo excelente en materia 
-            de ciberseguridad con iniciativa y aliados estratégicos.
-            Me gustaría dar seguimiento a todas las buenas iniciativas y 
-            actividades que se vienen haciendo, las relaciones que se han 
-            desarrollado y fortalecer y desarrollar otras nuevas.
-            Por ejemplo, impulsar al género femenino a adentrarse a la 
-            materia, como saben menos del 10% del sector de ciberseguridad 
-            son mujeres. Debemos poner nuestro grano de arena y apoyar 
-            estas iniciativas </p>
+              <h3> Gonzalo García-Belenguer Cuchi </h3>
+              <p> Executive MBA - IE Business School, con historial demostrado de trabajo 
+              en la industria de asuntos internacionales. Conocedor y Experto en Asuntos 
+              de Ciberseguridad, Relaciones Internacionales y Políticas Públicas, Nuevas 
+              Tecnologías de la Comunicación y Artes Gráficas. </p>
+              <p>
+                El Tec de Monterrey viene haciendo un trabajo excelente en materia 
+                de ciberseguridad con iniciativa y aliados estratégicos.
+                Me gustaría dar seguimiento a todas las buenas iniciativas y 
+                actividades que se vienen haciendo, las relaciones que se han 
+                desarrollado y fortalecer y desarrollar otras nuevas.
+                Por ejemplo, impulsar al género femenino a adentrarse a la 
+                materia, como saben menos del 10% del sector de ciberseguridad 
+                son mujeres. Debemos poner nuestro grano de arena y apoyar 
+                estas iniciativas. 
+              </p>
             </view>
 
         </Flex>
       </div>
 
-      <div>
+      <hr>
+      </hr>
+
+      <div className='Socios'>
         <h2> Nuestros socios </h2>
-        <img src= "images/Socios.png" alt="Socios" />
+        {/*<img src= "images/Socios.png" alt="Socios" />*/}
       </div>
 
-      <div>
+      <hr>
+      </hr>
+
+      <div className='LTrabajo'>
         <h2> Líneas de trabajo </h2>
-        <img src="images/LineasTrabajo.png" alt="LT" />
+        {/*<img src="images/LineasTrabajo.png" alt="LT" />*/}
       </div>
 
-      <div>
+      <hr>
+      </hr>
+
+      <div className='Tabla'>
         <h2> En caso de registrarse el Hub ofrece la posibilidad de reservación de los siguientes recursos: </h2>
         <table>
 
@@ -86,8 +137,18 @@ function About_us() {
             </td>
           </tr>
 
+          <tr>
+            <td>
+              <p></p>
+            </td>
+            <td>
+             <p></p>
+            </td>
+          </tr>
+
         </table>
       </div>
+
     </div>
   )
 }

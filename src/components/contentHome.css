@@ -1,0 +1,29 @@
+.Bienvenida{
+    background-image: url("../../public/images/BackgroundHome.jpg");
+    background-repeat: no-repeat;
+    background-position: right;
+    color: white;
+    background-color: rgba(19,27,48,255);
+}
+
+.FlexImgHub img{
+    width: 255px;
+    height: 255px;
+}
+
+body{
+    color: white;
+    background-color: rgba(19,27,48,255);
+    text-align: center;
+}
+
+a{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+h1, h2{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+  }
