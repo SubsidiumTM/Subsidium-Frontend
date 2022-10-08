@@ -61,7 +61,9 @@ function App() {
       {/* <SignUpSide /> */}
     
     </div>
-    <Footer />
+    <Footer></Footer>
+    {/*-<Footer />*/}
+    
     </>
   );
 }
