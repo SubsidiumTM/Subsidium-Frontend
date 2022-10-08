@@ -33,8 +33,9 @@ const News_preview_list = () => {
     async function getUser() {
         const response = await Auth.currentUserInfo();
         const username = response.username;
-        const userInfo = await APImethods.getUser();
+        const userInfo = await APImethods.getUser(username);
         setUser(userInfo.listUsers.items[0].type)
+        console.log(userInfo)
     }
 
     // Buttons by permissinon

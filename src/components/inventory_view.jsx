@@ -197,24 +197,43 @@ const InventorySelection = () => {
                 <Heading level={3}>Reservar</Heading>
                 <h3>Seleccion de inicio de la reserva</h3>
                 <TextField  label='Fecha' name='dateLicence' placeholder='DD/MM/AAAA' width='100%' required type='date'/>
-                <TextField  label='Hora (entre 10am y 10pm)' name='timeLicence' width='100%' required type='time'/>
                 <SelectField label='Duracion de Reserva' name='licenceDuration' placeholder='Seleccionar' width='100%' required>
-                    <option value={15}>15 min</option>
-                    <option value={30}>30 min</option>
-                    <option value={45}>45 min</option>
-                    <option value={60}>60 min</option>
+                    <option value={(5*24*60)}>5 dias</option>
+                    <option value={(10*24*60)}>10 dias</option>
+                    <option value={(15*24*60)}>15 dias</option>
+                    <option value={(20*24*60)}>20 dias</option>
                 </SelectField>
             </Flex>
                 
             </Flex>
             <br></br>
             <Flex justifyContent="center">
-            <Button onClick={() => {
-                console.log(userID)
-                console.log(licenceID)
-                console.log(document.getElementsByName('dateLicence')[0].value)
-                console.log(document.getElementsByName('timeLicence')[0].value)
-                console.log(document.getElementsByName('licenceDuration')[0].value)
+            <Button onClick={async() => {
+                if (userID === '' |
+                    licenceID === '' |
+                    document.getElementsByName('dateLicence')[0].value === '' |
+                    document.getElementsByName('licenceDuration')[0].value === '') {
+                    alert('Por favor complete todos los campos')
+                }
+                else {
+                    console.log(userID)
+                    console.log(licenceID)
+                    console.log(document.getElementsByName('dateLicence')[0].value)
+                    console.log(parseInt(document.getElementsByName('licenceDuration')[0].value))
+                    document.getElementsByName('dateLicence')[0].value = ''
+                    document.getElementsByName('licenceDuration')[0].value = ''
+                    await APImethods.createReservation(
+                        userID,
+                        null,
+                        licenceID,
+                        null,
+                        document.getElementsByName('dateLicence')[0].value,
+                        null,
+                        parseInt(document.getElementsByName('licenceDuration')[0].value),
+                        "PENDIENTE"            
+                    )
+                    console.log('Reserva creada')
+                }
             }}>Reservar</Button>
             </Flex>
         </div>
@@ -257,12 +276,35 @@ const InventorySelection = () => {
             </Flex>
             <br></br>
             <Flex justifyContent="center">
-            <Button onClick={() => {
-                console.log(userID)
-                console.log(roomID)
-                console.log(document.getElementsByName('dateRoom')[0].value)
-                console.log(document.getElementsByName('timeRoom')[0].value)
-                console.log(document.getElementsByName('roomDuration')[0].value)
+            <Button onClick={async () => {
+                if (userID === '' |
+                    roomID === '' |
+                    document.getElementsByName('dateRoom')[0].value === '' |
+                    document.getElementsByName('timeRoom')[0].value === '' |
+                    document.getElementsByName('roomDuration')[0].value === '') {
+                    alert('Por favor complete todos los campos')
+                }
+                else {
+                    console.log(userID)
+                    console.log(roomID)
+                    console.log(document.getElementsByName('dateRoom')[0].value)
+                    console.log(document.getElementsByName('timeRoom')[0].value)
+                    console.log(parseInt(document.getElementsByName('roomDuration')[0].value))
+                    document.getElementsByName('dateRoom')[0].value = ''
+                    document.getElementsByName('timeRoom')[0].value = ''
+                    document.getElementsByName('roomDuration')[0].value = ''
+                    await APImethods.createReservation(
+                        userID,
+                        null,
+                        null,
+                        roomID,
+                        document.getElementsByName('dateRoom')[0].value,
+                        document.getElementsByName('timeRoom')[0].value,
+                        parseInt(document.getElementsByName('roomDuration')[0].value),
+                        "PENDIENTE"            
+                    )
+                    console.log('Reserva creada')
+                }
             }}>Reservar</Button>
             </Flex>
         </div>
@@ -292,12 +334,11 @@ const InventorySelection = () => {
                 <Heading level={3}>Reservar</Heading>
                 <h3>Seleccion de inicio de la reserva</h3>
                 <TextField  label='Fecha' name='dateDevice' placeholder='DD/MM/AAAA' width='100%' required type='date'/>
-                <TextField  label='Hora (entre 10am y 10pm)' name='timeDevice' width='100%' required type='time'/>
                 <SelectField label='Duracion de Reserva' name='deviceDuration' placeholder='Seleccionar' width='100%' required>
-                    <option value={15}>15 min</option>
-                    <option value={30}>30 min</option>
-                    <option value={45}>45 min</option>
-                    <option value={60}>60 min</option>
+                    <option value={(5*24*60)}>5 dias</option>
+                    <option value={(10*24*60)}>10 dias</option>
+                    <option value={(15*24*60)}>15 dias</option>
+                    <option value={(20*24*60)}>20 dias</option>
                 </SelectField>
             </Flex>
                 
@@ -305,11 +346,31 @@ const InventorySelection = () => {
             <br></br>
             <Flex justifyContent="center">
             <Button onClick={() => {
-                console.log(userID)
-                console.log(deviceID)
-                console.log(document.getElementsByName('dateDevice')[0].value)
-                console.log(document.getElementsByName('timeDevice')[0].value)
-                console.log(document.getElementsByName('deviceDuration')[0].value)
+                if (userID === '' |
+                    deviceID === '' |
+                    document.getElementsByName('dateDevice')[0].value === '' |
+                    document.getElementsByName('deviceDuration')[0].value === '') {
+                    alert('Por favor complete todos los campos')
+                }
+                else {
+                    console.log(userID)
+                    console.log(deviceID)
+                    console.log(document.getElementsByName('dateDevice')[0].value)
+                    console.log(parseInt(document.getElementsByName('deviceDuration')[0].value))
+                    document.getElementsByName('dateDevice')[0].value = ''
+                    document.getElementsByName('deviceDuration')[0].value = ''
+                    APImethods.createReservation(
+                        userID,
+                        deviceID,
+                        null,
+                        null,
+                        document.getElementsByName('dateDevice')[0].value,
+                        null,
+                        parseInt(document.getElementsByName('deviceDuration')[0].value),
+                        "PENDIENTE"            
+                    )
+                    console.log('Reserva creada')
+                }
             }}>Reservar</Button>
             </Flex>
         </div>

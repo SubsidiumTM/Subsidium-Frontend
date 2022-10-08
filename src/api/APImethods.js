@@ -1,4 +1,4 @@
-import { API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation, Storage } from "aws-amplify";
 import { GraphQLEnumType } from "graphql";
 // import { getDevice, listDevices } from "../graphql/queries";
 import * as queries from '../graphql/queries';
@@ -602,4 +602,35 @@ export class APImethods {
     static async deleteNew(newID) {       
         const response = await API.graphql({ query: mutations.deleteNew, variables: {input: {id: newID}}});
     }
+
+    // Images
+
+    static async uploadImage(file) {
+        console.log(file)
+        try {
+        await Storage.put(file.name, file, {
+            contentType: "image/png", // contentType is optional
+        });
+        } catch (error) {
+        console.log("Error uploading file: ", error);
+        }
+    }
+
+    static async deleteImage(filename) {
+        try {
+        await Storage.remove(filename);
+        } catch (error) {
+        console.log("Error removing file: ", error);
+        }
+    }
+
+    static async getImage(filename) {
+        try {
+        const url = await Storage.get(filename);
+        return url;
+        } catch (error) {
+        console.log("Error getting file: ", error);
+        }
+    }
+
 }

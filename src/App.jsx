@@ -20,6 +20,7 @@ import Identify from './pages/CustomAuthenticator';
 import Manager from './components/manage_inventory';
 import Manage_users from './pages/Manage_users';
 import Notes from './pages/Notes';
+import Test from './pages/Test';
 
 // Persistent in every PAge
 import Footer from './components/footer';
@@ -52,6 +53,7 @@ function App() {
         <Route path='/notes' element={<Notes signOut={undefined} />} />
         <Route path='/profile/manage-inventory' element={<Manager signOut={undefined} />} />
         <Route path='/auth' element={<Identify />} />
+        {/* <Route path='/test' element={<Test />} /> */}
 
       </Routes>
       </BrowserRouter>
