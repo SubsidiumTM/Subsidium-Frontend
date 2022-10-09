@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Flex, Tabs, TabItem, Heading, TextField, Text, SelectField } from '@aws-amplify/ui-react';
+import { Flex, Tabs, TabItem, Heading, TextField, Text, SelectField, Loader } from '@aws-amplify/ui-react';
 import { Auth } from 'aws-amplify';
 import { APImethods } from "../api/APImethods";
 import { Button } from 'antd';
-
 import './inventory_view.css';
 
 const InventorySelection = () => {
@@ -69,23 +68,29 @@ const InventorySelection = () => {
     }
 
     // List item variables
-    const listRooms = rooms.map((room) => 
-        <div className="item">
-        <h2>{room.name}</h2>
-        <Button value={room} onClick={() => {selectRoom(room)}}>Ver</Button>
-        </div>
+    const listRooms = rooms.map((room) =>
+        <Item 
+        item={room} 
+        onSelectClick={() => {
+            selectRoom(room)
+        }} 
+        />
     );
     const listLicences = licences.map((licence) => 
-        <div className="item">
-        <h2>{licence.name}</h2>
-        <Button value={licence} onClick={() => {selectLicence(licence)}}>Ver</Button>
-        </div>
+        <Item 
+        item={licence} 
+        onSelectClick={() => {
+            selectLicence(licence)
+        }} 
+        />
     );
     const listDevices = devices.map((device) => 
-        <div className="item">
-        <h2>{device.name}</h2>
-        <Button value={device} onClick={() => {selectDevice(device)}}>Ver</Button>
-        </div>
+        <Item 
+        item={device} 
+        onSelectClick={() => {
+            selectDevice(device)
+        }} 
+        />
     );
 
     // Fill in formats
@@ -220,8 +225,6 @@ const InventorySelection = () => {
                     console.log(licenceID)
                     console.log(document.getElementsByName('dateLicence')[0].value)
                     console.log(parseInt(document.getElementsByName('licenceDuration')[0].value))
-                    document.getElementsByName('dateLicence')[0].value = ''
-                    document.getElementsByName('licenceDuration')[0].value = ''
                     await APImethods.createReservation(
                         userID,
                         null,
@@ -232,6 +235,8 @@ const InventorySelection = () => {
                         parseInt(document.getElementsByName('licenceDuration')[0].value),
                         "PENDIENTE"            
                     )
+                    document.getElementsByName('dateLicence')[0].value = ''
+                    document.getElementsByName('licenceDuration')[0].value = ''
                     console.log('Reserva creada')
                 }
             }}>Reservar</Button>
@@ -290,9 +295,6 @@ const InventorySelection = () => {
                     console.log(document.getElementsByName('dateRoom')[0].value)
                     console.log(document.getElementsByName('timeRoom')[0].value)
                     console.log(parseInt(document.getElementsByName('roomDuration')[0].value))
-                    document.getElementsByName('dateRoom')[0].value = ''
-                    document.getElementsByName('timeRoom')[0].value = ''
-                    document.getElementsByName('roomDuration')[0].value = ''
                     await APImethods.createReservation(
                         userID,
                         null,
@@ -301,8 +303,11 @@ const InventorySelection = () => {
                         document.getElementsByName('dateRoom')[0].value,
                         document.getElementsByName('timeRoom')[0].value,
                         parseInt(document.getElementsByName('roomDuration')[0].value),
-                        "PENDIENTE"            
+                        "PENDIENTE"
                     )
+                    document.getElementsByName('dateRoom')[0].value = ''
+                    document.getElementsByName('timeRoom')[0].value = ''
+                    document.getElementsByName('roomDuration')[0].value = ''
                     console.log('Reserva creada')
                 }
             }}>Reservar</Button>
@@ -357,8 +362,6 @@ const InventorySelection = () => {
                     console.log(deviceID)
                     console.log(document.getElementsByName('dateDevice')[0].value)
                     console.log(parseInt(document.getElementsByName('deviceDuration')[0].value))
-                    document.getElementsByName('dateDevice')[0].value = ''
-                    document.getElementsByName('deviceDuration')[0].value = ''
                     APImethods.createReservation(
                         userID,
                         deviceID,
@@ -369,6 +372,8 @@ const InventorySelection = () => {
                         parseInt(document.getElementsByName('deviceDuration')[0].value),
                         "PENDIENTE"            
                     )
+                    document.getElementsByName('dateDevice')[0].value = ''
+                    document.getElementsByName('deviceDuration')[0].value = ''
                     console.log('Reserva creada')
                 }
             }}>Reservar</Button>
@@ -384,3 +389,27 @@ const InventorySelection = () => {
 }
 
 export default InventorySelection
+
+function Item(props) {
+    const item = props.item;
+    const [ready, setReady] = useState(false)
+    const [imageURL, setImageURL] = useState('');
+
+    useEffect(() =>{
+        async function getImage(){
+            const url = await APImethods.getImage(item.images[0]);
+            setImageURL(url);
+            item['imageURL'] = url;
+        }
+        getImage();        
+        setReady(true);
+    }, []);
+
+    return (
+        <div className="item">
+        {ready? <img src={imageURL} width="100%" height="100%"/> : <Loader />}
+        <h2>{item.name}</h2>
+        <Button value={item} onClick={props.onSelectClick}>Ver</Button>
+        </div>
+    )
+}
