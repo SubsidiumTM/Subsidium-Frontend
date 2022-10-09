@@ -19,3 +19,38 @@ div.content {
     background-color: white;
     overflow: auto;
 }
+
+/* classname form aligned to the right and covering half of the container */
+.form {
+    position: relative;
+    top: 0;
+    margin-left: 5%;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-color: white;
+    overflow: auto;
+}
+
+/* div item with a height fit to content and as a round corner */
+div.item {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: fit-content;
+    background-color: white;
+    border-radius: 10px;
+    overflow: auto;
+}
+
+/* div item_list with height of cointainer and overflow for content */
+div.item_list {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    background-color: white;
+    overflow: auto;
+}

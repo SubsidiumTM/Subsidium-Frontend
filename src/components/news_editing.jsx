@@ -75,7 +75,6 @@ const News_editing = (props) => {
                     const newBody = body;
                     newBody.image = '';
                     setBody(newBody);
-                    setBody(newBody);
                     setImageURL('');
                 }}>Borrar Imagen</Button>
             </>

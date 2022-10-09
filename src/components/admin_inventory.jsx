@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Heading, Tabs, TabItem, Flex, Button, TextField, CheckboxField, StepperField, TextAreaField, Text } from '@aws-amplify/ui-react'
+import { Heading, Tabs, TabItem, Flex, Button, TextField, CheckboxField, StepperField, TextAreaField, Text, Loader } from '@aws-amplify/ui-react'
 import { APImethods } from '../api/APImethods';
-import { hasDirectives } from '@apollo/client/utilities';
 
 function Admin_inventory() {
     // Page info
     const [devices, setDevices] = useState([]);
     const [rooms, setRooms] = useState([]);
     const [licences, setLicences] = useState([]);
+    const [displayImageURL, setDisplayImageURL] = useState('');
 
     // Empty forms for items
     const deviceForm = {id:'nuevo', name:'', portable:false, os:'', storage:0, ram:0, description:'', images:['']};
@@ -68,49 +68,46 @@ function Admin_inventory() {
 
     // List of items to render
     const listDevices = devices.map((device) => 
-        <div className="item">
-        <Flex direction="row" gap="2rem">
-        <Flex direction="column">    
-        <h3>{device.name}</h3>
-        <Text fontSize={9}>ID {device.id}</Text>  
-        </Flex>
-        <Button onClick={() => {
+        <Item 
+        item={device} 
+        onEditClick={
+            async () => {
             setDevice(device);
+            setDisplayImageURL(await APImethods.getImage(device.images[0]));
             setEditingDevice(true);
-        }}>Editar</Button>
-        <Button onClick={() => {deleteDevice(device.id)}}>Eliminar</Button>
-        </Flex>
-        </div>
+        }}
+        onDeleteClick={
+            () => {deleteDevice(device.id)}
+        }
+        /> 
     )
     const listLicences = licences.map((licence) => 
-        <div className="item">
-        <Flex direction="row" gap="2rem" justifyContent='right'>
-        <Flex direction="column">  
-        <h3>{licence.name}</h3>
-        <Text fontSize={9}>ID {licence.id}</Text>    
-        </Flex>
-        <Button onClick={() => {
+        <Item 
+        item={licence} 
+        onEditClick={
+            async () => {
             setLicence(licence);
+            setDisplayImageURL(await APImethods.getImage(licence.images[0]));
             setEditingLicence(true);
-        }}>Editar</Button>
-        <Button onClick={() => {deleteLicence(licence.id)}}>Eliminar</Button>
-        </Flex>
-        </div>
+        }}
+        onDeleteClick={
+            () => {deleteLicence(licence.id)}
+        }
+        />
     )
     const listRooms = rooms.map((room) => 
-        <div className="item">
-        <Flex direction="row" gap="2rem">
-        <Flex direction="column"> 
-        <h3>{room.name}</h3>
-        <Text fontSize={9}>ID {room.id}</Text>     
-        </Flex>
-        <Button onClick={() => {
+        <Item 
+        item={room} 
+        onEditClick={
+            async () => {
             setRoom(room);
+            setDisplayImageURL(await APImethods.getImage(room.images[0]));
             setEditingRoom(true);
-        }}>Editar</Button>
-        <Button onClick={() => {deleteRoom(room.id)}}>Eliminar</Button>
-        </Flex>
-        </div>
+        }}
+        onDeleteClick={
+            () => {deleteRoom(room.id)}
+        }
+        />
     )
     
     // Buttons
@@ -311,6 +308,110 @@ function Admin_inventory() {
         }
     }
 
+    // Image Controll
+    const imageSelectionDevice = () => {
+        if (device.images[0] == "") {
+            return <>
+                <input id='imageDevice' type='file' accept='image/*' />
+                <Button onClick={async () => {
+                    try {
+                        const file = document.getElementById('imageDevice').files[0]
+                        const filename = file.name
+                        await APImethods.uploadImage(file)
+                        const newDevice = device;
+                        device.images = [filename];
+                        setDevice(newDevice);
+                        setDisplayImageURL(await APImethods.getImage(filename))
+                    }
+                    catch (error) {
+                        console.log("No se ha elegido una imagen")
+                    }
+                }}>Subir Imagen</Button>
+            </>
+        }
+        else {
+            return <>
+                <img src={displayImageURL} alt='Imagen del recurso' height='100px' width='100px'/>
+                <Button onClick={async () => {
+                    console.log(device)
+                    await APImethods.deleteImage(device.images[0]);
+                    const newDevice = device;
+                    newDevice.images = [''];
+                    setDevice(newDevice);
+                    setDisplayImageURL('')
+                }}>Borrar Imagen</Button>
+            </>
+        }
+    }
+    const imageSelectionLicence = () => {
+        if (licence.images[0] == "") {
+            return <>
+                <input id='imageLicence' type='file' accept='image/*' />
+                <Button onClick={async () => {
+                    try {
+                        const file = document.getElementById('imageLicence').files[0]
+                        const filename = file.name
+                        await APImethods.uploadImage(file)
+                        const newLicence = licence;
+                        licence.images = [filename];
+                        setLicence(newLicence);
+                        setDisplayImageURL(await APImethods.getImage(filename))
+                    }
+                    catch (error) {
+                        console.log("No se ha elegido una imagen")
+                    }
+                }}>Subir Imagen</Button>
+            </>
+        }
+        else {
+            return <>
+                <img src={displayImageURL} alt='Imagen del recurso' height='100px' width='100px'/>
+                <Button onClick={async () => {
+                    console.log(licence)
+                    await APImethods.deleteImage(licence.images[0]);
+                    const newLicence = licence;
+                    newLicence.images = [''];
+                    setLicence(newLicence);
+                    setDisplayImageURL('')
+                }}>Borrar Imagen</Button>
+            </>
+        }
+    }
+    const imageSelectionRoom = () => {
+        if (room.images[0] == "") {
+            return <>
+                <input id='imageRoom' type='file' accept='image/*' />
+                <Button onClick={async () => {
+                    try {
+                        const file = document.getElementById('imageRoom').files[0]
+                        const filename = file.name
+                        await APImethods.uploadImage(file)
+                        const newRoom = room;
+                        room.images = [filename];
+                        setRoom(newRoom);
+                        setDisplayImageURL(await APImethods.getImage(filename))
+                    }
+                    catch (error) {
+                        console.log("No se ha elegido una imagen")
+                    }
+                }}>Subir Imagen</Button>
+            </>
+        }
+        else {
+            return <>
+                <img src={displayImageURL} alt='Imagen del recurso' height='100px' width='100px'/>
+                <Button onClick={async () => {
+                    console.log(room)
+                    await APImethods.deleteImage(room.images[0]);
+                    const newRoom = room;
+                    newRoom.images = [''];
+                    setRoom(newRoom);
+                    setDisplayImageURL('')
+                }}>Borrar Imagen</Button>
+            </>
+        }
+    }
+
     return (
         <>
         <Flex direction="column">
@@ -322,7 +423,9 @@ function Admin_inventory() {
             <Flex direction="row">
             {/* List of Devices */}
             <Flex direction="column">
+            <div className="item_list">
             {listDevices}
+            </div>
             </Flex>
             {/* Form of Device */}
             <Flex className='form' direction="column">
@@ -333,6 +436,8 @@ function Admin_inventory() {
                 <TextField label="Sistema Operativo" name='deviceOS' defaultValue={device.os}/>
                 <StepperField label="Almacenamiento (GB)" name='deviceStorage' defaultValue={device.storage} step={128} min={128}/>
                 <StepperField label="Memoria (GB)" name='deviceRAM' defaultValue={device.ram} step={2} min={2}/>
+                <Text fontSize={16}>Imagen</Text>
+                {imageSelectionDevice()}
                 <TextAreaField label="Descripcion" name='deviceDescription' defaultValue={device.description} required/>
                 {submitButtonDevice()}
             </Flex>
@@ -344,7 +449,9 @@ function Admin_inventory() {
             <Flex direction="row">
             {/* List of Devices */}
             <Flex direction="column">
+            <div className="item_list">
             {listLicences}
+            </div>
             </Flex>
             {/* Form of Device */}
             <Flex className='form' direction="column">
@@ -368,6 +475,8 @@ function Admin_inventory() {
                 <CheckboxField label="Arte" name='licenceCat4'/>
                 <CheckboxField label="Economia" name='licenceCat5'/>
                 </Flex>
+                <Text fontSize={16}>Imagen</Text>
+                {imageSelectionLicence()}
                 <TextAreaField label="Descripcion" name='licenceDescription' defaultValue={licence.description} />
                 {submitButtonLicence()}
             </Flex>
@@ -379,7 +488,9 @@ function Admin_inventory() {
             <Flex direction="row">
             {/* List of Devices */}
             <Flex direction="column">
+            <div className="item_list">
             {listRooms}
+            </div>
             </Flex>
             {/* Form of Room */}
             <Flex className='form' direction="column">
@@ -409,12 +520,13 @@ function Admin_inventory() {
                 </Flex>
                 <StepperField label="Asientos" name='roomSeats' defaultValue={room.seats} step={1} min={0}/>
                 <StepperField label="Tomas de Corriente" name='roomEnergyOutlets' defaultValue={room.energy_outlets} step={1} min={0}/>
+                <Text fontSize={16}>Imagen</Text>
+                {imageSelectionRoom()}
                 <TextAreaField label="Descripcion" name='roomDescription' defaultValue={room.description} />
                 {submitButtonRoom()}
             </Flex>
             </Flex>
             </TabItem>
-
 
         </Tabs>
         </Flex>
@@ -423,3 +535,37 @@ function Admin_inventory() {
 }
 
 export default Admin_inventory
+
+function Item(props){
+
+    const [ready, setReady] = useState(false)
+
+    const item = props.item;
+
+    const [imageURL, setImageURL] = useState('');
+
+    useEffect(() =>{
+        async function getImage(){
+            const url = await APImethods.getImage(item.images[0]);
+            setImageURL(url);
+        }
+        getImage();        
+        setReady(true);
+    }, []);
+
+    
+    return (
+        <div className="item">
+        <Flex direction="row" gap="2rem">
+        {/* Get image url from device.image[0] */}
+        {ready? <img src={imageURL} width='50px' height='50px' /> : <Loader />}
+        <Flex direction="column">
+        <h3>{item.name}</h3>
+        <Text fontSize={9}>ID {item.id}</Text>  
+        </Flex>
+        <Button onClick={props.onEditClick}>Editar</Button>
+        <Button onClick={props.onDeleteClick}>Eliminar</Button>
+        </Flex>
+        </div>
+    )
+}
