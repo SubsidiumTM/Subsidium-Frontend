@@ -9,6 +9,7 @@ import Profile_information from './profile_information';
 import Profile_reservations from './profile_reservations';
 // Profile ADMIN options
 import Admin_inventory from './admin_inventory';
+import Users_list from './users_list';
 
 
 const Profile_menu = ({ signOut }) => {
@@ -16,7 +17,7 @@ const Profile_menu = ({ signOut }) => {
     const [userInfo, setUserInfo] = useState([]);
     const [userID, setUserID] = useState([]);
     const [selectView, setSelectView] = useState(0);
-    const views = [<Profile_information />, <Profile_reservations userID={userID} />, <Admin_inventory />];
+    const views = [<Profile_information />, <Profile_reservations userID={userID} />, <Admin_inventory />, <Users_list />];
 
     useEffect(() => {
         getInfo();

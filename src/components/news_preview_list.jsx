@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Flex, Heading } from '@aws-amplify/ui-react'
+import { Flex, Heading, Loader } from '@aws-amplify/ui-react'
 import { APImethods } from '../api/APImethods'
 import './news_preview_list.css'
 import { Auth } from 'aws-amplify'
@@ -66,13 +66,7 @@ const News_preview_list = () => {
     // List of item variables
     const listNewsPreview = listNews.map((news) =>
         <Flex direction="row" justifyContent="center">
-        <div className="news_panel">
-        <a href={`/noticias/${news.id}`}>
-        <h2>{news.title}</h2>
-        <h4>{news.description}</h4>
-        <h4>{news.date_published}</h4>
-        </a>
-        </div>
+        <NewsItem news={news} />
         {editButton(news)}
         </Flex>
     );
@@ -88,3 +82,29 @@ const News_preview_list = () => {
 }
 
 export default News_preview_list
+
+function NewsItem(props) {
+  const news = props.news;
+  const [imageURL, setImageURL] = useState(null);
+
+  useEffect(() => {
+    async function getImage() {
+      const url = await APImethods.getImage(news.image);
+      setImageURL(url);
+    }
+    getImage();
+  }, []);
+
+  return (
+    <>
+    <div className="news_panel">
+        {(imageURL === null) ? <Loader /> : <img src={imageURL}/>}
+        <a href={`/noticias/${news.id}`}>
+        <h2>{news.title}</h2>
+        <h4>{news.description}</h4>
+        <h4>{news.date_published}</h4>
+        </a>
+    </div>
+    </>
+  )
+}

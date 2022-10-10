@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Flex } from '@aws-amplify/ui-react';
 import { APImethods } from '../api/APImethods';
 import { Loader } from '@aws-amplify/ui-react';
+import './news.css'
 
 const News_reading = (props) => {
     // Data from props
@@ -21,7 +22,7 @@ const News_reading = (props) => {
         if (response.image != "") {
         try {
             const url = await APImethods.getImage(response.image);
-            setImage(<img src={url} alt={"Error cargando la imagen"} height='200px' width='200px'/>)
+            setImage(<img src={url} alt={"Error cargando la imagen"}/>)
         } catch (error) {
             console.log("Error getting file: ", error);
         }
@@ -30,6 +31,8 @@ const News_reading = (props) => {
 
     return (
         <>
+        <div className="background">
+            
         <h1>Noticias</h1>
         <Flex direction="column">
 
@@ -43,6 +46,7 @@ const News_reading = (props) => {
         {image}
 
         </Flex>
+        </div>
         </>
     )
 }

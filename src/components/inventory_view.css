@@ -27,3 +27,8 @@ div .itemList {
     width: 40%;
     height: 60%;
 }
+
+/* .inventory_component white background */
+div .inventory_component {
+    background-color: white;
+}

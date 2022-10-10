@@ -2,6 +2,7 @@ import { Flex, TextAreaField, TextField, View, Heading } from '@aws-amplify/ui-r
 import { Button } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { APImethods } from '../api/APImethods';
+import './news.css'
 
 const News_editing = (props) => {
     // Data from props
@@ -112,6 +113,7 @@ const News_editing = (props) => {
 
     return (
         <>
+        <div className="background">
         <Heading level={1}>Edicion de Noticias</Heading>
         <View as="form" onSubmit={submitAction}>
 
@@ -130,6 +132,7 @@ const News_editing = (props) => {
         </Flex>
 
         </View>
+        </div>
         </>
     )
 }

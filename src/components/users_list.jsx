@@ -2,6 +2,7 @@ import { Button } from 'antd';
 import React, { useState, useEffect } from 'react'
 import { Flex } from '@aws-amplify/ui-react';
 import { APImethods } from '../api/APImethods'
+import { Auth } from 'aws-amplify';
 
 const Users_list = () => {
 
@@ -42,8 +43,15 @@ const Users_list = () => {
         retrieveUsers();
     }
 
+    async function changeUserType (e, type) {
+        e.type = type;
+        await APImethods.updateUser(e.id, e.username, e.name, e.surname, e.email, e.type, e.verified, e.active);
+        retrieveUsers();
+    }
+
     async function deleteUser (e) {
         await APImethods.deleteUser(e.id);
+        retrieveUsers();
         // TODO: Delete from cognito
     }
 
@@ -57,6 +65,16 @@ const Users_list = () => {
         }
     }
 
+    // Type of user
+    const type_button = (user) => {
+        if (user.type == 'USER') {
+            return <Button value={user} onClick={() => {changeUserType(user, 'ADMIN')}}>Convertir en Administrador</Button>
+        }
+        else if (user.type == 'ADMIN') {
+            return <Button value={user} onClick={() => {changeUserType(user, 'USER')}}>Convertir en Usuario</Button>
+        }
+    }
+
     // List item variables
     const listUsers = userList.map((user) => 
         <div>
@@ -66,6 +84,7 @@ const Users_list = () => {
         Estado: {status_label(user.active)} / 
         Tipo de usuario: {user.type} / 
         {status_button(user)}
+        {type_button(user)}
         <Button onClick={() => {setUserDetails(user)}}>Ver</Button>
         </div>
     );
@@ -87,8 +106,7 @@ const Users_list = () => {
             <h2>{userDetails.username}</h2>
 
             {/* TODO: Agregar mas datos de los usuarios */}
-
-            <Button onClick={() => {}}>Delete</Button>
+            {!!userDetails.name ? <Button onClick={() => {deleteUser(userDetails)}}>Eliminar</Button> : <></>}
             </Flex>
         </div>
         
