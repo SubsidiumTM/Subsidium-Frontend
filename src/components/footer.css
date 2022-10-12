@@ -19,10 +19,12 @@ table{
 th
 {
   text-align: left;
+  color: white;
 }
 
 td{
   text-align: left;
+  color: white;
 }
 
 table tr td a{

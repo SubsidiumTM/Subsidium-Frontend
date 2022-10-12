@@ -21,6 +21,11 @@
   text-align: left;
   padding-left: 25px;
   text-align: justify;
+  color: white;
+}
+
+.Info h2{
+  color: white;
 }
 
 /*Objetivo*/
@@ -32,12 +37,14 @@
 .Objetivo h2{
   text-align: left;
   padding-left: 25px;
+  color: white;
 }
 
 .Objetivo p{
   text-align: left;
   padding-left: 25px;
   text-align: justify;
+  color: white;
   
 }
 
@@ -77,6 +84,53 @@
   text-align: left;
 }
 
+.Socios{
+  color: black;
+  background-color: white;
+}
+
+.Socios h2{
+  color: black;
+}
+
+.Socios table{
+  margin-left:auto; 
+  margin-right:auto; 
+}
+
+.Socios table img{
+  vertical-align: bottom;
+  width: 100%;
+  height: 100%;
+}
+
+.LTrabajo h2{
+  color: white;
+}
+
+.LTrabajo table{
+  margin-left:auto; 
+  margin-right:auto; 
+  width: 10px;
+}
+
+.LTrabajo table h2{
+  text-align: left;
+}
+
+.LTrabajo table td tr p{
+  color: white; 
+  text-align: left;
+}
+
+.LTrabajo table img{
+  float: none;
+  width: 165px;
+  height: 145px;
+  border-radius: 27%;
+  vertical-align: bottom;
+}
+
 .Tabla{
   background-color: white;
   color: black;
@@ -96,6 +150,10 @@
   width: 165px;
   height: 145px;
   border-radius: 27%;
+}
+
+.Tabla table p{
+  color: black;
 }
 
 

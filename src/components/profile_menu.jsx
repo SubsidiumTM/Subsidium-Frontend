@@ -55,7 +55,7 @@ const Profile_menu = ({ signOut }) => {
     }
   
     return (
-    <>
+    <body>
     <Flex direction="row" gap="2rem">
 
     <div className="side_menu">
@@ -74,7 +74,7 @@ const Profile_menu = ({ signOut }) => {
 
     </Flex>
     
-    </>
+    </body>
   )
 }
 
