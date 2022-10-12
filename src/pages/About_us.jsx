@@ -87,24 +87,66 @@ function About_us() {
         </Flex>
       </div>
 
-      <hr>
-      </hr>
-
       <div className='Socios'>
         <h2> Nuestros socios </h2>
         {/*<img src= "images/Socios.png" alt="Socios" />*/}
+        <table>
+          <tr>
+            <td> <img src="images/Socio1.png" alt="1" /> </td>
+            <td> <img src="images/Socio2.png" alt="2" /> </td>
+            <td> <img src="images/Socio3.png" alt="3" /> </td>
+          </tr>
+          <tr>
+            <td> <img src="images/Socio4.png" alt="4" /> </td>
+            <td> <img src="images/Socio5.png" alt="5" /> </td>
+            <td> <img src="images/Socio6.png" alt="6" /> </td>
+            <td> <img src="images/Socio7.png" alt="7" /> </td>
+          </tr>
+        </table>
       </div>
-
-      <hr>
-      </hr>
 
       <div className='LTrabajo'>
         <h2> Líneas de trabajo </h2>
         {/*<img src="images/LineasTrabajo.png" alt="LT" />*/}
-      </div>
+        <table>
+          <tr>
+            <td> <img src="images/LT1.png" alt="1" /> </td>
+            <td> <img src="images/LT2.png" alt="2" /> </td>
+            <td> <img src="images/LT3.png" alt="3" /> </td>
+            <td> <img src="images/LT4.png" alt="4" /> </td>
+          </tr>
 
-      <hr>
-      </hr>
+          <tr>
+            <td> <h2> Capacitación </h2> </td>
+            <td> <h2> Investigación </h2> </td>
+            <td> <h2> Servicios </h2> </td>
+            <td> <h2> Concientización </h2> </td>
+          </tr>
+
+          <tr>
+            <td> <p> Diplomados, especialidades y posgrados.</p> </td>
+            <td> <p> Ciberforénsica, criptografía 
+                  para dispositivos, aplicación 
+                  de máquinas inteligentes 
+                  para detección y 
+                  clasificación de malware en 
+                  móviles, automatización de 
+                  detección de intrusos, 
+                  aplicación de visión 
+                  computacional en 
+                  ciberseguridad. </p> </td>
+            <td> <p> Pruebas de penetración de 
+                  la infraestructura de 
+                  tecnologías de la 
+                  información, auditorías de 
+                  seguridad informática, 
+                  gestión de riesgos de 
+                  tecnologías de la 
+                  información y cyber range. </p> </td>
+            <td> <p> Conferencias, competencias y seminarios. </p> </td>
+          </tr>
+        </table>
+      </div>
 
       <div className='Tabla'>
         <h2> En caso de registrarse el Hub ofrece la posibilidad de reservación de los siguientes recursos: </h2>

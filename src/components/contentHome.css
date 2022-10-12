@@ -6,6 +6,10 @@
     background-color: rgba(19,27,48,255);
 }
 
+.Bienvenida h2{
+    color: white;
+}
+
 .FlexImgHub img{
     width: 255px;
     height: 255px;
