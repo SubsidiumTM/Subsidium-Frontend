@@ -4,6 +4,7 @@ import { Auth } from 'aws-amplify';
 import { APImethods } from "../api/APImethods";
 import { Button } from 'antd';
 import './inventory_view.css';
+import moment from 'moment';
 
 const InventorySelection = () => {
     // Information required on the page
@@ -22,6 +23,7 @@ const InventorySelection = () => {
     const [rooms, setRooms] = useState([]);
     const [licences, setLicences] = useState([]);
     const [index, setIndex] = useState(0);
+    const [startDate, setStartDate] = useState(new Date());
 
     // First Caller
     useEffect(() => {
@@ -172,6 +174,11 @@ const InventorySelection = () => {
         <p>{deviceInfo.description}</p>
     </>;
 
+    const disabledDate = (current) => {
+        // Can not select days before today and today
+        return current && current < moment().endOf('day') && moment("20221015", "YYYYMMDD").fromNow();
+    };
+
     return (
         <div className='inventory_component'>
         <Heading level={1}>Inventario de Reservas</Heading>
@@ -201,7 +208,15 @@ const InventorySelection = () => {
             <Flex direction="column" className='reservation'>
                 <Heading level={3}>Reservar</Heading>
                 <h3>Seleccion de inicio de la reserva</h3>
-                <TextField  label='Fecha' name='dateLicence' placeholder='DD/MM/AAAA' width='100%' required type='date'/>
+                
+                <TextField  
+                label='Fecha' 
+                name='dateLicence' 
+                placeholder='DD/MM/AAAA' 
+                width='100%' 
+                required type='date'
+                d
+                />
                 <SelectField label='Duracion de Reserva' name='licenceDuration' placeholder='Seleccionar' width='100%' required>
                     <option value={(5*24*60)}>5 dias</option>
                     <option value={(10*24*60)}>10 dias</option>
@@ -413,3 +428,60 @@ function Item(props) {
         </div>
     )
 }
+
+function Date_input() {
+  return (
+    <div>
+      
+    </div>
+  )
+}
+
+// React component of a date input that disables the past dates and the dates that are not available
+// function Date_input(props) {
+//     const [date, setDate] = useState(new Date());
+//     const [availableDates, setAvailableDates] = useState([]);
+//     const [disabledDates, setDisabledDates] = useState([]);
+    
+//     useEffect(() => {
+//         async function getAvailableDates() {
+//         const dates = await APImethods.getAvailableDates(props.roomID);
+//         setAvailableDates(dates);
+//         }
+//         getAvailableDates();
+//     }, []);
+    
+//     useEffect(() => {
+//         let disabledDates = [];
+//         for (let i = 0; i < availableDates.length; i++) {
+//         const date = new Date(availableDates[i]);
+//         if (date < new Date()) {
+//             disabledDates.push(date);
+//         }
+//         }
+//         setDisabledDates(disabledDates);
+//     }, [availableDates]);
+    
+//     const handleDateChange = (date) => {
+//         setDate(date);
+//         props.onDateChange(date);
+//     };
+    
+//     return (
+//         <div>
+//         <DatePicker
+//             selected={date}
+//             onChange={handleDateChange}
+//             minDate={new Date()}
+//             filterDate={(date) => {
+//             for (let i = 0; i < disabledDates.length; i++) {
+//                 if (date.getTime() === disabledDates[i].getTime()) {
+//                 return false;
+//                 }
+//             }
+//             return true;
+//             }}
+//         />
+//         </div>
+//     );
+// }

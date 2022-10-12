@@ -39,10 +39,12 @@ export const getDevice = /* GraphQL */ `
       name
       portable
       os
+      processor
       storage
       ram
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -60,10 +62,12 @@ export const listDevices = /* GraphQL */ `
         name
         portable
         os
+        processor
         storage
         ram
         description
         images
+        active
         createdAt
         updatedAt
       }
@@ -81,6 +85,7 @@ export const getLicence = /* GraphQL */ `
       category
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -101,6 +106,7 @@ export const listLicences = /* GraphQL */ `
         category
         description
         images
+        active
         createdAt
         updatedAt
       }
@@ -114,6 +120,7 @@ export const getRoom = /* GraphQL */ `
       id
       name
       building
+      floor
       proyector
       wifi
       board
@@ -125,6 +132,7 @@ export const getRoom = /* GraphQL */ `
       energy_outlets
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -141,6 +149,7 @@ export const listRooms = /* GraphQL */ `
         id
         name
         building
+        floor
         proyector
         wifi
         board
@@ -152,6 +161,7 @@ export const listRooms = /* GraphQL */ `
         energy_outlets
         description
         images
+        active
         createdAt
         updatedAt
       }

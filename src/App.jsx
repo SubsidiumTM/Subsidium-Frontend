@@ -53,7 +53,7 @@ function App() {
         <Route path='/notes' element={<Notes signOut={undefined} />} />
         <Route path='/profile/manage-inventory' element={<Manager signOut={undefined} />} />
         <Route path='/auth' element={<Identify />} />
-        {/* <Route path='/test' element={<Test />} /> */}
+        <Route path='/test' element={<Test />} />
 
       </Routes>
       </BrowserRouter>

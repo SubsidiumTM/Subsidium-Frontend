@@ -3,7 +3,6 @@
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
 # Modelo del turorial
-
 type Note @model {
   id: ID!
   name: String!
@@ -18,10 +17,12 @@ type Device @model {
 	name : String!
 	portable : Boolean!
 	os : String!
+	processor : String
 	storage : Int!
 	ram : Int!
 	description : String!
 	images : [String]!
+	active: Boolean
 }
 
 type Licence @model {
@@ -32,12 +33,14 @@ type Licence @model {
 	category : [String]!
 	description : String!
 	images : [String]!
+	active: Boolean
 }
 
 type Room @model {
 	id : ID!
 	name : String!
 	building : String!
+	floor : String
 	proyector : Boolean!
 	wifi : Boolean!
 	board : Boolean!
@@ -49,6 +52,7 @@ type Room @model {
 	energy_outlets : Int!
 	description : String!
 	images : [String]!
+	active: Boolean
 }
 
 enum UserType {

@@ -17,29 +17,35 @@ export class APImethods {
         name: name_u,
         portable: portable_u,
         os: os_u,
+        processor: processor_u,
         storage: storage_u,
         ram: ram_u,
         description: description_u,
         images: images_u,
+        active: active_u,
     };
     */
 
     static async createDevice( 
         name_u, 
         portable_u, 
-        os_u, 
+        os_u,
+        processor_u,
         storage_u, 
         ram_u, 
         description_u, 
-        images_u) { 
+        images_u,
+        active_u) { 
         const newDevice = {
             name: name_u,
             portable: portable_u,
+            processor: processor_u,
             os: os_u,
             storage: storage_u,
             ram: ram_u,
             description: description_u,
             images: images_u,
+            active: active_u,
         };         
         const response = await API.graphql({ query: mutations.createDevice, variables: {input: newDevice}});
     }
@@ -61,20 +67,24 @@ export class APImethods {
     static async updateDevice(deviceID, 
         name_u, 
         portable_u, 
-        os_u, 
+        os_u,
+        processor_u,
         storage_u, 
         ram_u, 
         description_u, 
-        images_u) { 
+        images_u,
+        active_u) { 
         const newDevice = {
             id: deviceID,
             name: name_u,
             portable: portable_u,
             os: os_u,
+            processor: processor_u,
             storage: storage_u,
             ram: ram_u,
             description: description_u,
             images: images_u,
+            active: active_u,
         };         
         const response = await API.graphql({ query: mutations.updateDevice, variables: {input: newDevice}});
     }
@@ -94,6 +104,7 @@ export class APImethods {
         category: category_u,
         description: description_u,
         images: images_u,
+        active: active_u,
     };
     */
 
@@ -103,7 +114,8 @@ export class APImethods {
         compatibility_u,
         category_u,
         description_u,
-        images_u
+        images_u,
+        active_u
     ) {
         const newLicence = {
             name: name_u,
@@ -112,6 +124,7 @@ export class APImethods {
             category: category_u,
             description: description_u,
             images: images_u,
+            active: active_u,
         };
 
         const response = await API.graphql({ query: mutations.createLicence, variables: {input: newLicence}});
@@ -136,7 +149,8 @@ export class APImethods {
         compatibility_u,
         category_u,
         description_u,
-        images_u
+        images_u,
+        active_u
     ) {
         const newLicence = {
             id: licenceID,
@@ -146,6 +160,7 @@ export class APImethods {
             category: category_u,
             description: description_u,
             images: images_u,
+            active: active_u,
         };
 
         const response = await API.graphql({ query: mutations.updateLicence, variables: {input: newLicence}});        
@@ -163,6 +178,7 @@ export class APImethods {
         name: name_u,
         building: building_u,
         proyector: proyector_u,
+        floor: floor_u,
         wifi: wifi_u,
         board: board_u,
         air_conditioner: air_conditioner_u,
@@ -173,6 +189,7 @@ export class APImethods {
         energy_outlets: energy_outlets_u,
         description: description_u,
         images: images_u,
+        active: active_u,
     };
     */
 
@@ -180,6 +197,7 @@ export class APImethods {
         name_u,
         building_u,
         proyector_u,
+        floor_u,
         wifi_u,
         board_u,
         air_conditioner_u,
@@ -189,12 +207,14 @@ export class APImethods {
         seats_u,
         energy_outlets_u,
         description_u,
-        images_u
+        images_u,
+        active_u
     ) {
         const newRoom = {
             name: name_u,
             building: building_u,
             proyector: proyector_u,
+            floor: floor_u,
             wifi: wifi_u,
             board: board_u,
             air_conditioner: air_conditioner_u,
@@ -205,6 +225,7 @@ export class APImethods {
             energy_outlets: energy_outlets_u,
             description: description_u,
             images: images_u,
+            active: active_u,
         };
 
         const response = await API.graphql({ query: mutations.createRoom, variables: {input: newRoom}});
@@ -226,6 +247,7 @@ export class APImethods {
         roomID,
         name_u,
         building_u,
+        floor_u,
         proyector_u,
         wifi_u,
         board_u,
@@ -236,12 +258,14 @@ export class APImethods {
         seats_u,
         energy_outlets_u,
         description_u,
-        images_u
+        images_u,
+        active_u
     ) {
         const newRoom = {
             id: roomID,
             name: name_u,
             building: building_u,
+            floor: floor_u,
             proyector: proyector_u,
             wifi: wifi_u,
             board: board_u,
@@ -253,6 +277,7 @@ export class APImethods {
             energy_outlets: energy_outlets_u,
             description: description_u,
             images: images_u,
+            active: active_u,
         };
 
         const response = await API.graphql({ query: mutations.updateRoom, variables: {input: newRoom}});        
@@ -497,6 +522,42 @@ export class APImethods {
         let filter = {
             userID: {
                 eq: userID // filter priority = 1
+            }
+        };
+        const response = await API.graphql(graphqlOperation(queries.listReservations, { filter: filter }));
+        //cosole.log(response.data.listReservations.items);
+        return response.data.listReservations.items;
+        // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+    }
+
+    static async allReservationsByDevice(deviceID) {
+        let filter = {
+            deviceID: {
+                eq: deviceID // filter priority = 1
+            }
+        };
+        const response = await API.graphql(graphqlOperation(queries.listReservations, { filter: filter }));
+        //cosole.log(response.data.listReservations.items);
+        return response.data.listReservations.items;
+        // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+    }
+
+    static async allReservationsByLicence(licenceID) {
+        let filter = {
+            licenceID: {
+                eq: licenceID // filter priority = 1
+            }
+        };
+        const response = await API.graphql(graphqlOperation(queries.listReservations, { filter: filter }));
+        //cosole.log(response.data.listReservations.items);
+        return response.data.listReservations.items;
+        // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+    }
+
+    static async allReservationsByRoom(roomID) {
+        let filter = {
+            roomID: {
+                eq: roomID // filter priority = 1
             }
         };
         const response = await API.graphql(graphqlOperation(queries.listReservations, { filter: filter }));

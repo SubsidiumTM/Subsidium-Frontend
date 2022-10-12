@@ -56,10 +56,12 @@ export const createDevice = /* GraphQL */ `
       name
       portable
       os
+      processor
       storage
       ram
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -75,10 +77,12 @@ export const updateDevice = /* GraphQL */ `
       name
       portable
       os
+      processor
       storage
       ram
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -94,10 +98,12 @@ export const deleteDevice = /* GraphQL */ `
       name
       portable
       os
+      processor
       storage
       ram
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -116,6 +122,7 @@ export const createLicence = /* GraphQL */ `
       category
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -134,6 +141,7 @@ export const updateLicence = /* GraphQL */ `
       category
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -152,6 +160,7 @@ export const deleteLicence = /* GraphQL */ `
       category
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -166,6 +175,7 @@ export const createRoom = /* GraphQL */ `
       id
       name
       building
+      floor
       proyector
       wifi
       board
@@ -177,6 +187,7 @@ export const createRoom = /* GraphQL */ `
       energy_outlets
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -191,6 +202,7 @@ export const updateRoom = /* GraphQL */ `
       id
       name
       building
+      floor
       proyector
       wifi
       board
@@ -202,6 +214,7 @@ export const updateRoom = /* GraphQL */ `
       energy_outlets
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -216,6 +229,7 @@ export const deleteRoom = /* GraphQL */ `
       id
       name
       building
+      floor
       proyector
       wifi
       board
@@ -227,6 +241,7 @@ export const deleteRoom = /* GraphQL */ `
       energy_outlets
       description
       images
+      active
       createdAt
       updatedAt
     }

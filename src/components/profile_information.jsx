@@ -17,6 +17,25 @@ const Profile_information = () => {
     const userInfo = response.attributes;
     setUserInfo(userInfo);
   }
+
+  async function changePassword() {
+    const oldPassword = document.getElementById('oldPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    try {
+      Auth.currentAuthenticatedUser()
+      .then(user => {
+          return Auth.changePassword(user, oldPassword, newPassword);
+      })
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+      alert('Contraseña cambiada con éxito');
+    } catch (error) {
+      console.log('error changing password: ', error);
+      alert('Error cambiando la contraseña');
+    }
+    document.getElementById('oldPassword').value = '';
+    document.getElementById('newPassword').value = '';
+  }
   
   return (
 
@@ -34,9 +53,19 @@ const Profile_information = () => {
     </Flex>
     <Flex direction="row" gap="3rem">
         <p>Cambiar contraseña:</p>
+        <Flex direction="column" gap="1rem">
+            <input type="password" id="oldPassword" placeholder="Contraseña actual" />
+            <input type="password" id="newPassword" placeholder="Nueva contraseña" />
+            <button onClick={changePassword}>Cambiar contraseña</button>
+        </Flex>
+        <ul>
+            <li>La contraseña debe tener al menos 12 caracteres</li>
+            <li>La contraseña debe tener al menos una letra mayuscula</li>
+            <li>La contraseña debe tener al menos un numero</li>
+            <li>La contraseña debe tener al menos un caracter especial</li>
+        </ul>
     </Flex>
     </div>
-    
     </>
   )
 }

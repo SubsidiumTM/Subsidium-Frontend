@@ -44,10 +44,12 @@ export const onCreateDevice = /* GraphQL */ `
       name
       portable
       os
+      processor
       storage
       ram
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -60,10 +62,12 @@ export const onUpdateDevice = /* GraphQL */ `
       name
       portable
       os
+      processor
       storage
       ram
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -76,10 +80,12 @@ export const onDeleteDevice = /* GraphQL */ `
       name
       portable
       os
+      processor
       storage
       ram
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -95,6 +101,7 @@ export const onCreateLicence = /* GraphQL */ `
       category
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -110,6 +117,7 @@ export const onUpdateLicence = /* GraphQL */ `
       category
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -125,6 +133,7 @@ export const onDeleteLicence = /* GraphQL */ `
       category
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -136,6 +145,7 @@ export const onCreateRoom = /* GraphQL */ `
       id
       name
       building
+      floor
       proyector
       wifi
       board
@@ -147,6 +157,7 @@ export const onCreateRoom = /* GraphQL */ `
       energy_outlets
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -158,6 +169,7 @@ export const onUpdateRoom = /* GraphQL */ `
       id
       name
       building
+      floor
       proyector
       wifi
       board
@@ -169,6 +181,7 @@ export const onUpdateRoom = /* GraphQL */ `
       energy_outlets
       description
       images
+      active
       createdAt
       updatedAt
     }
@@ -180,6 +193,7 @@ export const onDeleteRoom = /* GraphQL */ `
       id
       name
       building
+      floor
       proyector
       wifi
       board
@@ -191,6 +205,7 @@ export const onDeleteRoom = /* GraphQL */ `
       energy_outlets
       description
       images
+      active
       createdAt
       updatedAt
     }
