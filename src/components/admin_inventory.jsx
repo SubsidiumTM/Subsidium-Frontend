@@ -130,8 +130,8 @@ function Admin_inventory() {
                     document.getElementsByName('devicePortable')[0].checked, 
                     document.getElementsByName('deviceOS')[0].value, 
                     document.getElementsByName('deviceProcessor')[0].value,
-                    document.getElementsByName('deviceStorage')[0].value, 
-                    document.getElementsByName('deviceRAM')[0].value, 
+                    parseInt(document.getElementsByName('deviceStorage')[0].value), 
+                    parseInt(document.getElementsByName('deviceRAM')[0].value), 
                     document.getElementsByName('deviceDescription')[0].value,
                     device.images,
                     document.getElementsByName('deviceActive')[0].checked);
@@ -142,17 +142,20 @@ function Admin_inventory() {
                 console.log(document.getElementsByName('deviceName')[0].value);
                 console.log(document.getElementsByName('devicePortable')[0].checked);
                 console.log(document.getElementsByName('deviceOS')[0].value);
-                console.log(document.getElementsByName('deviceStorage')[0].value);
-                console.log(document.getElementsByName('deviceRAM')[0].value);
+                console.log(document.getElementsByName('deviceProcessor')[0].value);
+                console.log(parseInt(document.getElementsByName('deviceStorage')[0].value));
+                console.log(parseInt(document.getElementsByName('deviceRAM')[0].value));
                 console.log(document.getElementsByName('deviceDescription')[0].value);
                 await APImethods.createDevice(
                     document.getElementsByName('deviceName')[0].value, 
                     document.getElementsByName('devicePortable')[0].checked, 
-                    document.getElementsByName('deviceOS')[0].value, 
-                    document.getElementsByName('deviceStorage')[0].value, 
-                    document.getElementsByName('deviceRAM')[0].value, 
+                    document.getElementsByName('deviceOS')[0].value,
+                    document.getElementsByName('deviceProcessor')[0].value,
+                    parseInt(document.getElementsByName('deviceStorage')[0].value), 
+                    parseInt(document.getElementsByName('deviceRAM')[0].value), 
                     document.getElementsByName('deviceDescription')[0].value, 
-                    device.images);
+                    device.images,
+                    document.getElementsByName('deviceActive')[0].checked);
                 await getDevices();
             }}>Agregar</Button>
         }
@@ -195,7 +198,7 @@ function Admin_inventory() {
                 await APImethods.updateLicence(
                     licence.id, 
                     document.getElementsByName('licenceName')[0].value, 
-                    document.getElementsByName('licenceYear')[0].value, 
+                    parseInt(document.getElementsByName('licenceYear')[0].value), 
                     compatibility, 
                     category, 
                     document.getElementsByName('licenceDescription')[0].value, 
@@ -238,7 +241,7 @@ function Admin_inventory() {
                 console.log(document.getElementsByName('licenceDescription')[0].value);
                 await APImethods.createLicence(
                     document.getElementsByName('licenceName')[0].value, 
-                    document.getElementsByName('licenceYear')[0].value, 
+                    parseInt(document.getElementsByName('licenceYear')[0].value), 
                     compatibility, 
                     category, 
                     document.getElementsByName('licenceDescription')[0].value, 
@@ -277,8 +280,8 @@ function Admin_inventory() {
                     document.getElementsByName('roomEthernet')[0].checked, 
                     document.getElementsByName('roomComputers')[0].checked, 
                     document.getElementsByName('roomDoubleMonitor')[0].checked, 
-                    document.getElementsByName('roomSeats')[0].value, 
-                    document.getElementsByName('roomEnergyOutlets')[0].value, 
+                    parseInt(document.getElementsByName('roomSeats')[0].value), 
+                    parseInt(document.getElementsByName('roomEnergyOutlets')[0].value), 
                     document.getElementsByName('roomDescription')[0].value, 
                     room.images,
                     document.getElementsByName('roomActive')[0].checked);
@@ -310,8 +313,8 @@ function Admin_inventory() {
                     document.getElementsByName('roomEthernet')[0].checked, 
                     document.getElementsByName('roomComputers')[0].checked, 
                     document.getElementsByName('roomDoubleMonitor')[0].checked, 
-                    document.getElementsByName('roomSeats')[0].value, 
-                    document.getElementsByName('roomEnergyOutlets')[0].value, 
+                    parseInt(document.getElementsByName('roomSeats')[0].value), 
+                    parseInt(document.getElementsByName('roomEnergyOutlets')[0].value), 
                     document.getElementsByName('roomDescription')[0].value, 
                     room.images,
                     document.getElementsByName('roomActive')[0].checked);

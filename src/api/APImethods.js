@@ -46,12 +46,19 @@ export class APImethods {
             description: description_u,
             images: images_u,
             active: active_u,
-        };         
+        };
         const response = await API.graphql({ query: mutations.createDevice, variables: {input: newDevice}});
     }
 
     static async allDevices() {
         const response = await API.graphql({ query: queries.listDevices });
+        //cosole.log(response.data.listDevices.items);
+        return response.data.listDevices.items;
+        // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+    }
+
+    static async allActiveDevices() {
+        const response = await API.graphql({ query: queries.listDevices, variables: {filter: {active: {eq: true}}}});
         //cosole.log(response.data.listDevices.items);
         return response.data.listDevices.items;
         // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
@@ -132,6 +139,12 @@ export class APImethods {
 
     static async allLicences() {
         const response = await API.graphql({ query: queries.listLicences });
+        //cosole.log(response.data.listLicences.items);
+        return response.data.listLicences.items;
+    }
+
+    static async allActiveLicences() {
+        const response = await API.graphql({ query: queries.listLicences, variables: {filter: {active: {eq: true}}}});
         //cosole.log(response.data.listLicences.items);
         return response.data.listLicences.items;
     }
@@ -233,6 +246,12 @@ export class APImethods {
 
     static async allRooms() {
         const response = await API.graphql({ query: queries.listRooms });
+        //cosole.log(response.data.listRooms.items);
+        return response.data.listRooms.items;
+    }
+
+    static async allActiveRooms() {
+        const response = await API.graphql({ query: queries.listRooms, variables: {filter: {active: {eq: true}}}});
         //cosole.log(response.data.listRooms.items);
         return response.data.listRooms.items;
     }
