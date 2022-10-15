@@ -15,3 +15,13 @@
   border-radius: 0.25rem;
   margin: 0 0.5rem;
 }
+
+@font-face {
+  font-family: VarelaRound;
+  src: url("/public/fonts/varela-round/VarelaRound-Regular.otf");
+}
+
+.header .Logo{
+  font-family: VarelaRound;
+  color: rgb(69,141,192);
+}
