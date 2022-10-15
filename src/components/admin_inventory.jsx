@@ -10,9 +10,9 @@ function Admin_inventory() {
     const [displayImageURL, setDisplayImageURL] = useState('');
 
     // Empty forms for items
-    const deviceForm = {id:'nuevo', name:'', portable:false, os:'', storage:0, ram:0, description:'', images:['']};
-    const licenceForm = {id:'nuevo', name:'', year:'', compatibility:'', category:'', description:'', images:['']};
-    const roomForm = {id:'nuevo', name:'', building:'', proyector:false, wifi:false, board:false, air_conditioner:false, ethernet:false, computers:false, double_monitor:false, seats:0, energy_outlets:0, description:'', images:['']};
+    const deviceForm = {id:'nuevo', name:'', portable:false, os:'', processor:'', storage:0, ram:0, description:'', images:[''], active:true};
+    const licenceForm = {id:'nuevo', name:'', year:'', compatibility:'', category:'', description:'', images:[''], active:true};
+    const roomForm = {id:'nuevo', name:'', building:'', floor:'', proyector:false, wifi:false, board:false, air_conditioner:false, ethernet:false, computers:false, double_monitor:false, seats:0, energy_outlets:0, description:'', images:[''], active:true};
 
     // Forms for items
     const [device, setDevice] = useState(deviceForm);
@@ -119,18 +119,22 @@ function Admin_inventory() {
                 console.log(document.getElementsByName('deviceName')[0].value);
                 console.log(document.getElementsByName('devicePortable')[0].checked);
                 console.log(document.getElementsByName('deviceOS')[0].value);
+                console.log(document.getElementsByName('deviceProcessor')[0].value);
                 console.log(document.getElementsByName('deviceStorage')[0].value);
                 console.log(document.getElementsByName('deviceRAM')[0].value);
                 console.log(document.getElementsByName('deviceDescription')[0].value);
+                console.log(document.getElementsByName('deviceActive')[0].checked);
                 await APImethods.updateDevice(
                     device.id, 
                     document.getElementsByName('deviceName')[0].value, 
                     document.getElementsByName('devicePortable')[0].checked, 
                     document.getElementsByName('deviceOS')[0].value, 
-                    document.getElementsByName('deviceStorage')[0].value, 
-                    document.getElementsByName('deviceRAM')[0].value, 
+                    document.getElementsByName('deviceProcessor')[0].value,
+                    parseInt(document.getElementsByName('deviceStorage')[0].value), 
+                    parseInt(document.getElementsByName('deviceRAM')[0].value), 
                     document.getElementsByName('deviceDescription')[0].value,
-                    device.images);
+                    device.images,
+                    document.getElementsByName('deviceActive')[0].checked);
                 await getDevices();
             }}>Editar</Button>
         } else {
@@ -138,17 +142,20 @@ function Admin_inventory() {
                 console.log(document.getElementsByName('deviceName')[0].value);
                 console.log(document.getElementsByName('devicePortable')[0].checked);
                 console.log(document.getElementsByName('deviceOS')[0].value);
-                console.log(document.getElementsByName('deviceStorage')[0].value);
-                console.log(document.getElementsByName('deviceRAM')[0].value);
+                console.log(document.getElementsByName('deviceProcessor')[0].value);
+                console.log(parseInt(document.getElementsByName('deviceStorage')[0].value));
+                console.log(parseInt(document.getElementsByName('deviceRAM')[0].value));
                 console.log(document.getElementsByName('deviceDescription')[0].value);
                 await APImethods.createDevice(
                     document.getElementsByName('deviceName')[0].value, 
                     document.getElementsByName('devicePortable')[0].checked, 
-                    document.getElementsByName('deviceOS')[0].value, 
-                    document.getElementsByName('deviceStorage')[0].value, 
-                    document.getElementsByName('deviceRAM')[0].value, 
+                    document.getElementsByName('deviceOS')[0].value,
+                    document.getElementsByName('deviceProcessor')[0].value,
+                    parseInt(document.getElementsByName('deviceStorage')[0].value), 
+                    parseInt(document.getElementsByName('deviceRAM')[0].value), 
                     document.getElementsByName('deviceDescription')[0].value, 
-                    device.images);
+                    device.images,
+                    document.getElementsByName('deviceActive')[0].checked);
                 await getDevices();
             }}>Agregar</Button>
         }
@@ -191,11 +198,12 @@ function Admin_inventory() {
                 await APImethods.updateLicence(
                     licence.id, 
                     document.getElementsByName('licenceName')[0].value, 
-                    document.getElementsByName('licenceYear')[0].value, 
+                    parseInt(document.getElementsByName('licenceYear')[0].value), 
                     compatibility, 
                     category, 
                     document.getElementsByName('licenceDescription')[0].value, 
-                    licence.images);
+                    licence.images,
+                    document.getElementsByName('licenceActive')[0].checked)
                 await getLicences();
             }}>Editar</Button>
         } else {
@@ -233,11 +241,12 @@ function Admin_inventory() {
                 console.log(document.getElementsByName('licenceDescription')[0].value);
                 await APImethods.createLicence(
                     document.getElementsByName('licenceName')[0].value, 
-                    document.getElementsByName('licenceYear')[0].value, 
+                    parseInt(document.getElementsByName('licenceYear')[0].value), 
                     compatibility, 
                     category, 
                     document.getElementsByName('licenceDescription')[0].value, 
-                    licence.images);
+                    licence.images,
+                    document.getElementsByName('licenceActive')[0].checked);
                 await getLicences();
             }}>Agregar</Button>
         }
@@ -248,6 +257,7 @@ function Admin_inventory() {
                 console.log(room.id);
                 console.log(document.getElementsByName('roomName')[0].value);
                 console.log(document.getElementsByName('roomBuilding')[0].value);
+                console.log(document.getElementsByName('roomFloor')[0].value);
                 console.log(document.getElementsByName('roomProyector')[0].checked);
                 console.log(document.getElementsByName('roomWIFI')[0].checked);
                 console.log(document.getElementsByName('roomBoard')[0].checked);
@@ -262,6 +272,7 @@ function Admin_inventory() {
                     room.id, 
                     document.getElementsByName('roomName')[0].value, 
                     document.getElementsByName('roomBuilding')[0].value, 
+                    document.getElementsByName('roomFloor')[0].value,
                     document.getElementsByName('roomProyector')[0].checked, 
                     document.getElementsByName('roomWIFI')[0].checked, 
                     document.getElementsByName('roomBoard')[0].checked, 
@@ -269,16 +280,18 @@ function Admin_inventory() {
                     document.getElementsByName('roomEthernet')[0].checked, 
                     document.getElementsByName('roomComputers')[0].checked, 
                     document.getElementsByName('roomDoubleMonitor')[0].checked, 
-                    document.getElementsByName('roomSeats')[0].value, 
-                    document.getElementsByName('roomEnergyOutlets')[0].value, 
+                    parseInt(document.getElementsByName('roomSeats')[0].value), 
+                    parseInt(document.getElementsByName('roomEnergyOutlets')[0].value), 
                     document.getElementsByName('roomDescription')[0].value, 
-                    room.images);
+                    room.images,
+                    document.getElementsByName('roomActive')[0].checked);
                 await getRooms();
             }}>Editar</Button>
         } else {
             return <Button type='submit' onClick={async () => {
                 console.log(document.getElementsByName('roomName')[0].value);
                 console.log(document.getElementsByName('roomBuilding')[0].value);
+                console.log(document.getElementsByName('roomFloor')[0].value);
                 console.log(document.getElementsByName('roomProyector')[0].checked);
                 console.log(document.getElementsByName('roomWIFI')[0].checked);
                 console.log(document.getElementsByName('roomBoard')[0].checked);
@@ -292,6 +305,7 @@ function Admin_inventory() {
                 await APImethods.createRoom(
                     document.getElementsByName('roomName')[0].value, 
                     document.getElementsByName('roomBuilding')[0].value, 
+                    document.getElementsByName('roomFloor')[0].value,
                     document.getElementsByName('roomProyector')[0].checked, 
                     document.getElementsByName('roomWIFI')[0].checked, 
                     document.getElementsByName('roomBoard')[0].checked, 
@@ -299,10 +313,11 @@ function Admin_inventory() {
                     document.getElementsByName('roomEthernet')[0].checked, 
                     document.getElementsByName('roomComputers')[0].checked, 
                     document.getElementsByName('roomDoubleMonitor')[0].checked, 
-                    document.getElementsByName('roomSeats')[0].value, 
-                    document.getElementsByName('roomEnergyOutlets')[0].value, 
+                    parseInt(document.getElementsByName('roomSeats')[0].value), 
+                    parseInt(document.getElementsByName('roomEnergyOutlets')[0].value), 
                     document.getElementsByName('roomDescription')[0].value, 
-                    room.images);
+                    room.images,
+                    document.getElementsByName('roomActive')[0].checked);
                 await getRooms();
             }}>Agregar</Button>
         }
@@ -428,12 +443,16 @@ function Admin_inventory() {
             </div>
             </Flex>
             {/* Form of Device */}
-            <Flex className='form' direction="column">
+            <Flex className='form' direction="column" key={device.id}>
                 <Button onClick={() => {setDevice(deviceForm); setEditingDevice(false);}}>Agregar Nuevo</Button>
                 <Text fontSize={11}>Editando Equipo con ID: {device.id}</Text>
+                <Flex direction="row" justifyContent='center'>
+                <CheckboxField name="deviceActive" label="Disponible" defaultChecked={device.active} />
+                </Flex>
                 <TextField label="Nombre" name='deviceName' defaultValue={device.name} required/>
                 <CheckboxField label="Portatil" name='devicePortable' defaultChecked={device.portable}/>
                 <TextField label="Sistema Operativo" name='deviceOS' defaultValue={device.os}/>
+                <TextField label="Procesador" name='deviceProcessor' defaultValue={device.processor}/>
                 <StepperField label="Almacenamiento (GB)" name='deviceStorage' defaultValue={device.storage} step={128} min={128}/>
                 <StepperField label="Memoria (GB)" name='deviceRAM' defaultValue={device.ram} step={2} min={2}/>
                 <Text fontSize={16}>Imagen</Text>
@@ -454,9 +473,12 @@ function Admin_inventory() {
             </div>
             </Flex>
             {/* Form of Device */}
-            <Flex className='form' direction="column">
+            <Flex className='form' direction="column" key={licence.id}>
                 <Button onClick={() => {setLicence(licenceForm); setEditingLicence(false);}}>Agregar Nuevo</Button>
                 <Text fontSize={11}>Editando Licencia con ID: {licence.id}</Text>
+                <Flex direction="row" justifyContent='center'>
+                <CheckboxField name="licenceActive" label="Disponible" defaultChecked={licence.active} />
+                </Flex>
                 <TextField label="Nombre" name='licenceName' defaultValue={licence.name}/>
                 <StepperField label="Año" name='licenceYear' defaultValue={licence.year} step={1} min={1990}/>
                 <Text fontSize={16}>Compatibilidad</Text>
@@ -493,13 +515,17 @@ function Admin_inventory() {
             </div>
             </Flex>
             {/* Form of Room */}
-            <Flex className='form' direction="column">
+            <Flex className='form' direction="column" key={room.id}>
                 <Button onClick={() => {setRoom(roomForm); setEditingRoom(false);}}>Agregar Nuevo</Button>
                 <Text fontSize={11}>Editando Salon con ID: {room.id}</Text>
+                <Flex direction="row" justifyContent='center'>
+                <CheckboxField name="roomActive" label="Disponible" defaultChecked={room.active} />
+                </Flex>
                 <Flex direction="row" gap="1rem">
                 <div>
                 <TextField label="Nombre" name='roomName' defaultValue={room.name}/>
                 <TextField label="Edificio" name='roomBuilding' defaultValue={room.building}/>
+                <TextField label="Piso" name='roomFloor' defaultValue={room.floor}/>
                 </div>
                 <div>
                 <Text fontSize={16}>Amenidades</Text>
