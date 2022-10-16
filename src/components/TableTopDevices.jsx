@@ -1,5 +1,3 @@
-// Standard imports 
-import './TableOne.css'
 // Chart import 
 import { Chart } from 'react-google-charts'
 
@@ -8,15 +6,15 @@ import { APImethods } from '../api/APImethods'
 import React, { useState, useEffect } from 'react'
 
 
-function TableOne(){
+function TableTopDevices(){
 
     const [dato, setDato] = useState(0);  
 
-    const [licenceInfo, setLicenceInfo] = useState(0);
+    const [deviceInfo, setDeviceInfo] = useState(0);
     
     useEffect (() => {
             getReservationsInfo();
-            getLicenceInfo();
+            getDevicesInfo();
         },[])
 
     async function getReservationsInfo(){
@@ -24,9 +22,9 @@ function TableOne(){
         setDato(response);
     } 
     
-    async function getLicenceInfo() {
-        const response = await APImethods.allLicences();
-        setLicenceInfo(response);
+    async function getDevicesInfo() {
+        const response = await APImethods.allDevices();
+        setDeviceInfo(response);
       }
     
     function getNumberOfReservations(){
@@ -39,17 +37,17 @@ function TableOne(){
 
         for(var i = 0; i < dato.length; i++)
         {
-            if(dato[i].licenceID != null)
+            if(dato[i].deviceID != null)
             {
-                if(TopReservation.includes(dato[i].licenceID) == true){
+                if(TopReservation.includes(dato[i].deviceID) == true){
                     
-                    key = dato[i].licenceID;
+                    key = dato[i].deviceID;
 
                     dict[key] = dict[key] + 1;
 
                 }
                 else{
-                    key = dato[i].licenceID;
+                    key = dato[i].deviceID;
                     dict[key] = 1;
                     TopReservation.push(key);
                 }
@@ -95,12 +93,12 @@ function TableOne(){
 
         for(var i = 0; i < 3; i++)
         {
-            for(var j = 0; j < licenceInfo.length; j++)
+            for(var j = 0; j < deviceInfo.length; j++)
             {
-                if(sortedKeys[i] == licenceInfo[j].id)
+                if(sortedKeys[i] == deviceInfo[j].id)
                 {
                     key = sortedKeys[i];
-                    names_ID[key] = licenceInfo[j].name
+                    names_ID[key] = deviceInfo[j].name
                 }
             }
         }
@@ -112,17 +110,17 @@ function TableOne(){
     var names_ID = getNames();
 
     const data = [
-        ["Licencias", 
+        ["Equipos", 
         names_ID[sortedKeys[0]], 
         names_ID[sortedKeys[1]], 
         names_ID[sortedKeys[2]]],
-        ["Licencia", reservations[sortedKeys[0]], reservations[sortedKeys[1]], reservations[sortedKeys[2]]]
+        ["Equipo", reservations[sortedKeys[0]], reservations[sortedKeys[1]], reservations[sortedKeys[2]]]
       ];
     
       const options = {
         chart: {
-          title: "Top 3 licencias mas usadas",
-          subtitle: "Licencias",
+          title: "Top 3 equipos mas usados",
+          subtitle: "Equipo",
         },
       };
 
@@ -139,4 +137,4 @@ function TableOne(){
     )
 }
 
-export default TableOne
+export default TableTopDevices

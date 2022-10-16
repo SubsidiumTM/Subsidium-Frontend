@@ -13,6 +13,10 @@ import { Chart } from 'react-google-charts'
 
 import TableOne from '../components/TableOne'
 
+import TableTwo from '../components/TableTopRooms'
+
+import TableThree from '../components/TableTopDevices'
+
 function Test() {
     const [unavailableDates, setUnavailableDates] = useState([])
 
@@ -227,7 +231,9 @@ function StatsDonut(props) {
             data={data}
             options={options}
         />*/
-        <TableOne></TableOne>
+        //<TableOne></TableOne>
+        //<TableTwo></TableTwo>
+        <TableThree></TableThree>
         );
 }
 
