@@ -15,43 +15,21 @@ function TableOne(){
     const [licenceInfo, setLicenceInfo] = useState(0);
     
     useEffect (() => {
-            awadeowo();
+            getReservationsInfo();
+            getLicenceInfo();
         },[])
 
-    async function awadeowo(){
+    async function getReservationsInfo(){
         const response = await APImethods.allReservations();
         setDato(response);
     } 
     
-    async function getLicenceInfo(id) {
-        const response = await APImethods.getLicence(id);
-        //console.log("Licence: ", response);
+    async function getLicenceInfo() {
+        const response = await APImethods.allLicences();
         setLicenceInfo(response);
       }
     
     function getNumberOfReservations(){
-
-        /*var key = "keyOne";
-        var key2 = "keyTwo";
-        var key3 = "KeyThree";
-        var obj = {};
-        obj[key] = 15;
-        obj[key2] = 33;
-        obj[key3] = 44;
-        
-        return obj;*/
-
-
-        /*var key = "L1";
-        var obj = {};
-        obj[key] = 14;
-        key = "L2";
-        obj[key] = 33;
-        key = "L3";
-        obj[key] = 44;
-        obj["L1"] = obj["L1"] + 13;
-        
-        return obj;*/
 
         var dict = {};
 
@@ -81,13 +59,12 @@ function TableOne(){
         return dict;
     }
 
+    var reservations = getNumberOfReservations(); 
+
     function getKeys(){
-        //var list = Object.keys(getNumberOfReservations())
 
-        var dict = getNumberOfReservations();
-
-        var items = Object.keys(dict).map(
-            (key) => { return [key, dict[key]] });
+        var items = Object.keys(reservations).map(
+            (key) => { return [key, reservations[key]] });
         
         items.sort(
             (first, second) => { return first[1] - second[1] }
@@ -98,41 +75,47 @@ function TableOne(){
 
         keys.reverse();
 
-        console.log("Aqui debgeando un diccionario qleao", keys);
+        console.log("Sorted keys", keys);
         console.log("top 1", keys[0]);
-        console.log("value 1", dict[keys[0]])
+        console.log("value 1", reservations[keys[0]])
         console.log("top 2", keys[1]);
-        console.log("value 1", dict[keys[1]])
+        console.log("value 2", reservations[keys[1]])
         console.log("top 3", keys[2]);
-        console.log("value 1", dict[keys[2]])
+        console.log("value 3", reservations[keys[2]])
 
         return keys
     }
 
     var sortedKeys = getKeys();
-    var reservations = getNumberOfReservations(); 
 
-    function getNames(id){
+    function getNames(){
 
-        getLicenceInfo(id)
+        var names_ID = {}
+        var key;
 
-        console.log("Respuesta de name", licenceInfo.name);
+        for(var i = 0; i < 3; i++)
+        {
+            for(var j = 0; j < licenceInfo.length; j++)
+            {
+                if(sortedKeys[i] == licenceInfo[j].id)
+                {
+                    key = sortedKeys[i];
+                    names_ID[key] = licenceInfo[j].name
+                }
+            }
+        }
 
-        return licenceInfo.name;
+        return names_ID;
 
     }
 
-    //const IdNameTopOne = getNames(sortedKeys[0]);
-    //var IdNameTopTwo = getNames(sortedKeys[1]);
-    //var IdNameTopThree = getNames(sortedKeys[2]);
+    var names_ID = getNames();
 
     const data = [
-        /*["Licencias", getKeys()[0], getKeys()[1], getKeys()[2]],
-        ["Licencia", getNumberOfReservations()[getKeys()[0]], getNumberOfReservations()[getKeys()[1]], getNumberOfReservations()[getKeys()[2]]]*/
         ["Licencias", 
-        sortedKeys[0], 
-        sortedKeys[1], 
-        sortedKeys[2]],
+        names_ID[sortedKeys[0]], 
+        names_ID[sortedKeys[1]], 
+        names_ID[sortedKeys[2]]],
         ["Licencia", reservations[sortedKeys[0]], reservations[sortedKeys[1]], reservations[sortedKeys[2]]]
       ];
     
