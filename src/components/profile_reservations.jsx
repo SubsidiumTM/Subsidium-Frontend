@@ -148,17 +148,16 @@ function Profile_reservations(props) {
         <TextField  label='Hora (entre 10am y 10pm)' name='time' width='100%' required type='time' 
         hidden={reservation.reservationTime == null} labelHidden={reservation.reservationTime == null}/>
         <SelectField label='Duracion de Reserva' name='duration' placeholder='Seleccionar' width='100%' required>
-            <option value={(5*24*60)}>5 dias</option>
-            <option value={(10*24*60)}>10 dias</option>
-            <option value={(15*24*60)}>15 dias</option>
-            <option value={(20*24*60)}>20 dias</option>
+            <option value={5}>5 dias</option>
+            <option value={10}>10 dias</option>
+            <option value={15}>15 dias</option>
         </SelectField>
         <Button onClick={async() => {
             const date = document.getElementsByName('date')[0].value;
             const time = document.getElementsByName('time')[0].value;
             const duration = parseInt(document.getElementsByName('duration')[0].value);
             await APImethods.updateReservation(
-                reservation.reservationID,
+                reservation.id,
                 reservation.userID,
                 reservation.deviceID,
                 reservation.licenceID,

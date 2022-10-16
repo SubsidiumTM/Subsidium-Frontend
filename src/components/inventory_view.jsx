@@ -4,6 +4,9 @@ import { Auth } from 'aws-amplify';
 import { APImethods } from "../api/APImethods";
 import { Button } from 'antd';
 import './inventory_view.css';
+// For DateInput
+import { DatePicker, TimePicker } from 'antd';
+import DateTimeInput from './DateTimeInput';
 import moment from 'moment';
 
 const InventorySelection = () => {
@@ -22,8 +25,12 @@ const InventorySelection = () => {
     const [devices, setDevices] = useState([]);
     const [rooms, setRooms] = useState([]);
     const [licences, setLicences] = useState([]);
-    const [index, setIndex] = useState(0);
-    const [startDate, setStartDate] = useState(new Date());
+
+    // Reservation Time Variables
+    const [selectedReservations, setSelectedReservations] = useState([]);
+    const [selectedDate, setSelectedDate] = useState('');
+    const [selectedTime, setSelectedTime] = useState('');
+    const [selectedDuration, setSelectedDuration] = useState('');    
 
     // First Caller
     useEffect(() => {
@@ -38,8 +45,6 @@ const InventorySelection = () => {
         const username = response.username;
         const response2 = await APImethods.getUser(username);
         if (response2.listUsers.items.length == 0) {
-            console.log("Registrando")
-            console.log(response)
             await (APImethods.createUser(
                 response.username,
                 response.attributes.name,
@@ -52,45 +57,76 @@ const InventorySelection = () => {
         }
         else {
             setUserID(response2.listUsers.items[0].id);
-            console.log("Ya esta registrado")
         }
     }
-
     // Retreives the list of devices, licences and rooms
     async function getInventoryList() {
-        const listLicences = await APImethods.allLicences();
+        const listLicences = await APImethods.allActiveLicences();
         setLicences(listLicences);
-        const listRooms = await APImethods.allRooms();
+        const listRooms = await APImethods.allActiveRooms();
         setRooms(listRooms);
-        const listDevices = await APImethods.allDevices();
+        const listDevices = await APImethods.allActiveDevices();
         setDevices(listDevices);
         console.log(listRooms)
         console.log(listDevices)
         console.log(listLicences)
+    }
+    // Reset Reservation Selection
+    function resetSelection() {
+        setSelectedDate('');
+        setSelectedTime('');
+        setSelectedDuration('');
     }
 
     // List item variables
     const listRooms = rooms.map((room) =>
         <Item 
         item={room} 
-        onSelectClick={() => {
+        onSelectClick={async () => {
             selectRoom(room)
+            resetSelection();
+            const response = await APImethods.allReservationsByRoom(room.id)
+            setSelectedReservations(response.map((reservation) => {
+                return {
+                    date: reservation.reservationDate,
+                    time: reservation.reservationTime,
+                    duration: reservation.reservationDuration,
+                }
+            }))
         }} 
         />
     );
     const listLicences = licences.map((licence) => 
         <Item 
         item={licence} 
-        onSelectClick={() => {
+        onSelectClick={async () => {
             selectLicence(licence)
+            resetSelection();
+            const response = await APImethods.allReservationsByLicence(licence.id)
+            setSelectedReservations(response.map((reservation) => {
+                return {
+                    date: reservation.reservationDate,
+                    time: reservation.reservationTime,
+                    days: reservation.reservationDuration,
+                }
+            }))
         }} 
         />
     );
     const listDevices = devices.map((device) => 
         <Item 
         item={device} 
-        onSelectClick={() => {
+        onSelectClick={async () => {
             selectDevice(device)
+            resetSelection();
+            const response = await APImethods.allReservationsByDevice(device.id)
+            setSelectedReservations(response.map((reservation) => {
+                return {
+                    date: reservation.reservationDate,
+                    time: reservation.reservationTime,
+                    days: reservation.reservationDuration,
+                }
+            }))
         }} 
         />
     );
@@ -174,18 +210,23 @@ const InventorySelection = () => {
         <p>{deviceInfo.description}</p>
     </>;
 
-    const disabledDate = (current) => {
-        // Can not select days before today and today
-        return current && current < moment().endOf('day') && moment("20221015", "YYYYMMDD").fromNow();
-    };
+    const handleDateChange = (date) => {
+        console.log('date:', date);
+        setSelectedDate(date)
+    }
+    const handleTimeChange = (time) => {
+        console.log('time:', time);
+        setSelectedTime(time)
+    }
+    const handleDurationChange = (days) => {
+        console.log('duration:', days);
+        setSelectedDuration(days)
+    }
 
     return (
         <div className='inventory_component'>
         <Heading level={1}>Inventario de Reservas</Heading>
-        <Tabs
-        defaultIndex={index}
-        spacing="equal"
-        justifyContent="flex-start">
+        <Tabs spacing="equal" justifyContent="flex-start">
 
         {/* ///////// Table and Form of Licence ///////// */}
         <TabItem title="Licence">
@@ -208,50 +249,49 @@ const InventorySelection = () => {
             <Flex direction="column" className='reservation'>
                 <Heading level={3}>Reservar</Heading>
                 <h3>Seleccion de inicio de la reserva</h3>
-                
-                <TextField  
-                label='Fecha' 
-                name='dateLicence' 
-                placeholder='DD/MM/AAAA' 
-                width='100%' 
-                required type='date'
-                d
+                <DateInput
+                value={selectedDate}
+                unavailableDates={selectedReservations}
+                onDurationChange={handleDurationChange}
+                onDateChange={handleDateChange}
                 />
-                <SelectField label='Duracion de Reserva' name='licenceDuration' placeholder='Seleccionar' width='100%' required>
-                    <option value={(5*24*60)}>5 dias</option>
-                    <option value={(10*24*60)}>10 dias</option>
-                    <option value={(15*24*60)}>15 dias</option>
-                    <option value={(20*24*60)}>20 dias</option>
-                </SelectField>
             </Flex>
                 
             </Flex>
             <br></br>
             <Flex justifyContent="center">
             <Button onClick={async() => {
-                if (userID === '' |
-                    licenceID === '' |
-                    document.getElementsByName('dateLicence')[0].value === '' |
-                    document.getElementsByName('licenceDuration')[0].value === '') {
-                    alert('Por favor complete todos los campos')
+                if (userID === '' ||
+                    licenceID === '' ||
+                    selectedDate === '' ||
+                    selectedDuration === '') {
+                    alert('Por favor complete todos los campos o cambie la fecha de reserva')
                 }
                 else {
                     console.log(userID)
                     console.log(licenceID)
-                    console.log(document.getElementsByName('dateLicence')[0].value)
-                    console.log(parseInt(document.getElementsByName('licenceDuration')[0].value))
+                    // Make reservation
                     await APImethods.createReservation(
                         userID,
                         null,
                         licenceID,
                         null,
-                        document.getElementsByName('dateLicence')[0].value,
+                        selectedDate,
                         null,
-                        parseInt(document.getElementsByName('licenceDuration')[0].value),
+                        parseInt(selectedDuration),
                         "PENDIENTE"            
                     )
-                    document.getElementsByName('dateLicence')[0].value = ''
-                    document.getElementsByName('licenceDuration')[0].value = ''
+                    // Update calendar
+                    const response = await APImethods.allReservationsByLicence(licenceID)
+                    setSelectedReservations(response.map((reservation) => {
+                        return {
+                            date: reservation.reservationDate,
+                            time: reservation.reservationTime,
+                            days: reservation.reservationDuration,
+                        }
+                    }))
+                    // Reset Variables
+                    resetSelection();
                     console.log('Reserva creada')
                 }
             }}>Reservar</Button>
@@ -283,46 +323,39 @@ const InventorySelection = () => {
             <Flex direction="column">
                 <Heading level={3}>Reservar</Heading>
                 <h3>Seleccion de inicio de la reserva</h3>
-                <TextField  label='Fecha' name='dateRoom' placeholder='DD/MM/AAAA' width='100%' required type='date'/>
-                <TextField  label='Hora (entre 10am y 10pm)' name='timeRoom' width='100%' required type='time'/>
-                <SelectField label='Duracion de Reserva' name='roomDuration' placeholder='Seleccionar' width='100%' required>
-                    <option value={15}>15 min</option>
-                    <option value={30}>30 min</option>
-                    <option value={45}>45 min</option>
-                    <option value={60}>60 min</option>
-                </SelectField>
+                <DateTimeInput
+                reservations={selectedReservations}
+                onDateChange={handleDateChange}
+                onTimeChange={handleTimeChange}
+                onDurationChange={handleDurationChange}
+                />
             </Flex>
                 
             </Flex>
             <br></br>
             <Flex justifyContent="center">
             <Button onClick={async () => {
-                if (userID === '' |
-                    roomID === '' |
-                    document.getElementsByName('dateRoom')[0].value === '' |
-                    document.getElementsByName('timeRoom')[0].value === '' |
-                    document.getElementsByName('roomDuration')[0].value === '') {
+                if (userID === '' ||
+                    roomID === '' ||
+                    selectedDate === '' ||
+                    selectedTime === '' ||
+                    selectedDuration === '') {
                     alert('Por favor complete todos los campos')
                 }
                 else {
                     console.log(userID)
                     console.log(roomID)
-                    console.log(document.getElementsByName('dateRoom')[0].value)
-                    console.log(document.getElementsByName('timeRoom')[0].value)
-                    console.log(parseInt(document.getElementsByName('roomDuration')[0].value))
                     await APImethods.createReservation(
                         userID,
                         null,
                         null,
                         roomID,
-                        document.getElementsByName('dateRoom')[0].value,
-                        document.getElementsByName('timeRoom')[0].value,
-                        parseInt(document.getElementsByName('roomDuration')[0].value),
+                        selectedDate,
+                        selectedTime,
+                        parseInt(selectedDuration),
                         "PENDIENTE"
                     )
-                    document.getElementsByName('dateRoom')[0].value = ''
-                    document.getElementsByName('timeRoom')[0].value = ''
-                    document.getElementsByName('roomDuration')[0].value = ''
+                    resetSelection();
                     console.log('Reserva creada')
                 }
             }}>Reservar</Button>
@@ -350,45 +383,52 @@ const InventorySelection = () => {
             </Flex>
             </div>
             {/* Reservation Details */}
-            <Flex direction="column">
+            <Flex direction="column" className='reservation'>
                 <Heading level={3}>Reservar</Heading>
                 <h3>Seleccion de inicio de la reserva</h3>
-                <TextField  label='Fecha' name='dateDevice' placeholder='DD/MM/AAAA' width='100%' required type='date'/>
-                <SelectField label='Duracion de Reserva' name='deviceDuration' placeholder='Seleccionar' width='100%' required>
-                    <option value={(5*24*60)}>5 dias</option>
-                    <option value={(10*24*60)}>10 dias</option>
-                    <option value={(15*24*60)}>15 dias</option>
-                    <option value={(20*24*60)}>20 dias</option>
-                </SelectField>
+                <DateInput
+                value={selectedDate}
+                unavailableDates={selectedReservations}
+                onDurationChange={handleDurationChange}
+                onDateChange={handleDateChange}
+                />
             </Flex>
                 
             </Flex>
             <br></br>
             <Flex justifyContent="center">
-            <Button onClick={() => {
-                if (userID === '' |
-                    deviceID === '' |
-                    document.getElementsByName('dateDevice')[0].value === '' |
-                    document.getElementsByName('deviceDuration')[0].value === '') {
+            <Button onClick={async () => {
+                if (userID === '' ||
+                    deviceID === '' ||
+                    selectedDate === '' ||
+                    selectedDuration === '') {
                     alert('Por favor complete todos los campos')
                 }
                 else {
                     console.log(userID)
                     console.log(deviceID)
-                    console.log(document.getElementsByName('dateDevice')[0].value)
-                    console.log(parseInt(document.getElementsByName('deviceDuration')[0].value))
-                    APImethods.createReservation(
+                    // Make reservation
+                    await APImethods.createReservation(
                         userID,
                         deviceID,
                         null,
                         null,
-                        document.getElementsByName('dateDevice')[0].value,
+                        selectedDate,
                         null,
-                        parseInt(document.getElementsByName('deviceDuration')[0].value),
+                        parseInt(selectedDuration),
                         "PENDIENTE"            
                     )
-                    document.getElementsByName('dateDevice')[0].value = ''
-                    document.getElementsByName('deviceDuration')[0].value = ''
+                    // Update calendar
+                    const response = await APImethods.allReservationsByDevice(deviceID)
+                    setSelectedReservations(response.map((reservation) => {
+                        return {
+                            date: reservation.reservationDate,
+                            time: reservation.reservationTime,
+                            days: reservation.reservationDuration,
+                        }
+                    }))
+                    // Reset Variables
+                    resetSelection();
                     console.log('Reserva creada')
                 }
             }}>Reservar</Button>
@@ -429,59 +469,94 @@ function Item(props) {
     )
 }
 
-function Date_input() {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+function DateInput(props) {
 
-// React component of a date input that disables the past dates and the dates that are not available
-// function Date_input(props) {
-//     const [date, setDate] = useState(new Date());
-//     const [availableDates, setAvailableDates] = useState([]);
-//     const [disabledDates, setDisabledDates] = useState([]);
-    
-//     useEffect(() => {
-//         async function getAvailableDates() {
-//         const dates = await APImethods.getAvailableDates(props.roomID);
-//         setAvailableDates(dates);
-//         }
-//         getAvailableDates();
-//     }, []);
-    
-//     useEffect(() => {
-//         let disabledDates = [];
-//         for (let i = 0; i < availableDates.length; i++) {
-//         const date = new Date(availableDates[i]);
-//         if (date < new Date()) {
-//             disabledDates.push(date);
-//         }
-//         }
-//         setDisabledDates(disabledDates);
-//     }, [availableDates]);
-    
-//     const handleDateChange = (date) => {
-//         setDate(date);
-//         props.onDateChange(date);
-//     };
-    
-//     return (
-//         <div>
-//         <DatePicker
-//             selected={date}
-//             onChange={handleDateChange}
-//             minDate={new Date()}
-//             filterDate={(date) => {
-//             for (let i = 0; i < disabledDates.length; i++) {
-//                 if (date.getTime() === disabledDates[i].getTime()) {
-//                 return false;
-//                 }
-//             }
-//             return true;
-//             }}
-//         />
-//         </div>
-//     );
-// }
+    console.log("unavailable days", props.unavailableDates)
+
+    const [availableReservationDays, setAvailableReservationDays] = useState(0)
+
+    function disabledDate(current) {
+        // Can not select sundays and predfined days
+        return (isInDisabledDateRange(current)
+        || current < moment().subtract(1, 'days')
+        || current > moment().add(3, 'months'))
+    }
+
+    function isInDisabledDateRange(date) {
+        const unavailableDates = props.unavailableDates
+        for (let i = 0; i < unavailableDates.length; i++) {
+        for (let j = 0; j < unavailableDates[i].days; j++) {
+            if (moment(date).format('YYYY-MM-DD') === moment(unavailableDates[i].date).add(j, 'days').format('YYYY-MM-DD')) {
+                return true
+            }
+        }
+        }
+    }
+
+    function daysToUnavailableDate2(selectedDate){
+        const daysToDates = props.unavailableDates
+            .map(a => moment(a.date))
+            .filter(date => date.isAfter(selectedDate))
+            .map(date => date.diff(selectedDate, "days") + 1)
+        let days = Math.min(...daysToDates)
+        days = Math.min(15, days)
+        setAvailableReservationDays(days)
+    }
+
+    function daysToUnavailableDate(date) {
+        const unavailableDates = props.unavailableDates
+        let minDays = 15;
+        for (let i = 0; i < unavailableDates.length; i++) {
+            console.log("unavailable date", unavailableDates[i].date)
+            if (moment(date).isBefore(moment(unavailableDates[i].date))) {
+                for (let j = 0; j < 15; j++) { // 15 is the maximum number of days that can be reserved
+                    if (moment(date).add(j, 'days').format('YYYY-MM-DD') === moment(unavailableDates[i].date).format('YYYY-MM-DD')) {
+                        if (j < minDays) minDays = j;
+                        console.log("available days", j)
+                    }
+                }
+            }
+        }
+        setAvailableReservationDays(minDays);
+        console.log("available days", 15)
+    }
+
+    const options = () => {
+        const options = []
+        for (let i = 1; i <= availableReservationDays; i++) {
+        options.push(<option key={i} value={i}>{i}</option>)
+        }
+        return options
+    }
+
+    return (
+        <Flex direction='column'>
+        <Text fontSize={16}>Seleccion de inicio de la reserva</Text>
+        <DatePicker 
+        disabledDate={disabledDate}
+        onChange={(date) => {
+            if (date === null) {
+                setAvailableReservationDays(0)
+                props.onDateChange(null)
+                props.onDurationChange(null)
+            }
+            else {
+                console.log(props.unavailableDates)
+                daysToUnavailableDate2(date)
+                props.onDateChange(moment(date).format('YYYY-MM-DD'))
+            }
+        }}
+        size='large'
+        />
+        <SelectField 
+        label='Duración' 
+        placeholder='Selecciona una opción' 
+        onChange={(e) => {
+            props.onDurationChange(e.target.value)
+        }}
+        >
+            {options()}
+        </SelectField>
+        </Flex>
+    )
+}

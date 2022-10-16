@@ -16,9 +16,7 @@ const Users_list = () => {
 
     async function retrieveUsers () {
         const response = await APImethods.allUsers();
-        console.log(response);
         setUserList(response);
-        console.log(userList);
     }
 
     const status_label = (active) => {
@@ -50,9 +48,9 @@ const Users_list = () => {
     }
 
     async function deleteUser (e) {
-        await APImethods.deleteUser(e.id);
+        await APImethods.deleteUser(e.id)
+        console.log(e.id);
         retrieveUsers();
-        // TODO: Delete from cognito
     }
 
     // Status of user

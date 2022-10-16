@@ -389,8 +389,8 @@ export class APImethods {
         const response = await API.graphql({ query: mutations.updateUser, variables: {input: newUser}});
     }
 
-    static async deleteUser(username) {       
-        const response = await API.graphql({ query: mutations.deleteUser, variables: {input: {username: username}}});
+    static async deleteUser(userID) {       
+        const response = await API.graphql({ query: mutations.deleteUser, variables: {input: {id: userID}}});
     }
 
     // CRUD Reservation
@@ -456,10 +456,6 @@ export class APImethods {
             state: state_u
         };       
         const response = await API.graphql({ query: mutations.updateReservation, variables: {input: newReservation}});
-    }
-
-    static async deleteUser(reservationID) {       
-        const response = await API.graphql({ query: mutations.deleteReservation, variables: {input: {id: reservationID}}});
     }
 
     // CRUD Modifications
