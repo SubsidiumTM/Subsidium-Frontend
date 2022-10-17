@@ -43,7 +43,6 @@ function DateTimeInput (props: DateTimeInputProps) {
             const start = moment(reservation.date + ' ' + reservation.time)
             const end = start.clone().add(reservation.duration, 'minutes')
 
-
             for (let min = 0; min < 60; min+=30) {
                 selectedTime?.add(min, 'minutes')
                 if (selectedTime?.isSameOrAfter(start) && selectedTime?.isBefore(end)) {
@@ -80,12 +79,17 @@ function DateTimeInput (props: DateTimeInputProps) {
 
     return (
         <Flex direction='column'>
-            <DatePicker 
+            <DatePicker
             disabledDate={disabledDate}
             onChange={(date) => {
                 let dateStr:string = date?.format('YYYY-MM-DD') || '';
-                setSelectedDate(moment(dateStr + ' 00:00'))
+                if (dateStr == '') {
+                    setSelectedDate(null)
+                } else {
+                    setSelectedDate(moment(dateStr + ' 00:00'))
+                }
                 setAvailableMinutes(0)
+                props.onDurationChange(0)
                 props.onDateChange(dateStr)
             }}
             />
@@ -97,10 +101,16 @@ function DateTimeInput (props: DateTimeInputProps) {
             size='large'
             onChange={(time) => {
                 let timeStr:string = time?.format('HH:mm') || '';
+                console.log('Time', timeStr)
                 const newSelectedDate = selectedDate?.format('YYYY-MM-DD') + ' ' + timeStr
                 setSelectedDate(moment(newSelectedDate))
                 props.onTimeChange(timeStr)
                 getAvailableMinutes(moment(newSelectedDate))
+                if (timeStr == '') {
+                    console.log('Time', timeStr)
+                    setAvailableMinutes(0) 
+                    props.onDurationChange(0)
+                }
             }}
             />
             <SelectField 
@@ -109,6 +119,7 @@ function DateTimeInput (props: DateTimeInputProps) {
                 props.onDurationChange(parseInt(e.target.value))
             }}
             >
+            <option key={0} value=''>Selecciona una opción</option>
             {options()}                
             </SelectField>
         </Flex>

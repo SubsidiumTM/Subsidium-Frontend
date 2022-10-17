@@ -40,7 +40,7 @@ const News_preview_list = () => {
 
     // Buttons by permissinon
     const editButton = (news) => {
-        if (user == "USER" || user == "GENERAL_ADMIN") {
+        if (user == "ADMIN" || user == "GENERAL_ADMIN") {
             return <>
                 <Button><a href={`/noticias/edicion/${news.id}`}>Editar</a></Button>
                 <Button onClick={() => {deleteNews(news.id)}}>Borrar</Button>
@@ -51,7 +51,7 @@ const News_preview_list = () => {
         }
     }
     const addButton = () => {
-        if (user == "USER" || user == "GENERAL_ADMIN") {
+        if (user == "ADMIN" || user == "GENERAL_ADMIN") {
             return <>
                 <Flex direction="row" justifyContent="center">
                 <button className='Nuevo'><a href={`/noticias/edicion/nuevo`}>Escribir Noticia</a></button>

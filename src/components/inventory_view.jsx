@@ -237,7 +237,11 @@ const InventorySelection = () => {
             {listLicences}
         </div>
         {/* ////////// FORM ////////// */}
-        <div className="format">
+        <div className="format" key={licenceID}>
+            {licenceID === "" ?
+            <></>
+            : 
+            <>
             <Flex direction="row">
             {/* Description */}
             <div className="description">
@@ -296,6 +300,7 @@ const InventorySelection = () => {
                 }
             }}>Reservar</Button>
             </Flex>
+            </>}
         </div>
 
         </Flex>
@@ -310,7 +315,11 @@ const InventorySelection = () => {
             {listRooms}
         </div>
         {/* ////////// FORM ////////// */}
-        <div className="format">
+        <div className="format" key={roomID}>
+            {roomID === "" ?
+            <></>
+            :
+            <>
             <Flex direction="row">
             {/* Description */}
             <div className="description">
@@ -339,7 +348,7 @@ const InventorySelection = () => {
                     roomID === '' ||
                     selectedDate === '' ||
                     selectedTime === '' ||
-                    selectedDuration === '') {
+                    selectedDuration === 0) {
                     alert('Por favor complete todos los campos')
                 }
                 else {
@@ -360,6 +369,7 @@ const InventorySelection = () => {
                 }
             }}>Reservar</Button>
             </Flex>
+            </>}
         </div>
         
         </Flex>
@@ -374,7 +384,11 @@ const InventorySelection = () => {
             {listDevices}
         </div>
         {/* ////////// FORM ////////// */}
-        <div className="format">
+        <div className="format" key={deviceID}>
+            {deviceID === "" ?
+            <></>
+            :
+            <>
             <Flex direction="row">
             {/* Description */}
             <div className="description">
@@ -433,6 +447,7 @@ const InventorySelection = () => {
                 }
             }}>Reservar</Button>
             </Flex>
+            </>}
         </div>
         
         </Flex>

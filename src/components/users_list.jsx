@@ -75,15 +75,23 @@ const Users_list = () => {
 
     // List item variables
     const listUsers = userList.map((user) => 
-        <div>
-        {user.username} / 
-        {user.name} {user.surname} / 
-        {user.email} / 
-        Estado: {status_label(user.active)} / 
-        Tipo de usuario: {user.type} / 
+        <div className='item'>
+        <Flex direction='row' justifyContent='left' gap='2rem'>
+        <Flex direction='column'>
+        <div>Nombre de usuario: {user.username}</div>
+        <div>Nombre completo: {user.name} {user.surname}</div>
+        <div>Correo: {user.email}</div>
+        </Flex>
+        <Flex direction='column' justifyContent='center'>
+        <div>Estado: {status_label(user.active)}</div>
+        <div>Tipo de usuario: {user.type}</div>
+        </Flex>
+        <div className='buttons'>
         {status_button(user)}
         {type_button(user)}
         <Button onClick={() => {setUserDetails(user)}}>Ver</Button>
+        </div>
+        </Flex>
         </div>
     );
 
@@ -91,7 +99,7 @@ const Users_list = () => {
     <div>
         <h2>Lista de Usuarios</h2>
         <Flex direction="row">
-        <div>
+        <div className='list'>
             {listUsers}
         </div>
 

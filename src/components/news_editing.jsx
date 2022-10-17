@@ -1,21 +1,32 @@
 import { Flex, TextAreaField, TextField, View, Heading } from '@aws-amplify/ui-react';
 import { Button } from 'antd';
 import React, { useEffect, useState } from 'react'
+import { Auth } from 'aws-amplify'
 import { APImethods } from '../api/APImethods';
 import './news.css'
 
 const News_editing = (props) => {
     // Data from props
     const param = window.location.pathname.substring(18);
+    const [user, setUser] = useState([])
     const [body, setBody] = useState({title:'', description:'', content:'', image:''});
     const [imageURL, setImageURL] = useState('');
     const [editing, setEditing] = useState(false);
 
     // First Caller
-    useEffect(() => {
+    useEffect(async () => {
+        await (getUser())
         getNewsBody();
-        console.log(body);
     }, [],);
+
+    // Checking User Permission
+    async function getUser() {
+        const response = await Auth.currentUserInfo();
+        const username = response.username;
+        const userInfo = await APImethods.getUser(username);
+        setUser(userInfo.listUsers.items[0].type)
+        console.log(userInfo)
+    }
 
     // Get News Body
     async function getNewsBody() {
@@ -113,6 +124,8 @@ const News_editing = (props) => {
 
     return (
         <>
+        {(user == "ADMIN" || user == "GENERAL_ADMIN") ?
+        
         <div className="background">
         <Heading level={1}>Edicion de Noticias</Heading>
         <View as="form" onSubmit={submitAction}>
@@ -137,6 +150,12 @@ const News_editing = (props) => {
 
         </View>
         </div>
+
+        :
+        <div className="background">
+        <Heading level={1}>No tienes permisos para ver esta pagina</Heading>
+        </div>
+        }
         </>
     )
 }
