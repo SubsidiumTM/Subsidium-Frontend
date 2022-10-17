@@ -13,7 +13,7 @@ function Header() {
     <nav>
         <Flex className='header' direction="row" justifyContent="center">
 
-          <Flex direction="row" justifyContent="left" width="50rem"><a href='/'>Logo</a></Flex>
+          <Flex direction="row" justifyContent="left" width="50rem"><a href='/' className='Logo'> Subsidum </a></Flex>
 
           <Flex direction="row" justifyContent="center">
           <a href='/'>Inicio</a>

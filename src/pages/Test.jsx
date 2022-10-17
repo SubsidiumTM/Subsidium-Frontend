@@ -11,6 +11,12 @@ import moment from 'moment'
 // For Stats
 import { Chart } from 'react-google-charts'
 
+import TableOne from '../components/TableOne'
+
+import TableTwo from '../components/TableTopRooms'
+
+import TableThree from '../components/TableTopDevices'
+
 function Test() {
     const [unavailableDates, setUnavailableDates] = useState([])
 
@@ -200,28 +206,35 @@ function TimeInput() {
 
 // Percentage by Type of Reservation
 function StatsDonut(props) {
-    const data = [
-        ["Tipo de Recusro", "Frecuencia"],
-        ["Licencia", 11],
-        ["Equipos", 2],
-        ["Salones", 2],
-    ];
-      
-    const options = {
-        title: "Distribución de Reservas",
-        pieHole: 0.3,
-        is3D: false,
-    };
 
-    return (
-    <Chart
-        chartType="PieChart"
-        width="100%"
-        height="400px"
-        data={data}
-        options={options}
-    />
-    );
+    /*const data = [
+        ["Month", "Macbook Pro", "iPhone XR", "iPhone 13"],
+        ["month1", 10, 2, 5],
+        ["month2", 2, 3, 10],
+        ["month3", 9, 1, 11],
+        ["month4", 12, 8, 9],
+      ];
+    
+      const options = {
+        chart: {
+          title: "Top devices of the latest months",
+          subtitle: "Month 1 - Month4",
+        },
+      };*/
+
+      
+      return (
+        /*<Chart
+            chartType="Bar"
+            width="100%"
+            height="400px"
+            data={data}
+            options={options}
+        />*/
+        //<TableOne></TableOne>
+        //<TableTwo></TableTwo>
+        <TableThree></TableThree>
+        );
 }
 
 // Percentage by Day of the Week
