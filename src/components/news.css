@@ -1,4 +1,33 @@
 /* div background color white */
 div.background {
-    background-color: white;
+    background-color: rgb(238, 238, 238);
+    width: 66%;
+    margin-left: 17%;
+    text-align: center;
+}
+
+/* div content centered */
+div.content {
+    text-align: center;
+    padding: 10px;
+}
+
+h1 {
+    color: black;
+}
+
+/* image square that resizes with screen size */
+div.image {
+    width: 100%;
+    height: auto;
+}
+div.image img {
+    width: 50%;
+    height: auto;
+    margin-left: 25%;
+}
+
+div img.read {
+    width: 50%;
+    height: auto;
 }

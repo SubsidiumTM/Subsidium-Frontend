@@ -119,13 +119,17 @@ const News_editing = (props) => {
 
         <Flex direction="column">
 
-        <TextField label='Titulo' name='title' placeholder='Titulo' width='50%' defaultValue={body.title}/>
-        <TextField label='Descripcion' name='description' placeholder='Una breve descripcion' width='50%'  required defaultValue={body.description}/>
+        <TextField label='Titulo' name='title' placeholder='Titulo' width='100%' defaultValue={body.title}/>
+        <TextField label='Descripcion' name='description' placeholder='Una breve descripcion' width='100%'  required defaultValue={body.description}/>
 
+        <div className="image">
+        <Flex direction='column'>
         {imageSelection()}
+        </Flex>
+        </div>
 
-        <TextField  label='Fecha' name='date' placeholder='DD/MM/AAAA' width='25%' required type='date'/>
-        <TextAreaField label='Noticia' name='content' placeholder='A escribir ...' size='small' width='75%'  required defaultValue={body.content} />
+        <TextField  label='Fecha' name='date' placeholder='DD/MM/AAAA' width='100%' required type='date'/>
+        <TextAreaField label='Noticia' name='content' placeholder='A escribir ...' size='small' width='100%'  required defaultValue={body.content} />
 
         {submitButton()}
 
