@@ -3,6 +3,7 @@ import { Flex, Heading } from '@aws-amplify/ui-react'
 import { useState, useEffect } from 'react'
 import { Auth } from 'aws-amplify';
 import './profile.css'
+import TableFour from './PieChartUserReservation'
 
 const Profile_information = () => {
 
@@ -65,6 +66,7 @@ const Profile_information = () => {
             <li>La contraseña debe tener al menos un caracter especial</li>
         </ul>
     </Flex>
+    <TableFour/>
     </div>
     </>
   )

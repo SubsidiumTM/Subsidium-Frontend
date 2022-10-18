@@ -104,6 +104,15 @@ function Test() {
 
         <StatsDonut
         />
+
+        <TableOne/>
+        <TableTwo/>
+        <TableThree/>
+        <TableFour/>
+        <Tablefive/>
+        <Tablesix/>
+        <Tableseven/>
+        <TableEigth/>
         
         </div>
     )
