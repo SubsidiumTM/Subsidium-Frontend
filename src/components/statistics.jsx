@@ -1,7 +1,7 @@
 import { resolveReadonlyArrayThunk } from 'graphql'
 import React from 'react'
 import { APImethods } from '../api/APImethods'
-import {} from '@react-pdf/renderer'
+//import {} from '@react-pdf/renderer'
 import { Heading } from '@aws-amplify/ui-react'
 
 import TableOne from './TableOne'
