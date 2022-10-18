@@ -130,7 +130,7 @@ const News_editing = (props) => {
         <Heading level={1}>Edicion de Noticias</Heading>
         <View as="form" onSubmit={submitAction}>
 
-        <Flex direction="column">
+        <Flex direction="column" style={{backgroundColor: "rgb(201, 201, 174);"}}>
 
         <TextField label='Titulo' name='title' placeholder='Titulo' width='100%' defaultValue={body.title}/>
         <TextField label='Descripcion' name='description' placeholder='Una breve descripcion' width='100%'  required defaultValue={body.description}/>

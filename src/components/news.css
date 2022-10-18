@@ -31,3 +31,18 @@ div img.read {
     width: 50%;
     height: auto;
 }
+
+.newsBack{
+    background-image: url('../../public/images/FondoNews2.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.NewRBody{
+    background-image: url('../../public/images/ReadNews2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+
+}

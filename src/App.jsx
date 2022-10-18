@@ -37,7 +37,7 @@ function App() {
 
         {/* DONE */}
         <Route path='/noticias' element={<News />} />
-        <Route path="/noticias/*" element={<News_reading />} />
+        <Route path="/noticias/*" element={<body className='NewRBody'> <News_reading /> </body> } />
         <Route path='/noticias/edicion/*' element={<NewsEditing />} />
 
         {/* TODO */}

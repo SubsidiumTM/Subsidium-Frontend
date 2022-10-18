@@ -73,10 +73,12 @@ const News_preview_list = () => {
 
     return (
         <>
+        {/*rgba(190,191,186,255)*/}
         {addButton()}
-        <Flex direction="column">
-        {listNewsPreview}
-        </Flex>
+            <Flex direction="column" style={{backgroundColor: "rgba(19,27,48,255)"}}>
+                <p></p>
+            {listNewsPreview}
+            </Flex>
         </>
     )
 }

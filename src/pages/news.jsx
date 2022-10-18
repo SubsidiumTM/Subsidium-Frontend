@@ -5,10 +5,12 @@ import '../components/news.css'
 
 function News() {
   return (
-    <div className='background'>
-    <Heading level={1}>Noticias</Heading>
-    <News_preview_list />
-    </div>
+    <body className='newsBack'>
+      <div className='background'>
+      <Heading level={1}>Noticias</Heading>
+      <News_preview_list />
+      </div>
+    </body>
   )
 }
 

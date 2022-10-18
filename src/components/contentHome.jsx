@@ -8,7 +8,7 @@ function contentHome() {
     return(
         <body>
             <div className='Bienvenida'>
-                <h1> Bienvednid@ a Subsidium </h1>
+                <h1 className='Titulo1'> Bienvednid@ a Subsidium </h1>
                 <h2> by Cibersecurty Hub </h2>
                 <p> Ven y conoce el nuevo hub de ciberseguridad del Tec de Monterrey en Campus Santa Fe, Ciudad de México </p>
                 <p> Aprovecha las instalaciones y servicios para desarrollar tu potencial al maximo </p>

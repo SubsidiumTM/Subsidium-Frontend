@@ -1,0 +1,6 @@
+.editingBack{
+    background-image: url('../../public/images/EditBack.jpg');
+    /*background-repeat: no-repeat;*/
+    background-size:contain;
+    /*background-position: center;*/
+}

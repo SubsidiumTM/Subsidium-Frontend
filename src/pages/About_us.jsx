@@ -6,7 +6,7 @@ function About_us() {
 
   return (
     <div className='General'>
-      <h1> HUB DE CIBERSEGURIDAD </h1>
+      <h1 className='Titulo1'> HUB DE CIBERSEGURIDAD </h1>
       <img src="images/AboutUs1.JPG" alt="1" className='imgSpecial'/>
 
       <div className='Info'>
