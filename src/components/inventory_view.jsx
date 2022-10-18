@@ -8,6 +8,7 @@ import './inventory_view.css';
 import { DatePicker, TimePicker } from 'antd';
 import DateTimeInput from './DateTimeInput';
 import moment from 'moment';
+import {message} from 'antd'
 
 const InventorySelection = () => {
     // Information required on the page
@@ -15,6 +16,7 @@ const InventorySelection = () => {
     const [licenceID, setLicenceID] = useState("");
     const [roomID, setRoomID] = useState("");
     const [deviceID, setDeviceID] = useState("");
+    const [image, setImage] = useState(<Loader />);
 
     // Description of Inventory
     const [licenceInfo, setLicenceInfo] = useState([]);
@@ -38,6 +40,11 @@ const InventorySelection = () => {
         confirmUserRegistration();
         confirmUserRegistration();
     }, [],);
+
+    async function getImage (image) {
+        const url = await APImethods.getImage(image);
+        setImage(<img src={url}/>);
+    }
 
     // Confirms if user is registered or registers if not
     async function confirmUserRegistration() {
@@ -133,24 +140,30 @@ const InventorySelection = () => {
 
     // Fill in formats
     function selectRoom (e) {
+        setImage(<Loader />);
         setRoomInfo(e)
         setRoomID(e.id)
+        getImage(e.images[0])
     }
     function selectLicence (e) {
+        setImage(<Loader />);
         setLicenceInfo(e)
         setLicenceID(e.id)
+        getImage(e.images[0])
     }
     function selectDevice (e) {
+        setImage(<Loader />);
         setDeviceInfo(e)
         setDeviceID(e.id)
+        getImage(e.images[0])
     }
 
     // Info containers
     const roomInfoContainer = <>
         <Heading level={3}>{roomInfo.name}</Heading>
         <Flex direction="row">
-            <image></image>
             <Flex direction="column">
+            {image}
             <h2>Caracteristicas</h2>
             <li>Edificio: {roomInfo.building}</li>
             <li hidden={!roomInfo.proyector}>Proyector</li>
@@ -169,8 +182,8 @@ const InventorySelection = () => {
     const licenceInfoContainer = <>
         <Heading level={3}>{licenceInfo.name}</Heading>
         <Flex direction="row">
-            <img/>
             <Flex direction="column">
+                {image}
                 <h2>Caracteristicas</h2>
                 <li>Año {licenceInfo.year}</li>
                 <li>
@@ -191,8 +204,8 @@ const InventorySelection = () => {
     const deviceInfoContainer = <>
         <Heading level={3}>{deviceInfo.name}</Heading>
         <Flex direction="row">
-            <img/>
             <Flex direction="column">
+                {image}
                 <h2>Caracteristicas</h2>
                 {() => {
                     if (deviceInfo.portable) {
@@ -269,7 +282,8 @@ const InventorySelection = () => {
                     licenceID === '' ||
                     selectedDate === '' ||
                     selectedDuration === '') {
-                    alert('Por favor complete todos los campos o cambie la fecha de reserva')
+                    // alert('Por favor complete todos los campos o cambie la fecha de reserva')
+                    message.error('Por favor complete todos los campos o cambie la fecha de reserva')
                 }
                 else {
                     console.log(userID)
@@ -285,6 +299,7 @@ const InventorySelection = () => {
                         parseInt(selectedDuration),
                         "PENDIENTE"            
                     )
+                    message.success('Reserva creada con exito')
                     // Update calendar
                     const response = await APImethods.allReservationsByLicence(licenceID)
                     setSelectedReservations(response.map((reservation) => {
@@ -349,7 +364,8 @@ const InventorySelection = () => {
                     selectedDate === '' ||
                     selectedTime === '' ||
                     selectedDuration === 0) {
-                    alert('Por favor complete todos los campos')
+                    // alert('Por favor complete todos los campos')
+                    message.error('Por favor complete todos los campos o cambie la fecha de reserva')
                 }
                 else {
                     console.log(userID)
@@ -364,6 +380,7 @@ const InventorySelection = () => {
                         parseInt(selectedDuration),
                         "PENDIENTE"
                     )
+                    message.success('Reserva creada con exito')
                     resetSelection();
                     console.log('Reserva creada')
                 }
@@ -416,7 +433,8 @@ const InventorySelection = () => {
                     deviceID === '' ||
                     selectedDate === '' ||
                     selectedDuration === '') {
-                    alert('Por favor complete todos los campos')
+                    // alert('Por favor complete todos los campos')
+                    message.error('Por favor complete todos los campos o cambie la fecha de reserva')
                 }
                 else {
                     console.log(userID)
@@ -432,6 +450,7 @@ const InventorySelection = () => {
                         parseInt(selectedDuration),
                         "PENDIENTE"            
                     )
+                    message.success('Reserva creada con exito')
                     // Update calendar
                     const response = await APImethods.allReservationsByDevice(deviceID)
                     setSelectedReservations(response.map((reservation) => {

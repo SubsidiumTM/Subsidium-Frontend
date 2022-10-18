@@ -3,9 +3,15 @@ import { Amplify, Auth } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { useTheme, View, Image, Text, Heading, Button, useAuthenticator, CheckboxField } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { APImethods } from '../api/APImethods';
-import { GraphQLEnumType } from 'graphql/type';
-import { useState } from 'react';
+import { Popover } from 'antd'
+
+let terms_and_conditions = (
+  <div>
+  <p>- Para usar el servicio debe aportar la informacion personal solicitada en el formulario de registro</p>
+  <p>- El servicio es gratuito para los usuarios registrados</p>
+  <p>- Se recopilaran estadisticas de uso para mejorar el servicio</p>
+  </div>
+)
 
 function SubsidiumAuth(props) {
 
@@ -85,12 +91,15 @@ function SubsidiumAuth(props) {
         return (
           <>
             <Authenticator.SignUp.FormFields />
+            <Popover title="Terminos y Condiciones de Uso" content={terms_and_conditions}>
+            <a>Leer los Terminos y Condiciones</a>
+            </Popover>
             <CheckboxField
               errorMessage={validationErrors.acknowledgement}
               hasError={!!validationErrors.acknowledgement}
               name="acknowledgement"
               value="yes"
-              label="I agree with the Terms & Conditions"
+              label="Acepto los terminos y condiciones"
             />
           </>
         );
@@ -284,9 +293,18 @@ function SubsidiumAuth(props) {
       }
     },
   };*/
+  const services={
+    async validateCustomSignUp(formData) {
+      if (!formData.acknowledgement) {
+        return {
+          acknowledgement: 'Debe aceptar los terminos y condiciones',
+        };
+      }
+    },
+  };
 
   return (
-    <Authenticator components={components}>
+    <Authenticator components={components} services={services}>
       {props.jsx}
     </Authenticator>
   )

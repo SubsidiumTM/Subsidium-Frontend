@@ -9,6 +9,7 @@ import Profile_information from './profile_information';
 import Profile_reservations from './profile_reservations';
 // Profile ADMIN options
 import Admin_inventory from './admin_inventory';
+import Admin_reservations from './admin_reservations';
 import Users_list from './users_list';
 
 
@@ -17,7 +18,7 @@ const Profile_menu = ({ signOut }) => {
     const [userInfo, setUserInfo] = useState([]);
     const [userID, setUserID] = useState([]);
     const [selectView, setSelectView] = useState(0);
-    const views = [<Profile_information />, <Profile_reservations userID={userID} />, <Admin_inventory />, <Users_list />];
+    const views = [<Profile_information />, <Profile_reservations userID={userID} />, <Admin_reservations />, <Admin_inventory />, <Users_list />];
 
     useEffect(() => {
         getInfo();
@@ -62,8 +63,9 @@ const Profile_menu = ({ signOut }) => {
     <Flex direction="column">
         <Button onClick={() => {setSelectView(0)}}>Perfil</Button>
         <Button onClick={() => {setSelectView(1)}}>Mis Reservas</Button>
-        <Button onClick={() => {setSelectView(2)}}>Admin. Recursos</Button>
-        <Button onClick={() => {setSelectView(3)}}>Admin. Usuarios</Button>
+        <Button onClick={() => {setSelectView(2)}}>Admin. Reservas</Button>
+        <Button onClick={() => {setSelectView(3)}}>Admin. Recursos</Button>
+        <Button onClick={() => {setSelectView(4)}}>Admin. Usuarios</Button>
         <Button onClick={signOut}>Cerrar Sesion</Button>
     </Flex>
     </div>
