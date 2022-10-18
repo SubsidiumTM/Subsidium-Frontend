@@ -29,27 +29,27 @@ function contentHome() {
                  gap="0rem">
 
                     <view>
-                        <img src="images/FueraHub.jpg" alt="1"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/FueraHub.JPG" alt="1"/>
                     </view>
                         
                     <view>
-                         <img src="images/Lab1.jpg" alt="2"/>
+                         <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/Lab1.JPG" alt="2"/>
                     </view>
 
                     <view>
-                        <img src="images/Lab2.jpg" alt="1"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/Lab2.JPG" alt="1"/>
                     </view>
 
                     <view>
-                        <img src="images/Vato.jpg" alt="2"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/Vato.JPG" alt="2"/>
                     </view>
 
                     <view>
-                        <img src="images/SalaGrande.jpg" alt="2"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/SalaGrande.jpg" alt="2"/>
                     </view>
 
                     <view>
-                        <img src="images/Juntas.jpg" alt="2"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/Juntas.JPG" alt="2"/>
                     </view>
 
                 </Flex>
@@ -62,27 +62,27 @@ function contentHome() {
                  gap="0rem">
  
                     <view>
-                        <img src="images/Edificio.jpg" alt="1"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/Edificio.JPG" alt="1"/>
                     </view>
                         
                     <view>
-                        <img src="images/CartelChan.jpeg" alt="2"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/CartelChan.jpeg" alt="2"/>
                     </view>
 
                     <view>
-                        <img src="images/SalaJuntas.jpg" alt="1"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/SalaJuntas.JPG" alt="1"/>
                     </view>
 
                     <view>
-                        <img src="images/Junta.jpg" alt="2"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/Juntas.JPG" alt="2"/>
                     </view>
 
                     <view>
-                        <img src="images/SalaJuntas2.jpeg" alt="2"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/SalaJuntas2.jpeg" alt="2"/>
                     </view>
 
                     <view>
-                        <img src="images/Explicacion.jpg" alt="2"/>
+                        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/Explicacion.JPG" alt="2"/>
                     </view>
                     
                 </Flex>
