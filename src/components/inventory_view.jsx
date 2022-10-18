@@ -11,6 +11,7 @@ import moment from 'moment';
 import {message} from 'antd'
 
 const InventorySelection = () => {
+    const [userSatus, setUserStatus] = useState(false);
     // Information required on the page
     const [userID, setUserID] = useState("");
     const [licenceID, setLicenceID] = useState("");
@@ -63,6 +64,7 @@ const InventorySelection = () => {
             ))
         }
         else {
+            setUserStatus(response2.listUsers.items[0].active);
             setUserID(response2.listUsers.items[0].id);
         }
     }
@@ -237,6 +239,8 @@ const InventorySelection = () => {
     }
 
     return (
+        <>
+        {userSatus ?
         <div className='inventory_component'>
         <Heading level={1}>Inventario de Reservas</Heading>
         <Tabs spacing="equal" justifyContent="flex-start">
@@ -474,6 +478,13 @@ const InventorySelection = () => {
 
         </Tabs>
         </div>
+        :
+        <div className='inventory_component'>
+        <Heading level={1}>Usuario Inactivo</Heading>
+        <Heading level={1}>Comuniquese con nosotros para la reactivacion</Heading>
+        </div>
+        }
+        </>
     )
 }
 

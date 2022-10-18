@@ -3,7 +3,7 @@ import { Flex, Heading, Loader } from '@aws-amplify/ui-react'
 import { APImethods } from '../api/APImethods'
 import './news_preview_list.css'
 import { Auth } from 'aws-amplify'
-import { Button } from 'antd'
+import { Button, message, Popconfirm } from 'antd'
 
 const News_preview_list = () => {
     // List of news
@@ -27,6 +27,7 @@ const News_preview_list = () => {
         await APImethods.deleteNew(id);
         console.log("Borrando noticia con id: " + id);
         getNews();
+        message.success("Noticia borrada");
     }
 
     // Fetch user data
@@ -43,7 +44,14 @@ const News_preview_list = () => {
         if (user == "ADMIN" || user == "GENERAL_ADMIN") {
             return <>
                 <Button><a href={`/noticias/edicion/${news.id}`}>Editar</a></Button>
-                <Button onClick={() => {deleteNews(news.id)}}>Borrar</Button>
+                <Popconfirm
+                title="¿Estás seguro de que quieres eliminar esta noticia?"
+                onConfirm={() => deleteNews(news.id)}
+                okText="Sí"
+                cancelText="No"
+                >
+                <Button>Borrar</Button>
+                </Popconfirm>
             </>
         }
         else {

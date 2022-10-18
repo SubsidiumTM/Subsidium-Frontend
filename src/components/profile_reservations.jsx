@@ -7,6 +7,7 @@ import { Button } from 'antd';
 import moment from 'moment'
 import {DatePicker} from 'antd';
 import DateTimeInput from './DateTimeInput';
+import { message, Popconfirm } from 'antd';
 
 function Profile_reservations(props) {
   // Page variables
@@ -250,6 +251,7 @@ function Profile_reservations(props) {
             );
             resetSelection();
             getReservations();
+            message.success('Reserva actualizada');
         }}>Cambiar Reserva</Button>
       </Flex>
     </>
@@ -297,6 +299,7 @@ function Profile_reservations(props) {
   async function deleteReservation(id) {
     const response = await APImethods.deleteReservation(id);
     console.log(response);
+    message.success('Reserva eliminada');
     getReservations();
   }
 
@@ -417,7 +420,14 @@ function ReservationItem(props) {
         <p>{reservation.reservationDuration} {props.type === 2 ? <>minutos</> : <>dias</>}</p>
       </Flex>
       <Button onClick={props.onEditClick}>Editar</Button>
-      <Button onClick={props.onDeleteClick}>Cancelar</Button>
+      <Popconfirm
+      title="¿Estás seguro de eliminar esta reserva?"
+      onConfirm={props.onDeleteClick}
+      okText="Si"
+      cancelText="No"
+      >
+      <Button>Cancelar</Button>
+      </Popconfirm>
     </div>
   )
 }

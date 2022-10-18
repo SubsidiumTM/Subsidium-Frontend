@@ -1,5 +1,5 @@
 import { Flex, TextAreaField, TextField, View, Heading } from '@aws-amplify/ui-react';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { Auth } from 'aws-amplify'
 import { APImethods } from '../api/APImethods';
@@ -105,6 +105,7 @@ const News_editing = (props) => {
                 body.image,
                 form.get('content'),
             );
+            message.success('Noticia modificada correctamente');
             console.log("Se edito")
         }
         else {
@@ -116,6 +117,7 @@ const News_editing = (props) => {
                 body.image, // TOFDO: Add image
                 form.get('content'),
             );
+            message.success('Noticia creada correctamente');
             console.log("Se publico")
         }
         props.news_body = "hola"

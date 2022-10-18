@@ -5,7 +5,7 @@ import { APImethods } from '../api/APImethods'
 import { Auth } from 'aws-amplify';
 import { message, Popconfirm } from 'antd';
 
-const Users_list = () => {
+const Users_list = (props) => {
 
     // List of users
     const [userList, setUserList] = useState([]);
@@ -13,6 +13,7 @@ const Users_list = () => {
 
     useEffect(() => {
         retrieveUsers();
+        console.log(props.userType);
       }, [])
 
     async function retrieveUsers () {
@@ -103,7 +104,9 @@ const Users_list = () => {
     }
 
     // List item variables
-    const listUsers = userList.map((user) => 
+    const listUsers = userList.filter(
+        (user) => user.id !== props.userID && (user.type === 'USER' || (user.type === 'ADMIN' && props.userType === 'GENERAL_ADMIN'))
+        ).map((user) => 
         <div className='item'>
         <Flex direction='row' justifyContent='left' gap='2rem'>
         <Flex direction='column'>
@@ -117,12 +120,12 @@ const Users_list = () => {
         </Flex>
         <div className='buttons'>
         {status_button(user)}
-        {type_button(user)}
+        {props.userType === 'GENERAL_ADMIN' ? type_button(user) : null}
         <Button onClick={() => {setUserDetails(user)}}>Ver</Button>
         </div>
         </Flex>
         </div>
-    );
+        );
 
     return (
     <div>

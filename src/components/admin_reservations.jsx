@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { APImethods } from '../api/APImethods';
 import React from 'react'
 import './profile_reservations.css'
-import { Button } from 'antd';
+import { Button, message, Popconfirm } from 'antd';
 import moment from 'moment'
 import {DatePicker} from 'antd';
 import DateTimeInput from './DateTimeInput';
@@ -248,6 +248,7 @@ function Admin_reservations(props) {
             );
             resetSelection();
             getReservations();
+            message.success('Reserva actualizada');
         }}>Cambiar Reserva</Button>
       </Flex>
     </>
@@ -295,6 +296,10 @@ function Admin_reservations(props) {
   async function deleteReservation(id) {
     const response = await APImethods.deleteReservation(id);
     console.log(response);
+    message.success('Reserva eliminada');
+
+    // Obtain UserID to send email of notification
+
     getReservations();
   }
 
@@ -415,7 +420,14 @@ function ReservationItem(props) {
         <p>{reservation.reservationDuration} {props.type === 2 ? <>minutos</> : <>dias</>}</p>
       </Flex>
       <Button onClick={props.onEditClick}>Editar</Button>
-      <Button onClick={props.onDeleteClick}>Cancelar</Button>
+      <Popconfirm
+      title="¿Estás seguro de eliminar esta reserva?"
+      onConfirm={props.onDeleteClick}
+      okText="Si"
+      cancelText="No"
+      >
+      <Button>Cancelar</Button>
+      </Popconfirm>
     </div>
   )
 }
