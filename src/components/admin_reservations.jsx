@@ -3,13 +3,12 @@ import { useState, useEffect } from 'react'
 import { APImethods } from '../api/APImethods';
 import React from 'react'
 import './profile_reservations.css'
-import { Button } from 'antd';
+import { Button, message, Popconfirm } from 'antd';
 import moment from 'moment'
 import {DatePicker} from 'antd';
 import DateTimeInput from './DateTimeInput';
-import { message, Popconfirm } from 'antd';
 
-function Profile_reservations(props) {
+function Admin_reservations(props) {
   // Page variables
   const [reservations, setReservations] = useState([]);
   const [deviceReservations, setDeviceReservations] = useState([]);
@@ -39,10 +38,8 @@ function Profile_reservations(props) {
 
   // Get reservations
   async function getReservations() {
-    const response = await APImethods.allReservationsByUser(props.userID);
+    const response = await APImethods.allReservations();
     setReservations(response);
-    console.log("Reservas de: ", props.userID);
-    console.log(response);
 
     // Emptying Lists of reservations
     setDeviceReservations([]);
@@ -300,12 +297,15 @@ function Profile_reservations(props) {
     const response = await APImethods.deleteReservation(id);
     console.log(response);
     message.success('Reserva eliminada');
+
+    // Obtain UserID to send email of notification
+
     getReservations();
   }
 
   return (
     <>
-    <Heading level={1}>Mis Reservas</Heading>
+    <Heading level={1}>Administrar Reservas Globales</Heading>
     <br/>
     <Tabs spacing="equal" justifyContent="flex-start">
 
@@ -365,7 +365,7 @@ function Profile_reservations(props) {
   )
 }
 
-export default Profile_reservations
+export default Admin_reservations
 
 function ReservationItem(props) {
   const reservation = props.reservation

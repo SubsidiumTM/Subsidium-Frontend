@@ -9,15 +9,18 @@ import Profile_information from './profile_information';
 import Profile_reservations from './profile_reservations';
 // Profile ADMIN options
 import Admin_inventory from './admin_inventory';
+import Admin_reservations from './admin_reservations';
 import Users_list from './users_list';
 
 
 const Profile_menu = ({ signOut }) => {
     // Page variables
+    const [userType, setUserType] = useState([]);
+    const [userSatus, setUserStatus] = useState(false);
     const [userInfo, setUserInfo] = useState([]);
     const [userID, setUserID] = useState([]);
     const [selectView, setSelectView] = useState(0);
-    const views = [<Profile_information />, <Profile_reservations userID={userID} />, <Admin_inventory />, <Users_list />];
+    const views = [<Profile_information />, <Profile_reservations userID={userID} />, <Admin_reservations />, <Admin_inventory />, <Users_list userID={userID} userType={userType}/>];
 
     useEffect(() => {
         getInfo();
@@ -44,6 +47,8 @@ const Profile_menu = ({ signOut }) => {
         }
         else {
         setUserID(response2.listUsers.items[0].id);
+        setUserStatus(response2.listUsers.items[0].active);
+        setUserType(response2.listUsers.items[0].type);
         console.log("Ya esta registrado")
         }
     }
@@ -55,6 +60,8 @@ const Profile_menu = ({ signOut }) => {
     }
   
     return (
+    <>
+    {userSatus ? 
     <body>
     <Flex direction="row" gap="2rem">
 
@@ -62,8 +69,9 @@ const Profile_menu = ({ signOut }) => {
     <Flex direction="column">
         <Button onClick={() => {setSelectView(0)}}>Perfil</Button>
         <Button onClick={() => {setSelectView(1)}}>Mis Reservas</Button>
-        <Button onClick={() => {setSelectView(2)}}>Admin. Recursos</Button>
-        <Button onClick={() => {setSelectView(3)}}>Admin. Usuarios</Button>
+        {userType == "ADMIN" || userType == "GENERAL_ADMIN" ? <Button onClick={() => {setSelectView(2)}}>Admin. Reservas</Button> : <></>}
+        {userType == "ADMIN" || userType == "GENERAL_ADMIN" ? <Button onClick={() => {setSelectView(3)}}>Admin. Inventario</Button> : <></>}
+        {userType == "ADMIN" || userType == "GENERAL_ADMIN" ? <Button onClick={() => {setSelectView(4)}}>Admin. Usuarios</Button> : <></>}
         <Button onClick={signOut}>Cerrar Sesion</Button>
     </Flex>
     </div>
@@ -75,6 +83,14 @@ const Profile_menu = ({ signOut }) => {
     </Flex>
     
     </body>
+    :
+    <body>
+    <Heading level={1}>Usuario Inactivo</Heading>
+    <Heading level={1}>Comuniquese con nosotros para la reactivacion</Heading>
+    <Button onClick={signOut}>Cerrar Sesion</Button>
+    </body>
+    }
+    </>
   )
 }
 

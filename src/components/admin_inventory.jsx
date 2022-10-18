@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Heading, Tabs, TabItem, Flex, Button, TextField, CheckboxField, StepperField, TextAreaField, Text, Loader } from '@aws-amplify/ui-react'
 import { APImethods } from '../api/APImethods';
+import { message, Popconfirm } from 'antd'
 
 function Admin_inventory() {
     // Page info
@@ -52,18 +53,22 @@ function Admin_inventory() {
         const listDevices = await APImethods.allDevices();
         setDevices(listDevices);
     }
+
     // Inventory Delete
     async function deleteLicence(id) {
         await APImethods.deleteLicence(id);
         getLicences();
+        message.success('Licencia eliminada');
     }
     async function deleteRoom(id) {
         await APImethods.deleteRoom(id);
         getRooms();
+        message.success('Salon eliminado');
     }
     async function deleteDevice(id) {
         await APImethods.deleteDevice(id);
         getDevices();
+        message.success('Dispositivo eliminado');
     }
 
     // List of items to render
@@ -79,6 +84,12 @@ function Admin_inventory() {
         onDeleteClick={
             () => {deleteDevice(device.id)}
         }
+        getReservations={
+            async (id) => {
+            const reservations = await APImethods.allReservationsByDevice(id);
+            console.log(reservations);
+            return reservations;
+        }}            
         /> 
     )
     const listLicences = licences.map((licence) => 
@@ -93,6 +104,12 @@ function Admin_inventory() {
         onDeleteClick={
             () => {deleteLicence(licence.id)}
         }
+        getReservations={
+            async (id) => {
+            const reservations = await APImethods.allReservationsByLicence(id);
+            console.log(reservations);
+            return reservations;
+        }}
         />
     )
     const listRooms = rooms.map((room) => 
@@ -107,6 +124,12 @@ function Admin_inventory() {
         onDeleteClick={
             () => {deleteRoom(room.id)}
         }
+        getReservations={
+            async (id) => {
+            const reservations = await APImethods.allReservationsByRoom(id);
+            console.log(reservations);
+            return reservations;
+        }}
         />
     )
     
@@ -136,6 +159,7 @@ function Admin_inventory() {
                     device.images,
                     document.getElementsByName('deviceActive')[0].checked);
                 await getDevices();
+                message.success('Dispositivo actualizado');
             }}>Editar</Button>
         } else {
             return <Button type='submit' onClick={async () => {
@@ -157,6 +181,7 @@ function Admin_inventory() {
                     device.images,
                     document.getElementsByName('deviceActive')[0].checked);
                 await getDevices();
+                message.success('Dispositivo creado');
             }}>Agregar</Button>
         }
     }
@@ -205,6 +230,7 @@ function Admin_inventory() {
                     licence.images,
                     document.getElementsByName('licenceActive')[0].checked)
                 await getLicences();
+                message.success('Licencia actualizada');
             }}>Editar</Button>
         } else {
             return <Button type='submit' onClick={async () => {
@@ -248,6 +274,7 @@ function Admin_inventory() {
                     licence.images,
                     document.getElementsByName('licenceActive')[0].checked);
                 await getLicences();
+                message.success('Licencia creada');
             }}>Agregar</Button>
         }
     }
@@ -286,6 +313,7 @@ function Admin_inventory() {
                     room.images,
                     document.getElementsByName('roomActive')[0].checked);
                 await getRooms();
+                message.success('Salon actualizado');
             }}>Editar</Button>
         } else {
             return <Button type='submit' onClick={async () => {
@@ -319,6 +347,7 @@ function Admin_inventory() {
                     room.images,
                     document.getElementsByName('roomActive')[0].checked);
                 await getRooms();
+                message.success('Salon creado');
             }}>Agregar</Button>
         }
     }
@@ -565,20 +594,26 @@ export default Admin_inventory
 function Item(props){
 
     const [ready, setReady] = useState(false)
-
     const item = props.item;
-
     const [imageURL, setImageURL] = useState('');
+    const [reservas, setReservas] = useState([]);
 
     useEffect(() =>{
         async function getImage(){
             const url = await APImethods.getImage(item.images[0]);
             setImageURL(url);
         }
-        getImage();        
+        async function getReservas(){
+            const reservas = await props.getReservations(item.id);
+            setReservas(reservas);
+        }
+        getImage();
+        getReservas();
         setReady(true);
+        console.log(reservas);
     }, []);
 
+    const message = reservas.length > 0 ? 'Este dispositivo tiene ' + reservas.length + ' reservas pendientes ¿Esta seguro que quiere borrar el recurso?' : 'Este dispositivo no tiene reservas pendientes ¿Esta seguro que quiere borrar el recurso?';
     
     return (
         <div className="item">
@@ -590,7 +625,18 @@ function Item(props){
         <Text fontSize={9}>ID {item.id}</Text>  
         </Flex>
         <Button onClick={props.onEditClick}>Editar</Button>
-        <Button onClick={props.onDeleteClick}>Eliminar</Button>
+        <Popconfirm
+        title={message}
+        onConfirm={() => {
+        reservas.forEach(async (reserva) => {
+            await APImethods.deleteReservation(reserva.id);
+        });
+        props.onDeleteClick()
+        }}
+        okText="Si"
+        cancelText="No">
+        <Button>Eliminar</Button>
+        </Popconfirm>
         </Flex>
         </div>
     )

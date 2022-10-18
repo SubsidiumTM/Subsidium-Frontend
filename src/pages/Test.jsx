@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Storage } from 'aws-amplify'
 import Image from '../components/image'
 import { APImethods } from '../api/APImethods'
-import { Loader, SelectField, Flex } from '@aws-amplify/ui-react'
+import { Loader, SelectField, Flex, Alert } from '@aws-amplify/ui-react'
 
 // For DateInput
 import { DatePicker, TimePicker } from 'antd'
 import moment from 'moment'
+import { PDFViewer, Document, Page, Text, View } from '@react-pdf/renderer'
 
 // For Stats
 import { Chart } from 'react-google-charts'
@@ -34,6 +35,7 @@ function Test() {
     const [deviceReservations, setDeviceReservations] = useState([]);
     const [licenceReservations, setLicenceReservations] = useState([]);
     const [roomReservations, setRoomReservations] = useState([]);
+    const [alert, setAlert] = useState([]);
 
     // First caller
     useEffect(() => {
@@ -80,25 +82,22 @@ function Test() {
         <div>
         <h1>Pruebas</h1>
 
+
         <button onClick={() => {
             console.log(deviceReservations);
             console.log(licenceReservations);
             console.log(roomReservations);
         }}>See Reservations</button>
 
-        <DateInput 
-        unavailableDates={reservations2}
-        onDurationChange={
-            (days) => {
-                console.log('duration:', days);
-            }
-        }
-        onDateChange={
-            (date) => {
-                console.log('date:', date);
-            }
-        }
-        />
+        <button onClick={() => {
+            // Pushback alert to the list
+            setAlert(alert => [...alert, 
+            <Alert variation="success" heading="This is the heading" 
+            isDismissible={true}
+            onDismiss={() => setAlert([])}>
+            Cool heading!
+            </Alert>]);
+        }}>Ver Alerta</button>
 
         <TimeInput
         />

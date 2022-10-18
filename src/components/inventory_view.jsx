@@ -8,13 +8,16 @@ import './inventory_view.css';
 import { DatePicker, TimePicker } from 'antd';
 import DateTimeInput from './DateTimeInput';
 import moment from 'moment';
+import {message} from 'antd'
 
 const InventorySelection = () => {
+    const [userSatus, setUserStatus] = useState(false);
     // Information required on the page
     const [userID, setUserID] = useState("");
     const [licenceID, setLicenceID] = useState("");
     const [roomID, setRoomID] = useState("");
     const [deviceID, setDeviceID] = useState("");
+    const [image, setImage] = useState(<Loader />);
 
     // Description of Inventory
     const [licenceInfo, setLicenceInfo] = useState([]);
@@ -39,6 +42,11 @@ const InventorySelection = () => {
         confirmUserRegistration();
     }, [],);
 
+    async function getImage (image) {
+        const url = await APImethods.getImage(image);
+        setImage(<img src={url}/>);
+    }
+
     // Confirms if user is registered or registers if not
     async function confirmUserRegistration() {
         const response = await Auth.currentUserInfo();
@@ -56,6 +64,7 @@ const InventorySelection = () => {
             ))
         }
         else {
+            setUserStatus(response2.listUsers.items[0].active);
             setUserID(response2.listUsers.items[0].id);
         }
     }
@@ -133,24 +142,30 @@ const InventorySelection = () => {
 
     // Fill in formats
     function selectRoom (e) {
+        setImage(<Loader />);
         setRoomInfo(e)
         setRoomID(e.id)
+        getImage(e.images[0])
     }
     function selectLicence (e) {
+        setImage(<Loader />);
         setLicenceInfo(e)
         setLicenceID(e.id)
+        getImage(e.images[0])
     }
     function selectDevice (e) {
+        setImage(<Loader />);
         setDeviceInfo(e)
         setDeviceID(e.id)
+        getImage(e.images[0])
     }
 
     // Info containers
     const roomInfoContainer = <>
         <Heading level={3}>{roomInfo.name}</Heading>
         <Flex direction="row">
-            <image></image>
             <Flex direction="column">
+            {image}
             <h2>Caracteristicas</h2>
             <li>Edificio: {roomInfo.building}</li>
             <li hidden={!roomInfo.proyector}>Proyector</li>
@@ -169,8 +184,8 @@ const InventorySelection = () => {
     const licenceInfoContainer = <>
         <Heading level={3}>{licenceInfo.name}</Heading>
         <Flex direction="row">
-            <img/>
             <Flex direction="column">
+                {image}
                 <h2>Caracteristicas</h2>
                 <li>Año {licenceInfo.year}</li>
                 <li>
@@ -191,8 +206,8 @@ const InventorySelection = () => {
     const deviceInfoContainer = <>
         <Heading level={3}>{deviceInfo.name}</Heading>
         <Flex direction="row">
-            <img/>
             <Flex direction="column">
+                {image}
                 <h2>Caracteristicas</h2>
                 {() => {
                     if (deviceInfo.portable) {
@@ -224,6 +239,8 @@ const InventorySelection = () => {
     }
 
     return (
+        <>
+        {userSatus ?
         <div className='inventory_component'>
         <Heading level={1}>Inventario de Reservas</Heading>
         <Tabs spacing="equal" justifyContent="flex-start">
@@ -269,7 +286,8 @@ const InventorySelection = () => {
                     licenceID === '' ||
                     selectedDate === '' ||
                     selectedDuration === '') {
-                    alert('Por favor complete todos los campos o cambie la fecha de reserva')
+                    // alert('Por favor complete todos los campos o cambie la fecha de reserva')
+                    message.error('Por favor complete todos los campos o cambie la fecha de reserva')
                 }
                 else {
                     console.log(userID)
@@ -285,6 +303,7 @@ const InventorySelection = () => {
                         parseInt(selectedDuration),
                         "PENDIENTE"            
                     )
+                    message.success('Reserva creada con exito')
                     // Update calendar
                     const response = await APImethods.allReservationsByLicence(licenceID)
                     setSelectedReservations(response.map((reservation) => {
@@ -349,7 +368,8 @@ const InventorySelection = () => {
                     selectedDate === '' ||
                     selectedTime === '' ||
                     selectedDuration === 0) {
-                    alert('Por favor complete todos los campos')
+                    // alert('Por favor complete todos los campos')
+                    message.error('Por favor complete todos los campos o cambie la fecha de reserva')
                 }
                 else {
                     console.log(userID)
@@ -364,6 +384,7 @@ const InventorySelection = () => {
                         parseInt(selectedDuration),
                         "PENDIENTE"
                     )
+                    message.success('Reserva creada con exito')
                     resetSelection();
                     console.log('Reserva creada')
                 }
@@ -416,7 +437,8 @@ const InventorySelection = () => {
                     deviceID === '' ||
                     selectedDate === '' ||
                     selectedDuration === '') {
-                    alert('Por favor complete todos los campos')
+                    // alert('Por favor complete todos los campos')
+                    message.error('Por favor complete todos los campos o cambie la fecha de reserva')
                 }
                 else {
                     console.log(userID)
@@ -432,6 +454,7 @@ const InventorySelection = () => {
                         parseInt(selectedDuration),
                         "PENDIENTE"            
                     )
+                    message.success('Reserva creada con exito')
                     // Update calendar
                     const response = await APImethods.allReservationsByDevice(deviceID)
                     setSelectedReservations(response.map((reservation) => {
@@ -455,6 +478,13 @@ const InventorySelection = () => {
 
         </Tabs>
         </div>
+        :
+        <div className='inventory_component'>
+        <Heading level={1}>Usuario Inactivo</Heading>
+        <Heading level={1}>Comuniquese con nosotros para la reactivacion</Heading>
+        </div>
+        }
+        </>
     )
 }
 
