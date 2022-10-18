@@ -6,7 +6,7 @@ import { APImethods } from '../api/APImethods'
 import React, { useState, useEffect } from 'react'
 
 
-function TableTopRooms(){
+function TableLeastRooms(){
 
     const [dato, setDato] = useState(0);  
 
@@ -71,14 +71,13 @@ function TableTopRooms(){
         var keys = items.map(
             (e) => { return e[0] });
 
-        keys.reverse();
 
         console.log("Sorted keys", keys);
-        console.log("top 1", keys[0]);
+        console.log("Least 1", keys[0]);
         console.log("value 1", reservations[keys[0]])
-        console.log("top 2", keys[1]);
+        console.log("Least 2", keys[1]);
         console.log("value 2", reservations[keys[1]])
-        console.log("top 3", keys[2]);
+        console.log("Least 3", keys[2]);
         console.log("value 3", reservations[keys[2]])
 
         return keys
@@ -119,7 +118,7 @@ function TableTopRooms(){
     
       const options = {
         chart: {
-          title: "Top 3 salones mas usados",
+          title: "Top 3 salones menos usados",
           subtitle: "Salones",
         },
       };
@@ -137,4 +136,4 @@ function TableTopRooms(){
     )
 }
 
-export default TableTopRooms
+export default TableLeastRooms

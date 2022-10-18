@@ -17,6 +17,16 @@ import TableTwo from '../components/TableTopRooms'
 
 import TableThree from '../components/TableTopDevices'
 
+import TableFour from '../components/PieChartUserReservation'
+
+import Tablefive from '../components/PieChartBlockedVerifiedUsers'
+
+import Tablesix from '../components/TableLeastLicences'
+
+import Tableseven from '../components/TableLeastDevices'
+
+import TableEigth from '../components/TableLeastRooms'
+
 function Test() {
     const [unavailableDates, setUnavailableDates] = useState([])
 
@@ -232,8 +242,13 @@ function StatsDonut(props) {
             options={options}
         />*/
         //<TableOne></TableOne>
-        //<TableTwo></TableTwo>
-        <TableThree></TableThree>
+        <TableTwo></TableTwo>
+        //<TableThree></TableThree>
+        //<TableFour></TableFour>
+        //<Tablefive></Tablefive>
+        //<Tablesix></Tablesix>
+        //<Tableseven></Tableseven>
+        //<TableEigth></TableEigth>
         );
 }
 
