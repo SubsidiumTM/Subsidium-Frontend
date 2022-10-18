@@ -11,6 +11,7 @@ import Profile_reservations from './profile_reservations';
 import Admin_inventory from './admin_inventory';
 import Admin_reservations from './admin_reservations';
 import Users_list from './users_list';
+import Statistics from './statistics';
 
 
 const Profile_menu = ({ signOut }) => {
@@ -20,7 +21,7 @@ const Profile_menu = ({ signOut }) => {
     const [userInfo, setUserInfo] = useState([]);
     const [userID, setUserID] = useState([]);
     const [selectView, setSelectView] = useState(0);
-    const views = [<Profile_information />, <Profile_reservations userID={userID} />, <Admin_reservations />, <Admin_inventory />, <Users_list userID={userID} userType={userType}/>];
+    const views = [<Profile_information />, <Profile_reservations userID={userID} />, <Admin_reservations />, <Admin_inventory />, <Users_list userID={userID} userType={userType}/>, <Statistics />];
 
     useEffect(() => {
         getInfo();
@@ -72,6 +73,7 @@ const Profile_menu = ({ signOut }) => {
         {userType == "ADMIN" || userType == "GENERAL_ADMIN" ? <Button onClick={() => {setSelectView(2)}}>Admin. Reservas</Button> : <></>}
         {userType == "ADMIN" || userType == "GENERAL_ADMIN" ? <Button onClick={() => {setSelectView(3)}}>Admin. Inventario</Button> : <></>}
         {userType == "ADMIN" || userType == "GENERAL_ADMIN" ? <Button onClick={() => {setSelectView(4)}}>Admin. Usuarios</Button> : <></>}
+        {userType == "ADMIN" || userType == "GENERAL_ADMIN" ? <Button onClick={() => {setSelectView(5)}}>Estadisticas</Button> : <></>}
         <Button onClick={signOut}>Cerrar Sesion</Button>
     </Flex>
     </div>
