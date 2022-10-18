@@ -18,6 +18,16 @@ import TableTwo from '../components/TableTopRooms'
 
 import TableThree from '../components/TableTopDevices'
 
+import TableFour from '../components/PieChartUserReservation'
+
+import Tablefive from '../components/PieChartBlockedVerifiedUsers'
+
+import Tablesix from '../components/TableLeastLicences'
+
+import Tableseven from '../components/TableLeastDevices'
+
+import TableEigth from '../components/TableLeastRooms'
+
 function Test() {
     const [unavailableDates, setUnavailableDates] = useState([])
 
@@ -89,20 +99,186 @@ function Test() {
             </Alert>]);
         }}>Ver Alerta</button>
 
-        {alert}
-        <PDFViewer style={{width:'80%', height:'60vh'}}>
-        <Document>
-            <Page size="A4">
-                <View>
-                    <Text>Reservas de dispositivos</Text>
-                    {/* <TableOne data={deviceReservations} /> */}
-                </View>
-            </Page>
-        </Document>
-        </PDFViewer>
+        <TimeInput
+        />
+
+        <StatsDonut
+        />
         
         </div>
     )
 }
 
 export default Test
+
+
+function DateInput(props) {
+    const [availableReservationDays, setAvailableReservationDays] = useState(0)
+
+    function disabledDate(current) {
+        // Can not select sundays and predfined days
+        return (isInDisabledDateRange(current)
+        || current < moment().subtract(1, 'days')
+        || current > moment().add(3, 'months'))
+    }
+
+    function isInDisabledDateRange(date) {
+        const unavailableDates = props.unavailableDates
+        for (let i = 0; i < unavailableDates.length; i++) {
+        for (let j = 0; j < unavailableDates[i].days; j++) {
+            if (moment(date).format('YYYY-MM-DD') === moment(unavailableDates[i].date).add(j, 'days').format('YYYY-MM-DD')) {
+                return true
+            }
+        }
+        }
+    }
+
+    function daysToUnavailableDate(date) {
+        const unavailableDates = props.unavailableDates
+        for (let i = 0; i < unavailableDates.length; i++) {
+        for (let j = 0; j < 15; j++) { // 15 is the maximum number of days that can be reserved
+            
+            if (moment(date).isBefore(moment(unavailableDates[i].date))) {
+
+            if (moment(date).add(j, 'days').format('YYYY-MM-DD') === moment(unavailableDates[i].date).format('YYYY-MM-DD')) {
+                setAvailableReservationDays(j);
+                return;
+            }
+
+            }
+        }
+        }
+        setAvailableReservationDays(15);
+    }
+
+    const options = () => {
+        const options = []
+        for (let i = 1; i <= availableReservationDays; i++) {
+        options.push(<option key={i} value={i}>{i}</option>)
+        }
+        return options
+    }
+
+    return (
+        <Flex direction='column'>
+        <DatePicker 
+        disabledDate={disabledDate}
+        onChange={(date) => {
+            if (date === null) {
+                setAvailableReservationDays(0)
+                props.onDateChange(null)
+                props.onDurationChange(null)
+            }
+            else {
+                daysToUnavailableDate(date)
+                props.onDateChange(moment(date).format('YYYY-MM-DD'))
+            }
+        }}
+        size='large'
+        />
+        <SelectField 
+        label='Duración' 
+        placeholder='Selecciona una opción' 
+        size='large'
+        onChange={(e) => {
+            props.onDurationChange(e.target.value)
+        }}
+        >
+            {options()}
+        </SelectField>
+        </Flex>
+    )
+}
+
+function TimeInput() {
+
+    return (
+        <Flex direction='column'>
+        <DatePicker 
+        size='large'
+        />
+        <TimePicker
+        format='HH:mm'
+        disabledHours={() => {
+            const hours = []
+            for (let i = 0; i < 24; i++) {
+            hours.push(i)
+            }
+            return hours
+        }}
+        minuteStep={15}
+        size='large'
+        />
+        </Flex>
+    )
+}
+
+// Percentage by Type of Reservation
+function StatsDonut(props) {
+
+    /*const data = [
+        ["Month", "Macbook Pro", "iPhone XR", "iPhone 13"],
+        ["month1", 10, 2, 5],
+        ["month2", 2, 3, 10],
+        ["month3", 9, 1, 11],
+        ["month4", 12, 8, 9],
+      ];
+    
+      const options = {
+        chart: {
+          title: "Top devices of the latest months",
+          subtitle: "Month 1 - Month4",
+        },
+      };*/
+
+      
+      return (
+        /*<Chart
+            chartType="Bar"
+            width="100%"
+            height="400px"
+            data={data}
+            options={options}
+        />*/
+        //<TableOne></TableOne>
+        <TableTwo></TableTwo>
+        //<TableThree></TableThree>
+        //<TableFour></TableFour>
+        //<Tablefive></Tablefive>
+        //<Tablesix></Tablesix>
+        //<Tableseven></Tableseven>
+        //<TableEigth></TableEigth>
+        );
+}
+
+// Percentage by Day of the Week
+function StatsWeek() {
+    const data = [
+        ["Task", "Hours per Day"],
+        ["Work", 11],
+        ["Eat", 2],
+        ["Commute", 2],
+        ["Watch TV", 2],
+        ["Sleep", 7], // CSS-style declaration
+    ];
+      
+    const options = {
+        title: "My Daily Activities",
+        pieHole: 0.4,
+        is3D: false,
+    };
+
+    return (
+    <Chart
+        chartType="PieChart"
+        width="100%"
+        height="400px"
+        data={data}
+        options={options}
+    />
+    );
+}
+
+function StatsFrequency() {
+
+}
