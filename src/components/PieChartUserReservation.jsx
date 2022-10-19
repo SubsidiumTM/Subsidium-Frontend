@@ -8,7 +8,7 @@ import { APImethods } from '../api/APImethods'
 import React, { useState, useEffect } from 'react'
 
 
-function TableUserReservations(){
+function TableUserReservations(props){
 
     const [dato, setDato] = useState(0);  
 
@@ -16,7 +16,7 @@ function TableUserReservations(){
     
     useEffect (() => {
             getReservationsInfo();
-            getUser("ee5dbaa9-5bb1-4fda-a8b2-da0ab242bf41");
+            getUser(props.userID);
         },[])
 
     async function getReservationsInfo(){

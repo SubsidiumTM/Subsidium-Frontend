@@ -5,7 +5,7 @@ import { Auth } from 'aws-amplify';
 import './profile.css'
 import TableFour from './PieChartUserReservation'
 
-const Profile_information = () => {
+const Profile_information = (props) => {
 
   const [userInfo, setUserInfo] = useState([]);
 
@@ -66,7 +66,7 @@ const Profile_information = () => {
             <li>La contraseña debe tener al menos un caracter especial</li>
         </ul>
     </Flex>
-    <TableFour/>
+    <TableFour userID={props.userID}/>
     </div>
     </>
   )

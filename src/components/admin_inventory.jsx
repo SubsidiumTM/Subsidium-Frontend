@@ -333,8 +333,8 @@ function Admin_inventory() {
                 await APImethods.createRoom(
                     document.getElementsByName('roomName')[0].value, 
                     document.getElementsByName('roomBuilding')[0].value, 
-                    document.getElementsByName('roomFloor')[0].value,
                     document.getElementsByName('roomProyector')[0].checked, 
+                    document.getElementsByName('roomFloor')[0].value,
                     document.getElementsByName('roomWIFI')[0].checked, 
                     document.getElementsByName('roomBoard')[0].checked, 
                     document.getElementsByName('roomAirConditioner')[0].checked, 

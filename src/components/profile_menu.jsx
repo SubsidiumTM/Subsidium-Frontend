@@ -21,7 +21,7 @@ const Profile_menu = ({ signOut }) => {
     const [userInfo, setUserInfo] = useState([]);
     const [userID, setUserID] = useState([]);
     const [selectView, setSelectView] = useState(0);
-    const views = [<Profile_information />, <Profile_reservations userID={userID} />, <Admin_reservations />, <Admin_inventory />, <Users_list userID={userID} userType={userType}/>, <Statistics />];
+    const views = [<Profile_information userID={userID}/>, <Profile_reservations userID={userID} />, <Admin_reservations />, <Admin_inventory />, <Users_list userID={userID} userType={userType}/>, <Statistics/>];
 
     useEffect(() => {
         getInfo();
