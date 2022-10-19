@@ -11,7 +11,7 @@ function Footer() {
     </Flex>*/
     <footer>
       <div>
-        <img src="images/subsidium_full_logo.png" alt="subsidium"/>
+        <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/subsidium_full_logo.png" alt="subsidium"/>
         <table>
 
           <th> Dirección </th>

@@ -7,7 +7,7 @@ import { Loader, SelectField, Flex, Alert } from '@aws-amplify/ui-react'
 // For DateInput
 import { DatePicker, TimePicker } from 'antd'
 import moment from 'moment'
-import { PDFViewer, Document, Page, Text, View } from '@react-pdf/renderer'
+//{ PDFViewer, Document, Page, Text, View } from '@react-pdf/renderer'
 
 // For Stats
 import { Chart } from 'react-google-charts'

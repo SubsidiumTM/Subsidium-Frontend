@@ -7,7 +7,7 @@ function About_us() {
   return (
     <div className='General'>
       <h1 className='Titulo1'> HUB DE CIBERSEGURIDAD </h1>
-      <img src="images/AboutUs1.JPG" alt="1" className='imgSpecial'/>
+      <img src="https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/AboutUs1.JPG" alt="1" className='imgSpecial'/>
 
       <div className='Info'>
         <p> El Hub de Ciberseguridad del Tecnológico de 
@@ -60,7 +60,7 @@ function About_us() {
           alignItems= "center">
 
             <view className='DirInfo'>
-             <img src = "images/DirHub.png" alt="DirectorHub" className='imgSpecial'/>
+             <img src = "https://subsidiumfrontend0043e09c27f94c5ebd997822f58c1a200341-master.s3.amazonaws.com/public/DirHub.png" alt="DirectorHub" className='imgSpecial'/>
              {/*<p> Gonzalo García-Belenguer Cuchi </p>*/}
              <a href="https://www.linkedin.com/in/gonzalo-garc%C3%ADa-belenguer-63968768"> ggarciab@tec.mx </a>
             </view>
